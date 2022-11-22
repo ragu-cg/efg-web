@@ -1,0 +1,12 @@
+# common
+node_modules
+
+# nextjs
+.next
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# nextjs production
+/build

@@ -1,0 +1,30 @@
+{
+    "links": [
+        {
+            "link": "/courses",
+            "label": "Courses"
+        },
+        {
+            "link": "/about",
+            "label": "About"
+        },
+        {
+            "link": "/pricing",
+            "label": "Pricing"
+        },
+        {
+            "link": "#2",
+            "label": "Support",
+            "links": [
+                {
+                    "link": "/faq",
+                    "label": "FAQ"
+                },
+                {
+                    "link": "/contact",
+                    "label": "contact"
+                }
+            ]
+        }
+    ]
+}

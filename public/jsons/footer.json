@@ -1,0 +1,59 @@
+{
+    "data": [
+        {
+            "title": "About",
+            "links": [
+                {
+                    "label": "Booking",
+                    "link": "#"
+                },
+                {
+                    "label": "Pricing",
+                    "link": "#"
+                },
+                {
+                    "label": "Support",
+                    "link": "#"
+                },
+                {
+                    "label": "FAQs",
+                    "link": "/faqs"
+                }
+            ]
+        },
+        {
+            "title": "WHSC Courses",
+            "links": [
+                {
+                    "label": "Apply Workplace Safety and Health in Shipyard General Trade",
+                    "link": "#"
+                },
+                {
+                    "label": "Shipyard Safety Instruction Course For Workers (Painter Trade)",
+                    "link": "#"
+                },
+                {
+                    "label": "Shipyard Safety Instruction Course For Workers (Hot Work Trade)",
+                    "link": "#"
+                }
+            ]
+        },
+        {
+            "title": "Other Courses",
+            "links": [
+                {
+                    "label": "Safety Orientation Course (Tunneling) for Workers",
+                    "link": "#"
+                },
+                {
+                    "label": "Workplace Safety And Health Management In Marine Industry",
+                    "link": "#"
+                },
+                {
+                    "label": "Apply Workplace Safety And Health In Process Plant",
+                    "link": "#"
+                }
+            ]
+        }
+    ]
+}

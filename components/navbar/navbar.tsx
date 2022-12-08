@@ -137,8 +137,8 @@ export const HeaderAction = (props: HeaderActionProps) => {
             size="md"
           />
           <Link href="/"><Image className={classes.logo}
-            src={"/efg-new-logo.svg"}
-            width={96}
+            src={"/efg-logo.png"}
+            width={64}
             height={60}
             alt="EFG Logo"
           /></Link>

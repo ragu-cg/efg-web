@@ -1,8 +1,7 @@
 import Head from "next/head";
-import { GetStaticProps } from "next";
-import courses from "../../public/jsons/courses.json";
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { Banner } from "../../components/Banner/Banner";
-
+import { getAllCoursesWithSlug, GetPostBySlug } from '../../lib/api';
 import {
   Container,
   Grid,
@@ -18,18 +17,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       notFound: true,
     }
   }
-  const playlistList = courses.data.pages.nodes.find(
-    (p) => p.slug.toString() === params.slug
-  );
+
+  const data = await GetPostBySlug(params?.slug);
   return {
     props: {
-      course: playlistList,
+      course: data,
     },
   };
 };
 
-export const getStaticPaths = async () => {
-  const paths = courses.data.pages.nodes.map((course) => ({
+type courseType = {
+  slug: String
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allCourses = await getAllCoursesWithSlug();
+
+  const paths = allCourses.nodes.map((course: courseType) => ({
     params: { slug: course.slug.toString() },
   }));
 

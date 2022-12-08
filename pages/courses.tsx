@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { GetStaticProps } from "next";
-import courses from "../public/jsons/courses.json";
 import { Banner } from "../components/Banner/Banner";
 import { FeaturedCourseCard } from "../components/FeaturedCourseCard/FeaturedCourseCard";
+import { getAllPosts } from "../lib/api";
 
 import {
   Container,
@@ -14,16 +14,14 @@ import {
 } from "@mantine/core";
 
 export const getStaticProps: GetStaticProps = async () => {
-
-  const playlistList = courses.data.pages.nodes;
+  const allPosts = await getAllPosts();
+  const courseList = allPosts.nodes;
   return {
     props: {
-      courseList: playlistList,
+      courseList,
     },
   };
 };
-
-
 
 const styles = createStyles((theme) => ({
   content: {},

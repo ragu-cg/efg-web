@@ -13,18 +13,12 @@
             "label": "Pricing"
         },
         {
-            "link": "#2",
-            "label": "Support",
-            "links": [
-                {
-                    "link": "/faq",
-                    "label": "FAQ"
-                },
-                {
-                    "link": "/contact",
-                    "label": "contact"
-                }
-            ]
+            "link": "/faq",
+            "label": "FAQs"
+        },
+        {
+            "link": "/contact",
+            "label": "Contact"
         }
     ]
 }

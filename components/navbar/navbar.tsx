@@ -6,16 +6,12 @@ import {
   Container,
   Group,
   Button,
-  Burger,
-  useMantineColorScheme,
-  MantineShadow,
-  MediaQuery,
-  Text,
+  Burger
 } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
-import { IconChevronDown, IconSun, IconMoonStars } from "@tabler/icons";
+import { IconChevronDown } from "@tabler/icons";
 import { ColorSchemeToggle } from "../ColorSchemeToggle/ColorSchemeToggle";
 
 const HEADER_HEIGHT = 80;
@@ -30,14 +26,29 @@ const useStyles = createStyles((theme) => ({
 
   logo: {
     [theme.fn.smallerThan("sm")]: {
-      width: 80,
-      height: 50,
+      width: 48,
+      height: 45,
     },
   },
 
   links: {
     [theme.fn.smallerThan("sm")]: {
       display: "none",
+
+      '&.m-menu-open': { // when hamburger menu is open.
+        display: "block",
+        position: "absolute",
+        width: "100%",
+        left: 0,
+        top: "80px",
+        zIndex: 10,
+        background: "#ffffff",
+  
+        a: {
+          padding: "20px",
+          borderBottom: "1px solid rgba(0, 0, 0, 0.15)",
+        }
+      }
     },
   },
 
@@ -83,7 +94,10 @@ interface HeaderActionProps {
 
 export const HeaderAction = (props: HeaderActionProps) => {
   const { classes } = useStyles();
-  const [opened, { toggle }] = useDisclosure(false);
+  const [opened, { toggle }] = useDisclosure(false, {
+    onOpen: () => { document.body.classList.add('no-scroll')},
+    onClose: () => { document.body.classList.remove('no-scroll')},
+  });
   // const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   // const dark = colorScheme === "dark";
   const items = props.links.map((link) => {
@@ -137,18 +151,18 @@ export const HeaderAction = (props: HeaderActionProps) => {
             size="md"
           />
           <Link href="/"><Image className={classes.logo}
-            src={"/efg-logo.png"}
+            src={"/images/efg-logo.png"}
             width={64}
             height={60}
             alt="EFG Logo"
           /></Link>
          
         </Group>
-        <Group spacing={5} className={classes.links}>
+        <Group spacing={5} className={`${classes.links} ${opened ? 'm-menu-open' : ''}`}>
           {items}
         </Group>
         <Group>
-          <Button radius="xl" sx={{ height: 40 }}>
+          <Button component="a" href="/contact" radius="xl" sx={{ height: 40 }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
             Book now!
           </Button>
           <ColorSchemeToggle />

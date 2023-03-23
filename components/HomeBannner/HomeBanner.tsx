@@ -6,7 +6,7 @@ const useStyles = createStyles((theme) => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundImage:
-      "linear-gradient(250deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.65) 70%), url(/singapore-skyline.jpg)",
+      "linear-gradient(250deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.65) 70%), url(https://efg.com.sg/images/singapore-skyline.jpg)",
     paddingTop: theme.spacing.xl * 3,
     paddingBottom: theme.spacing.xl * 3,
   },

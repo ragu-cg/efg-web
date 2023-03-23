@@ -6,11 +6,12 @@ import {
   Button,
   Text,
 } from "@mantine/core";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   hero: {
     position: "relative",
-    backgroundImage: "url(hero-bg.jpg)",
+    backgroundImage: "url(https://efg.com.sg/images/hero-bg.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "center bottom",
   },
@@ -92,14 +93,15 @@ export function HeroHome() {
           you on completing the courses.
         </Text>
 
-        <Button
+        <Link href="/courses" className={classes.control}><Button
           variant="gradient"
           size="xl"
           radius="xl"
-          className={classes.control}
+          
         >
           Explore Courses
         </Button>
+        </Link>
       </Container>
     </div>
   );

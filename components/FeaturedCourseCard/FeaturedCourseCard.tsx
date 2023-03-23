@@ -1,4 +1,5 @@
 import { createStyles, Paper, Text, Title, Button } from "@mantine/core";
+import { NodeNextRequest } from "next/dist/server/base-http/node";
 import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
@@ -11,6 +12,10 @@ const useStyles = createStyles((theme) => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
     width: "100%",
+  },
+
+  featuredLink: {
+    textDecoration: "none",
   },
 
   title: {
@@ -42,31 +47,31 @@ export function FeaturedCourseCard({
   link,
 }: FeaturedCourseCardProps) {
   const { classes } = useStyles();
-  image = image || 'safety-bg.jpg';
+  image = image || 'https://efg.com.sg/images/safety-bg.jpg';
 
   return (
-    <Paper
-      shadow="md"
-      p="xl"
-      radius="md"
-      sx={{
-        backgroundImage: `linear-gradient(250deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.65) 70%), url(${image})`,
-      }}
-      className={classes.card}
-    >
-      <div>
-        <Text className={classes.category} size="xs">
-          Featured
-        </Text>
-        <Title order={3} className={classes.title}>
-          {title}
-        </Title>
-      </div>
-      <Link href={link}>
-        <Button variant="white" color="dark">
+    <Link className={classes.featuredLink} href={link}>
+      <Paper
+        shadow="md"
+        p="xl"
+        radius="md"
+        sx={{
+          backgroundImage: `linear-gradient(250deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.65) 70%), url(${image})`,
+        }}
+        className={classes.card}
+      >
+        <div>
+          <Text className={classes.category} size="xs">
+            Featured
+          </Text>
+          <Title order={3} className={classes.title}>
+            {title}
+          </Title>
+        </div>
+        <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
           Learn more
         </Button>
-      </Link>
-    </Paper>
+      </Paper>
+    </Link>
   );
 }

@@ -4,7 +4,7 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
   const headers = { "Content-Type": "application/json" };
 
   // WPGraphQL Plugin must be enabled
-  const res = await fetch(API_URL, {
+  const res = await fetch(API_URL as string, {
     headers,
     method: "POST",
     body: JSON.stringify({
@@ -14,6 +14,7 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
   });
   
   const json = await res.json();
+  console.log(json);
   if (json.errors) {
     throw new Error("Failed to fetch API");
   }
@@ -24,7 +25,7 @@ export async function getAllCoursesWithSlug() {
   const data = await fetchAPI(
     `
     query AllCoursessWithSlug {
-      courses {
+      courses (first:100) {
         nodes {
           slug
           uri
@@ -40,7 +41,7 @@ export async function getAllPosts() {
   const data = await fetchAPI(
     `
     query AllPosts {
-      courses {
+      courses (first:100)  {
         nodes {
           title
           slug
@@ -60,7 +61,37 @@ export async function getAllPosts() {
   return data?.courses;
 }
 
-export async function GetPostBySlug(slug) {
+
+export async function getFeaturedPosts() {
+  const data = await fetchAPI(
+    `
+    query getFeaturedPosts {
+      courseCategories(where: {name: "featured"}) {
+        nodes {
+          courses {
+            nodes {
+              title
+              slug
+              link
+              uri
+              featuredImage {
+                node {
+                  mediaItemUrl
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `
+  );
+  console.log(data);
+  return data?.courseCategories.nodes[0];
+}
+
+
+export async function GetPostBySlug(slug:string) {
   const data = await fetchAPI(
     `
     query PostBySlug($uri: ID!) {
@@ -71,6 +102,9 @@ export async function GetPostBySlug(slug) {
         link
         content
         uri
+        efgCourseFee
+        efgCourseDuration
+        efgCourseLanguage
         featuredImage {
           node {
             mediaItemUrl

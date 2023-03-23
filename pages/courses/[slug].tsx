@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
   }
 
-  const data = await GetPostBySlug(params?.slug);
+  const data = await GetPostBySlug(params?.slug as string);
   return {
     props: {
       course: data,
@@ -42,7 +42,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const styles = createStyles((theme) => ({
   content: {},
+  row: {
+    display: "flex",
 
+    span: {
+      display: "inline-block",
+      margin: "0 5px"
+    }
+  },
   highlight: {
     minWidth: "80px",
     display: "inline-block",
@@ -57,6 +64,9 @@ type postData = {
     title: string,
     uri: string,
     content: string | null,
+    efgCourseFee: string,
+    efgCourseDuration: string,
+    efgCourseLanguage: string,
     featuredImage: {
       node: {
         mediaItemurl: string
@@ -70,11 +80,11 @@ export default ({ course }: postData) => {
   return (
     <>
       <Head>
-        <title>About Us | EFG</title>
+        <title>{course.title} | EFG</title>
         <meta name="description" content="EFG Training Services" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Banner title={course.title} />
+      <Banner title={course.title} img={course.featuredImage?.node?.mediaItemurl} />
       <Container size="lg">
         <Grid>
           <Grid.Col md={8}>
@@ -87,16 +97,16 @@ export default ({ course }: postData) => {
           </Grid.Col>
           <Grid.Col md={4}>
             <Paper shadow="xs" p="md" mt="xl">
-              <Text>
-                <span className={classes.highlight}>Fees</span>: $50
+              <Text className={classes.row}>
+                <span className={classes.highlight}>Fees</span>: <span>{course.efgCourseFee}</span>
               </Text>
-              <Text>
-                <span className={classes.highlight}>Duration</span>: 8.0 hours
+              <Text className={classes.row}>
+                <span className={classes.highlight}>Duration</span>: <span>{course.efgCourseDuration}</span>
               </Text>
-              <Text>
-                <span className={classes.highlight}>Language</span>: English
+              <Text className={classes.row}>
+                <span className={classes.highlight}>Language</span>: <span>{course.efgCourseLanguage}</span>
               </Text>
-              <Button size="md" radius="xl" sx={{ height: 40 }} mt={40}>
+              <Button component="a" href="/contact" size="md" radius="xl" sx={{ height: 40 }} mt={40}>
                 Register now
               </Button>
             </Paper>

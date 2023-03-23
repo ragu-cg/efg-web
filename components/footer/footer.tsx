@@ -6,7 +6,7 @@ import {
   Group,
 } from "@mantine/core";
 import {
-  IconBrandTwitter,
+  IconBrandFacebook,
   IconBrandYoutube,
   IconBrandInstagram,
 } from "@tabler/icons";
@@ -151,7 +151,9 @@ export function FooterLinks({ data }: FooterLinksProps) {
         <div className={classes.logo}>
           EFG
           <Text size="xs" color="dimmed" className={classes.description}>
-            Build fully functional accessible web applications faster than ever
+          We are committed to providing high-quality, effective, and engaging training that empowers individuals and organizations to create safer work environments.
+
+
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
@@ -162,9 +164,11 @@ export function FooterLinks({ data }: FooterLinksProps) {
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>
+          <a href="https://www.facebook.com/EFGTrainingServices/" target={"_blank"}>
           <ActionIcon size="lg">
-            <IconBrandTwitter size={18} stroke={1.5} />
+            <IconBrandFacebook size={18} stroke={1.5} />
           </ActionIcon>
+          </a>
           <ActionIcon size="lg">
             <IconBrandYoutube size={18} stroke={1.5} />
           </ActionIcon>

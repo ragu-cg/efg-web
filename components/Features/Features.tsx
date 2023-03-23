@@ -19,21 +19,21 @@ import {
 export const MOCKDATA = [
   {
     icon: IconGauge,
-    title: "Extreme performance",
+    title: "Course Syllabus",
     description:
-      "This dust is actually a powerful poison that will even make a pro wrestler sick, Regice cloaks itself with frigid air of -328 degrees Fahrenheit",
+      "Our safety training courses are developed using MOM approved course syllabus. This ensures that our courses meet the highest standards of quality and effectiveness, and compliant with the latest safety regulations.",
   },
   {
     icon: IconUser,
-    title: "Privacy focused",
+    title: "Experienced Trainers",
     description:
-      "People say it can run at the same speed as lightning striking, Its icy body is so cold, it will not melt even if it is immersed in magma",
+      "Our trainers are experienced safety professionals with a deep understanding of the latest safety regulations and best practices. They are passionate about helping individuals and organizations create safe work environments.",
   },
   {
     icon: IconCookie,
-    title: "No third parties",
+    title: "Flexible Course Delivery",
     description:
-      "They’re popular, but they’re rare. Trainers who show them off recklessly may be targeted by thieves",
+      "We offer flexible course delivery options to accommodate the needs of our customers. This ensures that our customers can access the training they need in a way that works best for them.",
   },
 ];
 

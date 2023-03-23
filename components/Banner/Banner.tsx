@@ -1,12 +1,10 @@
-import { Title, Text, Container, Button, Overlay, createStyles } from '@mantine/core';
+import { Title, Text, Container, Button, Overlay, createStyles, BackgroundImage } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     position: 'relative',
     paddingTop: 80,
     paddingBottom: 80,
-    backgroundImage:
-      'url(https://images.unsplash.com/photo-1573164713988-8665fc963095?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=980&q=80)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
 
@@ -91,14 +89,17 @@ const useStyles = createStyles((theme) => ({
 }));
 
 type BannerProps = {
-  title: String
+  title: String,
+  img?: String
 }
 
-export function Banner({title}: BannerProps) {
+export function Banner({title, img}: BannerProps) {
   const { classes, cx } = useStyles();
 
+  img = img || 'https://efg.com.sg/images/default-bg.jpg';
+
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper} style={{backgroundImage: `url(${img})` }}>
       <Overlay color="#000" opacity={0.65} zIndex={1} />
       <Title className={classes.title}>
           <Text component="span" inherit className={classes.highlight} variant="gradient"

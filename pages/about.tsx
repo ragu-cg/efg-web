@@ -16,19 +16,19 @@ import { UserCard } from "../components/UserCard/UserCard";
 
 const data = [
   {
-    avatar: "rosli.jpg",
+    avatar: "https://efg.com.sg/images/rosli.jpg",
     name: "Mr. Rosli Bin Pitchay",
     email: "jfingerlicker@me.io",
     job: "Art director",
   },
   {
-    avatar: "naseer.jpg",
+    avatar: "https://efg.com.sg/images/naseer.jpg",
     name: "Mr. Nasir",
     email: "jfingerlicker@me.io",
     job: "Art director",
   },
   {
-    avatar: "govind.jpg",
+    avatar: "https://efg.com.sg/images/govind.jpg",
     name: "Mr. Govindaraju",
     email: "jfingerlicker@me.io",
     job: "Art director",

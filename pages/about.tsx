@@ -18,20 +18,20 @@ const data = [
   {
     avatar: "https://efg.com.sg/images/rosli.jpg",
     name: "Mr. Rosli Bin Pitchay",
-    email: "jfingerlicker@me.io",
-    job: "Art director",
+    email: "rosli@efg.com.sg",
+    job: "Director",
   },
   {
     avatar: "https://efg.com.sg/images/naseer.jpg",
-    name: "Mr. Nasir",
-    email: "jfingerlicker@me.io",
-    job: "Art director",
+    name: "Mr. Nasser",
+    email: "nasser@efg.com.sg",
+    job: "Director",
   },
   {
     avatar: "https://efg.com.sg/images/govind.jpg",
-    name: "Mr. Govindaraju",
-    email: "jfingerlicker@me.io",
-    job: "Art director",
+    name: "Mr. Govind",
+    email: "govind@efg.com.sg",
+    job: "Director",
   },
 ];
 

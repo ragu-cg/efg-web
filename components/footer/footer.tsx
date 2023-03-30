@@ -160,7 +160,7 @@ export function FooterLinks({ data }: FooterLinksProps) {
       </Container>
       <Container size="lg" className={classes.afterFooter}>
         <Text color="dimmed" size="sm">
-          © 2022 efg.com.sg. All rights reserved.
+          © 2023 efg.com.sg. All rights reserved.
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>

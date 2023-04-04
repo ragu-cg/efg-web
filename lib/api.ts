@@ -1,24 +1,32 @@
+import axios from "axios";
 const API_URL = process.env.WORDPRESS_API_URL;
 
 async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
-  const headers = { "Content-Type": "application/json" };
+  try {
 
-  // WPGraphQL Plugin must be enabled
-  const res = await fetch(API_URL as string, {
-    headers,
-    method: "POST",
-    body: JSON.stringify({
+    const res = await axios.post(API_URL as string, {
       query,
       variables,
-    }),
-  });
-  
-  const json = await res.json();
-  console.log(json);
-  if (json.errors) {
-    throw new Error("Failed to fetch API");
+    });
+
+    const json = await res.data;
+    if (json.errors) {
+      console.log(`url`, {
+        url,
+        graphql: {
+          query,
+          variables,
+        },
+      });
+
+      console.error(json.errors);
+      throw new Error("Failed to fetch API");
+    }
+    return json.data;
+  } catch (e) {
+    console.error("api error", { e });
+    throw e;
   }
-  return json.data;
 }
 
 export async function getAllCoursesWithSlug() {
@@ -33,7 +41,7 @@ export async function getAllCoursesWithSlug() {
       }
     }
   `
-  ); 
+  );
   return data?.courses;
 }
 
@@ -91,11 +99,11 @@ export async function getFeaturedPosts() {
 }
 
 
-export async function GetPostBySlug(slug:string) {
+export async function GetPostBySlug(slug: string) {
   const data = await fetchAPI(
     `
     query PostBySlug($uri: ID!) {
-      course(id: $uri, idType: URI) {
+      course(id: $uri, idType: SLUG) {
         title
         slug
         databaseId

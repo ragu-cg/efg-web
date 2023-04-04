@@ -12,7 +12,7 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
     const json = await res.data;
     if (json.errors) {
       console.log(`url`, {
-        url,
+        API_URL,
         graphql: {
           query,
           variables,

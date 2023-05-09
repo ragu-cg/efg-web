@@ -1,146 +1,200 @@
-import Head from "next/head";
-import { Container, createStyles, ThemeIcon, Text, SimpleGrid, Box, Stack } from '@mantine/core';
-import { Banner } from "../components/Banner/Banner";
-import { IconSun, IconPhone, IconMapPin, IconAt } from '@tabler/icons';
+import {
+  Paper,
+  Text,
+  TextInput,
+  Textarea,
+  Button,
+  Group,
+  Container,
+  SimpleGrid,
+  createStyles,
+} from "@mantine/core";
+import { ContactIconsList } from "./../components/ContactIcons/ContactIcons";
+import bg from "./../public/images/blue-bg.svg";
 
-type ContactIconVariant = 'white' | 'gradient';
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  // Get data from the form.
+  const data = {
+    contactName: e.target.contactName.value,
+    contactEmail: e.target.contactEmail.value,
+    contactSubject: e.target.contactSubject.value,
+    contactMessage: e.target.contactMessage.value,
+  };
+  fetch("/api/contact", {
+    method: "POST",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      // console.log("Response received", res);
+      if (res.status === 200) {
+        // console.log("Response succeeded!");
+        console.log("Thank you for contacting us!");
+      } else {
+        // console.log("Email/Password is invalid.");
+        console.log("Email/Password is invalid.");
+      }
+    })
+    .catch((e) => console.log(e));
+};
 
-interface ContactIconStyles {
-  variant: ContactIconVariant;
-}
+const useStyles = createStyles((theme) => {
+  const BREAKPOINT = theme.fn.smallerThan("sm");
 
-const useStyles = createStyles((theme, { variant }: ContactIconStyles) => ({
-  wrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    color: theme.white,
-  },
+  return {
+    wrapper: {
+      display: "flex",
+      backgroundColor:
+        theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
+      borderRadius: theme.radius.lg,
+      padding: "0.25rem",
+      border: `0.0625rem solid ${
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[8]
+          : theme.colors.gray[2]
+      }`,
 
-  icon: {
-    marginRight: theme.spacing.md,
-    backgroundImage:
-      variant === 'gradient'
-        ? `linear-gradient(135deg, ${theme.colors[theme.primaryColor][4]} 0%, ${
-            theme.colors[theme.primaryColor][6]
-          } 100%)`
-        : 'none',
-    backgroundColor: 'transparent',
-  },
+      [BREAKPOINT]: {
+        flexDirection: "column",
+      },
+    },
 
-  title: {
-    color: variant === 'gradient' ? theme.colors.gray[6] : theme.colors[theme.primaryColor][0],
-  },
+    form: {
+      boxSizing: "border-box",
+      flex: 1,
+      padding: theme.spacing.xl,
+      paddingLeft: `calc(${theme.spacing.xl} * 2)`,
+      borderLeft: 0,
 
-  description: {
-    color: variant === 'gradient' ? theme.black : theme.white,
-  },
-}));
+      [BREAKPOINT]: {
+        padding: theme.spacing.md,
+        paddingLeft: theme.spacing.md,
+      },
+    },
 
-interface ContactIconProps extends Omit<React.ComponentPropsWithoutRef<'div'>, 'title'> {
-  icon: React.FC<any>;
-  title: React.ReactNode;
-  description: React.ReactNode;
-  variant?: ContactIconVariant;
-}
+    fields: {
+      marginTop: "-0.75rem",
+    },
 
-function ContactIcon({
-  icon: Icon,
-  title,
-  description,
-  variant = 'gradient',
-  className,
-  ...others
-}: ContactIconProps) {
-  const { classes, cx } = useStyles({ variant });
-  return (
-    <div className={cx(classes.wrapper, className)} {...others}>
-      {variant === 'gradient' ? (
-        <ThemeIcon size={40} radius="md" className={classes.icon}>
-          <Icon size="1.5rem" />
-        </ThemeIcon>
-      ) : (
-        <Box mr="md">
-          <Icon size="1.5rem" />
-        </Box>
-      )}
+    fieldInput: {
+      flex: 1,
 
-      <div>
-        <Text size="xs" className={classes.title}>
-          {title}
-        </Text>
-        <Text className={classes.description}>{description}</Text>
-      </div>
-    </div>
-  );
-}
+      "& + &": {
+        marginLeft: theme.spacing.md,
 
-interface ContactIconsListProps {
-  data?: ContactIconProps[];
-  variant?: ContactIconVariant;
-}
+        [BREAKPOINT]: {
+          marginLeft: 0,
+          marginTop: theme.spacing.md,
+        },
+      },
+    },
 
-const MOCKDATA = [
-  { title: 'Email', description: 'admin@efg.com.sg', icon: IconAt },
-  { title: 'Phone', description: '+65 6334 7872', icon: IconPhone },
-  { title: 'Address', description: 'No: 3, Soon Lee Street, 01-16, Pioneer Junction, Singapore - 627606', icon: IconMapPin },
-  { title: 'Working hours', description: '8 a.m. – 6 p.m.', icon: IconSun },
-];
+    fieldsGroup: {
+      display: "flex",
 
-export function ContactIconsList({ data = MOCKDATA, variant }: ContactIconsListProps) {
-  const items = data.map((item, index) => <ContactIcon key={index} variant={variant} {...item} />);
-  return <Stack>{items}</Stack>;
-}
+      [BREAKPOINT]: {
+        flexDirection: "column",
+      },
+    },
+
+    contacts: {
+      boxSizing: "border-box",
+      position: "relative",
+      borderRadius: theme.radius.lg,
+      backgroundImage: `url(${bg.src})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      border: `0.0625rem solid transparent`,
+      padding: theme.spacing.xl,
+      flex: `0 0 17.5rem`,
+
+      [BREAKPOINT]: {
+        marginBottom: theme.spacing.sm,
+        paddingLeft: theme.spacing.md,
+      },
+    },
+
+    title: {
+      marginBottom: `30px`,
+      fontWeight: `700`,
+      fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+
+      [BREAKPOINT]: {
+        marginBottom: theme.spacing.xl,
+      },
+    },
+
+    control: {
+      [BREAKPOINT]: {
+        flex: 1,
+      },
+    },
+  };
+});
 
 export default function Contact() {
+  const { classes } = useStyles();
   return (
-    <>
-    <Head>
-        <title>Contact Us | EFG</title>
-        <meta name="description" content="Generated by create next app" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Banner title="Contact us" />
-    <Container size="md" mt={120}  sx={() => ({
-        marginTop: '120px',
+    <Container size="lg" mt={120}>
+      <Paper shadow="md" radius="lg">
+        <div className={classes.wrapper}>
+          <div className={classes.contacts}>
+            <Text fz="lg" fw={700} className={classes.title} color="#fff">
+              Contact information
+            </Text>
 
-        '@media (max-width: 40em)': {
-          marginTop: '40px',
-        },
-      })}>
-    <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
-      <Box
-        sx={(theme) => ({
-          padding: theme.spacing.xl,
-          borderRadius: theme.radius.md,
-          backgroundColor: theme.white,
-        })}
-      >
-        <ContactIconsList />
-      </Box>
+            <ContactIconsList variant="white" />
+          </div>
 
-      <Box
-        sx={(theme) => ({
-          padding: theme.spacing.xl,
-          borderRadius: theme.radius.md,
-          backgroundImage: `linear-gradient(135deg, ${theme.colors[theme.primaryColor][6]} 0%, ${
-            theme.colors[theme.primaryColor][4]
-          } 100%)`,
-        })}
-      >
-        <Text color={"white"} mb={10}>
-        We're happy to hear from you! If you have any questions, comments, or suggestions, or need assistance on course bookings, please feel free to reach out to us.
-        </Text>
+          <form className={classes.form} onSubmit={handleSubmit}>
+            <Text fz="lg" fw={700} className={classes.title}>
+              Get in touch
+            </Text>
 
-<Text color={"white"} mb={10}>
-You can contact us via email or phone.
-</Text>
+            <div className={classes.fields}>
+              <SimpleGrid cols={2} breakpoints={[{ maxWidth: "sm", cols: 1 }]}>
+                <TextInput
+                  name="contactName"
+                  label="Your name"
+                  placeholder="Your name"
+                />
+                <TextInput
+                  name="contactEmail"
+                  label="Your email"
+                  placeholder="hello@yourcomapay.email"
+                  required
+                />
+              </SimpleGrid>
 
-<Text color={"white"}>
-Thank you for your interest in our website. We look forward to hearing from you.
-        </Text>
-      </Box>
-    </SimpleGrid>
+              <TextInput
+                name="contactSubject"
+                mt="md"
+                label="Subject"
+                placeholder="Subject"
+                required
+              />
+
+              <Textarea
+                mt="md"
+                name="contactMessage"
+                label="Your message"
+                placeholder="Please include all relevant information"
+                minRows={3}
+              />
+
+              <Group position="right" mt="md">
+                <Button type="submit" className={classes.control}>
+                  Send message
+                </Button>
+              </Group>
+            </div>
+          </form>
+        </div>
+      </Paper>
     </Container>
-    </>
   );
 }

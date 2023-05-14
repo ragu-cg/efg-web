@@ -11,6 +11,7 @@ import {
   IconBrandInstagram,
 } from "@tabler/icons";
 
+import Link from "next/link";
 const useStyles = createStyles((theme) => ({
   footer: {
     marginTop: 120,
@@ -123,18 +124,13 @@ interface FooterLinksProps {
 
 export function FooterLinks({ data }: FooterLinksProps) {
   const { classes } = useStyles();
+  console.log(data);
 
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
-      <Text<"a">
-        key={index}
-        className={classes.link}
-        component="a"
-        href={link.link}
-        onClick={(event) => event.preventDefault()}
-      >
+      <Link key={index} className={classes.link} href={link.link}>
         {link.label}
-      </Text>
+      </Link>
     ));
 
     return (
@@ -151,9 +147,9 @@ export function FooterLinks({ data }: FooterLinksProps) {
         <div className={classes.logo}>
           EFG
           <Text size="xs" color="dimmed" className={classes.description}>
-          We are committed to providing high-quality, effective, and engaging training that empowers individuals and organizations to create safer work environments.
-
-
+            We are committed to providing high-quality, effective, and engaging
+            training that empowers individuals and organizations to create safer
+            work environments.
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
@@ -164,10 +160,13 @@ export function FooterLinks({ data }: FooterLinksProps) {
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>
-          <a href="https://www.facebook.com/EFGTrainingServices/" target={"_blank"}>
-          <ActionIcon size="lg">
-            <IconBrandFacebook size={18} stroke={1.5} />
-          </ActionIcon>
+          <a
+            href="https://www.facebook.com/EFGTrainingServices/"
+            target={"_blank"}
+          >
+            <ActionIcon size="lg">
+              <IconBrandFacebook size={18} stroke={1.5} />
+            </ActionIcon>
           </a>
           <ActionIcon size="lg">
             <IconBrandYoutube size={18} stroke={1.5} />

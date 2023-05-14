@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   card: {
-    height: 440,
+    minHeight: 400,
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -12,6 +12,10 @@ const useStyles = createStyles((theme) => ({
     backgroundSize: "cover",
     backgroundPosition: "center",
     width: "100%",
+
+    [theme.fn.smallerThan("sm")]: {
+      minHeight: 300,
+    },
   },
 
   featuredLink: {
@@ -47,7 +51,8 @@ export function FeaturedCourseCard({
   link,
 }: FeaturedCourseCardProps) {
   const { classes } = useStyles();
-  image = image || 'https://efg.com.sg/images/safety-bg.jpg';
+  console.log(image);
+  image = image || "https://efg.com.sg/images/safety-bg.jpg";
 
   return (
     <Link className={classes.featuredLink} href={link}>
@@ -68,7 +73,11 @@ export function FeaturedCourseCard({
             {title}
           </Title>
         </div>
-        <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+        <Button
+          variant="gradient"
+          style={{ marginTop: "20px" }}
+          gradient={{ from: "indigo", to: "cyan" }}
+        >
           Learn more
         </Button>
       </Paper>

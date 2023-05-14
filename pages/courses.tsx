@@ -42,7 +42,7 @@ type postData = {
     content: string | null;
     featuredImage?: {
       node?: {
-        mediaItemurl: string;
+        mediaItemUrl: string;
       };
     };
   }[];
@@ -58,7 +58,7 @@ export default ({ courseList }: postData) => {
         image={
           item.featuredImage &&
           item.featuredImage.node &&
-          item.featuredImage.node.mediaItemurl
+          item.featuredImage.node.mediaItemUrl
         }
       />
     </Grid.Col>

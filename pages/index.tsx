@@ -41,7 +41,6 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-
 export const getStaticProps: GetStaticProps = async () => {
   const featuredPosts = await getFeaturedPosts();
   console.log(featuredPosts);
@@ -54,24 +53,32 @@ export const getStaticProps: GetStaticProps = async () => {
 
 type postData = {
   courseList: {
-    databaseId: number,
-    slug: string,
-    title: string,
-    uri: string,
-    content: string | null,
+    databaseId: number;
+    slug: string;
+    title: string;
+    uri: string;
+    content: string | null;
     featuredImage?: {
       node?: {
-        mediaItemurl: string
-      }
-    }
-  }[]
+        mediaItemUrl: string;
+      };
+    };
+  }[];
 };
 
-export default function Home({courseList}: postData) {
+export default function Home({ courseList }: postData) {
   const { classes } = useStyles();
   const gridItems = courseList.map((item, index) => (
     <Grid.Col key={`FCC-${index}`} md={6} lg={4}>
-      <FeaturedCourseCard title={item.title} link={item.uri} image={item.featuredImage && item.featuredImage.node && item.featuredImage.node.mediaItemurl} />
+      <FeaturedCourseCard
+        title={item.title}
+        link={item.uri}
+        image={
+          item.featuredImage &&
+          item.featuredImage.node &&
+          item.featuredImage.node.mediaItemUrl
+        }
+      />
     </Grid.Col>
   ));
 
@@ -79,7 +86,10 @@ export default function Home({courseList}: postData) {
     <>
       <Head>
         <title>Welcome to EFG Training Services Pte Ltd</title>
-        <meta name="description" content="We are committed to providing high-quality, effective, and engaging training that empowers individuals and organizations to create safer work environments." />
+        <meta
+          name="description"
+          content="We are committed to providing high-quality, effective, and engaging training that empowers individuals and organizations to create safer work environments."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

@@ -1,18 +1,22 @@
 {
     "data": [
         {
-            "title": "About",
+            "title": "General",
             "links": [
                 {
+                    "label": "Data Protection Act",
+                    "link": "/data-protection-act"
+                },
+                {
+                    "label": "Whistle Blower Policy",
+                    "link": "/whistle-blower-policy"
+                },
+                {
+                    "label": "Terms and Conditions",
+                    "link": "#"
+                },
+                {
                     "label": "Booking",
-                    "link": "#"
-                },
-                {
-                    "label": "Pricing",
-                    "link": "#"
-                },
-                {
-                    "label": "Support",
                     "link": "#"
                 },
                 {
@@ -22,36 +26,44 @@
             ]
         },
         {
-            "title": "WHSC Courses",
+            "title": "SSG WSQ Courses",
             "links": [
                 {
-                    "label": "Apply Workplace Safety and Health in Shipyard General Trade",
-                    "link": "#"
+                    "label": "Work at Height – Rescue course",
+                    "link": "/courses/work-at-height-rescue-course/"
                 },
                 {
-                    "label": "Shipyard Safety Instruction Course For Workers (Painter Trade)",
-                    "link": "#"
+                    "label": "Apply Workplace Safety And Health In Process Plant",
+                    "link": "/courses/apply-workplace-safety-and-health-in-process-plant/"
                 },
                 {
-                    "label": "Shipyard Safety Instruction Course For Workers (Hot Work Trade)",
-                    "link": "#"
+                    "label": "Manage Workplace Safety And Health In Construction Sites",
+                    "link": "/courses/manage-workplace-safety-and-health-in-construction-sites/"
+                },
+                {
+                    "label": "Fire Watchman Training Course",
+                    "link": "/courses/fire-watchman-training-course/"
                 }
             ]
         },
         {
-            "title": "Other Courses",
+            "title": "MOM/LSP Approved Courses",
             "links": [
                 {
-                    "label": "Safety Orientation Course (Tunneling) for Workers",
-                    "link": "#"
+                    "label": "Safety Orientation Course (Tunnelling) For Workers",
+                    "link": "/courses/safety-orientation-course-tunneling-for-workers/"
                 },
                 {
-                    "label": "Workplace Safety And Health Management In Marine Industry",
-                    "link": "#"
+                    "label": "Apply Workplace Safety and Health in Shipyard General Trade",
+                    "link": "/courses/apply-workplace-safety-and-health-in-shipyard-general-trade/"
                 },
                 {
-                    "label": "Apply Workplace Safety And Health In Process Plant",
-                    "link": "#"
+                    "label": "Shipyard Safety Instruction Course For Workers (Painter Trade)",
+                    "link": "/courses/shipyard-safety-instruction-course-for-workers-painter-trade/"
+                },
+                {
+                    "label": "Shipyard Safety Instruction Course For Workers (Hot Work Trade)",
+                    "link": "/courses/shipyard-safety-instruction-course-for-workers-hot-work-trade/"
                 }
             ]
         }

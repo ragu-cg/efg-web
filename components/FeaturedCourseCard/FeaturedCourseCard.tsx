@@ -61,7 +61,7 @@ export function FeaturedCourseCard({
         p="xl"
         radius="md"
         sx={{
-          backgroundImage: `linear-gradient(250deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.65) 70%), url(${image})`,
+          backgroundImage: `linear-gradient(270deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.85) 80%), url(${image})`,
         }}
         className={classes.card}
       >

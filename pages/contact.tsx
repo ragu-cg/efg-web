@@ -23,6 +23,8 @@ const handleSubmit = async (e) => {
     contactSubject: e.target.contactSubject.value,
     contactMessage: e.target.contactMessage.value,
   };
+  const contactForm = document.getElementById("contactForm");
+  let notification: String;
   fetch("/api/contact", {
     method: "POST",
     headers: {
@@ -35,11 +37,16 @@ const handleSubmit = async (e) => {
       // console.log("Response received", res);
       if (res.status === 200) {
         // console.log("Response succeeded!");
-        console.log("Thank you for contacting us!");
+        notification = "Thank you for contacting us!";
+
+        contactForm && contactForm.reset();
       } else {
         // console.log("Email/Password is invalid.");
-        console.log("Email/Password is invalid.");
+        notification =
+          "Something went wrong. Please try again later or call / email us directly";
       }
+      console.log(notification);
+      contactForm.querySelector(".notification").innerHTML = notification;
     })
     .catch((e) => console.log(e));
 };
@@ -167,7 +174,11 @@ export default function Contact() {
               <ContactIconsList variant="white" />
             </div>
 
-            <form className={classes.form} onSubmit={handleSubmit}>
+            <form
+              className={classes.form}
+              onSubmit={handleSubmit}
+              id="contactForm"
+            >
               <Text fz="lg" fw={700} className={classes.title}>
                 Get in touch
               </Text>
@@ -211,6 +222,7 @@ export default function Contact() {
                     Send message
                   </Button>
                 </Group>
+                <p className="notification" style={{ color: "green" }}></p>
               </div>
             </form>
           </div>

@@ -51,7 +51,6 @@ export function FeaturedCourseCard({
   link,
 }: FeaturedCourseCardProps) {
   const { classes } = useStyles();
-  console.log(image);
   image = image || "https://efg.com.sg/images/safety-bg.jpg";
 
   return (

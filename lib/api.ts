@@ -3,25 +3,29 @@ const API_URL = process.env.WORDPRESS_API_URL;
 
 async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
   try {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `${API_URL}?query=${query}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ZWZnY21zOllDT2I1dUNvOEI3eGtiR1lvQ2szbktrUw=='
+      }
+    };
 
-    const res = await axios.post(API_URL as string, {
-      query,
-      variables,
-    });
+    const res = await axios.request(config);
 
     const json = await res.data;
-    if (json.errors) {
-      console.log(`url`, {
+    console.error('API Error', {
+      url: {
         API_URL,
         graphql: {
           query,
           variables,
         },
-      });
-
-      console.error(json.errors);
-      throw new Error("Failed to fetch API");
-    }
+      },
+      errors: json.errors,
+    });
     return json.data;
   } catch (e) {
     console.error("api error", { e });

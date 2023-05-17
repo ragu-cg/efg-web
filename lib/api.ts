@@ -6,7 +6,7 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `${API_URL}?query=${query}`,
+      url: `https://cms.efgtrainingservices.com/graphql?query=${query}`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Basic ZWZnY21zOllDT2I1dUNvOEI3eGtiR1lvQ2szbktrUw=='

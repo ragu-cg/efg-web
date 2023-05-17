@@ -6,7 +6,7 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://cms.efgtrainingservices.com/graphql?query=${query}`,
+      url: `${API_URL}?query=${query}`,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Basic ZWZnY21zOllDT2I1dUNvOEI3eGtiR1lvQ2szbktrUw=='
@@ -35,16 +35,14 @@ async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
 
 export async function getAllCoursesWithSlug() {
   const data = await fetchAPI(
-    `
-    query AllCoursessWithSlug {
-      courses (first:100) {
+    `query AllCoursesWithSlug {
+      courses(first: 100) {
         nodes {
           slug
           uri
         }
       }
-    }
-  `
+    }`
   );
   return data?.courses;
 }

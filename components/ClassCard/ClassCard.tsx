@@ -28,7 +28,15 @@ export default function ClassCard(props: propsData) {
         <div>Location: {props.location}</div>
       </Text>
 
-      <Button variant="light" color="blue" fullWidth mt="md" radius="md">
+      <Button
+        component="a"
+        href="/contact"
+        variant="light"
+        color="blue"
+        fullWidth
+        mt="md"
+        radius="md"
+      >
         Book now!
       </Button>
     </Card>

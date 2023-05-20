@@ -30,7 +30,7 @@ const UsersPage: React.FC = () => {
 
   const fetchSchedule = async () => {
     try {
-      const response = await axios.get("./jsons/booking.json");
+      const response = await axios.get("../jsons/booking.json");
       const data = response.data as CourseSchedule;
       setSchedule(data);
       console.log(data);
@@ -51,7 +51,7 @@ const UsersPage: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Banner title="Course Schedule" />
-      <Container size="md">
+      <Container size="md" mt={60}>
         {schedule.courses.map((course, index) => (
           <div key={index} className={styles.courseContainer}>
             <Text size="xl" weight={700} style={{ marginBottom: "0.5rem" }}>

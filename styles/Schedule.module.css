@@ -4,6 +4,7 @@
   
   .scheduleContainer {
     display: flex;
+    margin-bottom: 60px;
   }
   
   .scheduleItem {

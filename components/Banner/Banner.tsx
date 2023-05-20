@@ -103,7 +103,7 @@ type BannerProps = {
 export function Banner({ title, img }: BannerProps) {
   const { classes, cx } = useStyles();
 
-  img = img || "./images/default-bg.jpg";
+  img = img || "/images/default-bg.jpg";
 
   return (
     <div className={classes.wrapper} style={{ backgroundImage: `url(${img})` }}>

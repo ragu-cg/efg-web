@@ -1,0 +1,12 @@
+.courseContainer {
+    margin-bottom: 1rem;
+  }
+  
+  .scheduleContainer {
+    display: flex;
+  }
+  
+  .scheduleItem {
+    margin-bottom: 1rem;
+  }
+  

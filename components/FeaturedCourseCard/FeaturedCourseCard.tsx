@@ -51,7 +51,7 @@ export function FeaturedCourseCard({
   link,
 }: FeaturedCourseCardProps) {
   const { classes } = useStyles();
-  image = image || "https://efg.com.sg/images/safety-bg.jpg";
+  image = image || "./images/safety-bg.jpg";
 
   return (
     <Link className={classes.featuredLink} href={link}>

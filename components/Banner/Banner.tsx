@@ -1,38 +1,45 @@
-import { Title, Text, Container, Button, Overlay, createStyles, BackgroundImage } from '@mantine/core';
+import {
+  Title,
+  Text,
+  Container,
+  Button,
+  Overlay,
+  createStyles,
+  BackgroundImage,
+} from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    position: 'relative',
+    position: "relative",
     paddingTop: 80,
     paddingBottom: 80,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
 
-    '@media (max-width: 520px)': {
+    "@media (max-width: 520px)": {
       paddingTop: 40,
       paddingBottom: 40,
     },
   },
 
-  
   title: {
-    position: 'relative',
+    position: "relative",
     zIndex: 1,
     fontWeight: 800,
     fontSize: 40,
-    maxWidth: '720px',
-    margin: '0 auto',
+    maxWidth: "720px",
+    margin: "0 auto",
     letterSpacing: -1,
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
     color: theme.white,
     marginBottom: theme.spacing.xs,
-    textAlign: 'center',
+    textAlign: "center",
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
 
-    '@media (max-width: 520px)': {
+    "@media (max-width: 520px)": {
       fontSize: 28,
-      textAlign: 'left',
+      textAlign: "left",
     },
   },
 
@@ -42,23 +49,23 @@ const useStyles = createStyles((theme) => ({
 
   description: {
     color: theme.colors.gray[0],
-    textAlign: 'center',
+    textAlign: "center",
 
-    '@media (max-width: 520px)': {
+    "@media (max-width: 520px)": {
       fontSize: theme.fontSizes.md,
-      textAlign: 'left',
+      textAlign: "left",
     },
   },
 
   controls: {
     marginTop: theme.spacing.xl * 1.5,
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
 
-    '@media (max-width: 520px)': {
-      flexDirection: 'column',
+    "@media (max-width: 520px)": {
+      flexDirection: "column",
     },
   },
 
@@ -66,12 +73,12 @@ const useStyles = createStyles((theme) => ({
     height: 42,
     fontSize: theme.fontSizes.md,
 
-    '&:not(:first-of-type)': {
+    "&:not(:first-of-type)": {
       marginLeft: theme.spacing.md,
     },
 
-    '@media (max-width: 520px)': {
-      '&:not(:first-of-type)': {
+    "@media (max-width: 520px)": {
+      "&:not(:first-of-type)": {
         marginTop: theme.spacing.md,
         marginLeft: 0,
       },
@@ -80,32 +87,37 @@ const useStyles = createStyles((theme) => ({
 
   secondaryControl: {
     color: theme.white,
-    backgroundColor: 'rgba(255, 255, 255, .4)',
+    backgroundColor: "rgba(255, 255, 255, .4)",
 
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, .45) !important',
+    "&:hover": {
+      backgroundColor: "rgba(255, 255, 255, .45) !important",
     },
   },
 }));
 
 type BannerProps = {
-  title: String,
-  img?: String
-}
+  title: String;
+  img?: String;
+};
 
-export function Banner({title, img}: BannerProps) {
+export function Banner({ title, img }: BannerProps) {
   const { classes, cx } = useStyles();
 
-  img = img || 'https://efg.com.sg/images/default-bg.jpg';
+  img = img || "./images/default-bg.jpg";
 
   return (
-    <div className={classes.wrapper} style={{backgroundImage: `url(${img})` }}>
+    <div className={classes.wrapper} style={{ backgroundImage: `url(${img})` }}>
       <Overlay color="#000" opacity={0.65} zIndex={1} />
       <Title className={classes.title}>
-          <Text component="span" inherit className={classes.highlight} variant="gradient"
-              gradient={{ from: "blue", to: "white" }}>
-            {title}
-          </Text>
+        <Text
+          component="span"
+          inherit
+          className={classes.highlight}
+          variant="gradient"
+          gradient={{ from: "blue", to: "white" }}
+        >
+          {title}
+        </Text>
       </Title>
     </div>
   );

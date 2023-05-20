@@ -9,26 +9,26 @@ import {
   List,
   Group,
   Divider,
-  ThemeIcon
+  ThemeIcon,
 } from "@mantine/core";
 import { IconCircleCheck } from "@tabler/icons";
 import { UserCard } from "../components/UserCard/UserCard";
 
 const data = [
   {
-    avatar: "https://efg.com.sg/images/rosli.jpg",
+    avatar: "./images/rosli.jpg",
     name: "Mr. Rosli Bin Pitchay",
     email: "rosli@efg.com.sg",
     job: "Director",
   },
   {
-    avatar: "https://efg.com.sg/images/naseer.jpg",
+    avatar: "./images/naseer.jpg",
     name: "Mr. Nasser",
     email: "nasser@efg.com.sg",
     job: "Director",
   },
   {
-    avatar: "https://efg.com.sg/images/govind.jpg",
+    avatar: "./images/govind.jpg",
     name: "Mr. Govind",
     email: "govind@efg.com.sg",
     job: "Director",
@@ -47,20 +47,20 @@ const styles = createStyles((theme) => ({
 
   list: {
     margin: "20px 0",
-    color: "inherit"
+    color: "inherit",
   },
 
   group: {
-    '& > div': {
+    "& > div": {
       [theme.fn.smallerThan("sm")]: {
         maxWidth: "100%",
       },
-    }
-  }
+    },
+  },
 }));
 
-const directors = data.map(director => {
-  return <UserCard key={director.avatar} {...director} />
+const directors = data.map((director) => {
+  return <UserCard key={director.avatar} {...director} />;
 });
 
 export default function About() {
@@ -88,11 +88,14 @@ export default function About() {
         </Text>
         <Divider my="sm" variant="dashed" />
         <Title order={3}>Our Mission</Title>
-        <List className={classes.list}  icon={
-        <ThemeIcon color="teal" size={24} radius="xl">
-          <IconCircleCheck size={24} />
-        </ThemeIcon>
-      }>
+        <List
+          className={classes.list}
+          icon={
+            <ThemeIcon color="teal" size={24} radius="xl">
+              <IconCircleCheck size={24} />
+            </ThemeIcon>
+          }
+        >
           <List.Item>
             To provide relevant safety training to workers & management in
             enhancing the safety of their workplace and to engage themselves in

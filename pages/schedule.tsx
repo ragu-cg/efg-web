@@ -30,9 +30,7 @@ const UsersPage: React.FC = () => {
 
   const fetchSchedule = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:3007/jsons/booking.json"
-      );
+      const response = await axios.get("./jsons/booking.json");
       const data = response.data as CourseSchedule;
       setSchedule(data);
       console.log(data);

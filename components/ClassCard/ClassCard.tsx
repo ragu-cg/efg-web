@@ -1,19 +1,25 @@
 import { Card, Text, Badge, Button, Group } from "@mantine/core";
 
-type propsData = {
-  id: number;
-  courseDate: string;
-  availableSlots: number;
-  session: string;
-  timing: string;
-  location: string;
+type Props = {
+  schedule: {
+    classId: number;
+    classDate: string;
+    availableSlots: number;
+    session: string;
+    timing: string;
+    location: string;
+  };
 };
-export default function ClassCard(props: propsData) {
+
+const ClassCard: React.FC<Props> = ({ schedule }) => {
+  const { classId, classDate, availableSlots, session, timing, location } =
+    schedule;
+
   return (
     <Card shadow="sm" radius="md" style={{ marginRight: "20px" }} withBorder>
       <Group position="apart" mt="md" mb="xs">
-        <Text weight={500}>{props.courseDate}</Text>
-        {props.availableSlots < 15 && (
+        <Text weight={500}>{classDate}</Text>
+        {availableSlots < 15 && (
           <Badge color="pink" variant="light">
             On Sale
           </Badge>
@@ -21,11 +27,11 @@ export default function ClassCard(props: propsData) {
       </Group>
 
       <Text size="sm" color="dimmed">
-        <div>Class ID: {props.id}</div>
-        <div>Available Slots: {props.availableSlots}</div>
-        <div>Session: {props.session}</div>
-        <div>Timing: {props.timing}</div>
-        <div>Location: {props.location}</div>
+        <div>Class ID: {classId}</div>
+        <div>Available Slots: {availableSlots}</div>
+        <div>Session: {session}</div>
+        <div>Timing: {timing}</div>
+        <div>Location: {location}</div>
       </Text>
 
       <Button
@@ -41,4 +47,6 @@ export default function ClassCard(props: propsData) {
       </Button>
     </Card>
   );
-}
+};
+
+export default ClassCard;

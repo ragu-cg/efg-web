@@ -12,7 +12,7 @@ type CourseSchedule = {
     courseId: number;
     courseSchedule: {
       classId: number;
-      courseDate: string;
+      classDate: string;
       availableSlots: number;
       session: string;
       timing: string;
@@ -28,9 +28,23 @@ const UsersPage: React.FC = () => {
     fetchSchedule();
   }, []);
 
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day}`;
+
   const fetchSchedule = async () => {
     try {
-      const response = await axios.get("../jsons/booking.json");
+      const response = await axios({
+        method: "post",
+        url: process.env.NEXT_PUBLIC_COURSE_SCHEDULE_API_URL,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        data: {
+          reqdate: formattedDate,
+        },
+      });
       const data = response.data as CourseSchedule;
       setSchedule(data);
       console.log(data);
@@ -60,14 +74,7 @@ const UsersPage: React.FC = () => {
 
             <div className={styles.scheduleContainer}>
               {course.courseSchedule.map((scheduleItem, scheduleIndex) => (
-                <ClassCard
-                  id={scheduleItem.classId}
-                  courseDate={scheduleItem.courseDate}
-                  availableSlots={scheduleItem.availableSlots}
-                  session={scheduleItem.session}
-                  timing={scheduleItem.timing}
-                  location={scheduleItem.location}
-                />
+                <ClassCard key={scheduleIndex} schedule={scheduleItem} />
               ))}
             </div>
           </div>

@@ -7,7 +7,7 @@
             "courseSchedule": [
                 {
                     "classId": 1,
-                    "courseDate": "16/05/2023",
+                    "classDate": "16/05/2023",
                     "availableSlots": 10,
                     "session": "Day",
                     "timing": "Day 1 (08:00am to 05:30pm)",
@@ -15,7 +15,7 @@
                 },
                 {
                     "classId": 2,
-                    "courseDate": "18/05/2023",
+                    "classDate": "18/05/2023",
                     "availableSlots": 10,
                     "session": "Day",
                     "timing": "Day 1 (08:00am to 05:30pm)",
@@ -29,7 +29,7 @@
             "courseSchedule": [
                 {
                     "classId": 1,
-                    "courseDate": "16/05/2023",
+                    "classDate": "16/05/2023",
                     "availableSlots": 10,
                     "session": "Day",
                     "timing": "Day 1 (08:00am to 05:30pm)",
@@ -37,7 +37,7 @@
                 },
                 {
                     "classId": 2,
-                    "courseDate": "18/05/2023",
+                    "classDate": "18/05/2023",
                     "availableSlots": 10,
                     "session": "Day",
                     "timing": "Day 1 (08:00am to 05:30pm)",
@@ -45,7 +45,7 @@
                 },
                 {
                     "classId": 3,
-                    "courseDate": "19/05/2023",
+                    "classDate": "19/05/2023",
                     "availableSlots": 10,
                     "session": "Day",
                     "timing": "Day 1 (08:00am to 05:30pm)",
@@ -59,7 +59,7 @@
             "courseSchedule": [
                 {
                     "classId": 1,
-                    "courseDate": "16/05/2023",
+                    "classDate": "16/05/2023",
                     "availableSlots": 10,
                     "session": "Day",
                     "timing": "Day 1 (08:00am to 05:30pm)",
@@ -67,7 +67,7 @@
                 },
                 {
                     "classId": 2,
-                    "courseDate": "18/05/2023",
+                    "classDate": "18/05/2023",
                     "availableSlots": 10,
                     "session": "Day",
                     "timing": "Day 1 (08:00am to 05:30pm)",
@@ -75,7 +75,7 @@
                 },
                 {
                     "classId": 3,
-                    "courseDate": "19/05/2023",
+                    "classDate": "19/05/2023",
                     "availableSlots": 10,
                     "session": "Day",
                     "timing": "Day 1 (08:00am to 05:30pm)",

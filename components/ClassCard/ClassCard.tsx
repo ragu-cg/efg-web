@@ -27,11 +27,21 @@ const ClassCard: React.FC<Props> = ({ schedule }) => {
       </Group>
 
       <Text size="sm" color="dimmed">
-        <div>Class ID: {classId}</div>
-        <div>Available Slots: {availableSlots}</div>
-        <div>Session: {session}</div>
-        <div>Timing: {timing}</div>
-        <div>Location: {location}</div>
+        <div>
+          <strong>Class ID</strong>: {classId}
+        </div>
+        <div>
+          <strong>Available Slots</strong>: {availableSlots}
+        </div>
+        <div>
+          <strong>Session</strong>: {session}
+        </div>
+        <div>
+          <strong>Timing</strong>: {timing}
+        </div>
+        <div>
+          <strong>Location</strong>: {location}
+        </div>
       </Text>
 
       <Button

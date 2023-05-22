@@ -1,0 +1,335 @@
+import React, { useState, useEffect } from "react";
+import {
+  Select,
+  TextInput,
+  Button,
+  Radio,
+  Notification,
+  createStyles,
+  Container,
+  Group,
+  Title,
+} from "@mantine/core";
+import { IconAt } from "@tabler/icons";
+
+import Head from "next/head";
+import { Banner } from "../components/Banner/Banner";
+import axios from "axios";
+import styles from "../styles/Booking.module.scss";
+
+// Interfaces for data types
+interface Course {
+  courseId: number;
+  courseName: string;
+  courseSchedule: Class[];
+}
+
+interface Class {
+  classId: number;
+  classDate: string;
+  availableSlots: number;
+  session: string;
+  timing: string;
+  location: string;
+}
+
+interface CourseBooking {
+  courseId: number;
+  classId: number;
+  slots: number | null;
+  bookings: Booking[];
+}
+
+interface Booking {
+  name: string;
+  email: string;
+  contactNumber: string;
+  company?: string;
+}
+
+const CourseBookingForm: React.FC = () => {
+  // State variables
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
+  const [courseClasses, setCourseClasses] = useState<Class[]>([]);
+  const [selectedClass, setSelectedClass] = useState<number | null>(null);
+  const [bookingType, setBookingType] = useState<"individual" | "group">(
+    "individual"
+  );
+
+  const [slots, setSlots] = useState<number | null>(null);
+  const [bookings, setBookings] = useState<Booking[]>([
+    { name: "", email: "", contactNumber: "" },
+  ]);
+
+  const [notification, setNotification] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch courses data on component mount
+    axios
+      .get("/jsons/booking.json")
+      .then((response) => setCourses(response.data.courses))
+      .catch((error) => console.error("Error fetching courses:", error));
+  }, []);
+
+  // Handle course selection change
+  const handleCourseChange = (courseId: number) => {
+    const selectedCourse = courses.find(
+      (course) => course.courseId === courseId
+    );
+    if (selectedCourse) {
+      setCourseClasses(selectedCourse.courseSchedule);
+      setSelectedCourse(courseId);
+    }
+  };
+
+  // Handle booking type change
+  const handleBookingTypeChange = (value: string) => {
+    setBookingType(value as "individual" | "group");
+    setSlots(null);
+    setBookings([{ name: "", email: "", contactNumber: "" }]);
+  };
+
+  // Handle slot count change
+  const handleSlotChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.value;
+    const slotCount = Number(value);
+    setSlots(Number.isNaN(slotCount) || slotCount < 0 ? null : slotCount);
+    setBookings(
+      new Array(slotCount).fill({ name: "", email: "", contactNumber: "" })
+    );
+  };
+
+  // Handle booking details change
+  const handleBookingChange = (index: number, field: string, value: string) => {
+    const updatedBookings = bookings.map((booking, i) => {
+      if (i === index) {
+        return {
+          ...booking,
+          [field]: value,
+        };
+      }
+      return booking;
+    });
+    setBookings(updatedBookings);
+  };
+
+  // Handle form submission
+  const handleSubmit = () => {
+    const booking: CourseBooking = {
+      courseId: selectedCourse!,
+      classId: selectedClass!,
+      slots: slots!,
+      bookings: bookings,
+    };
+
+    axios
+      .post("/jsons/booking.json", booking)
+      .then((response) => {
+        console.log("Booking submitted successfully:", response.data);
+        setNotification("Booking submitted successfully");
+      })
+      .catch((error) => {
+        console.error("Error submitting booking:", error);
+        setNotification("Error submitting booking");
+      });
+  };
+
+  const selectedClassData = courseClasses.find(
+    (classItem) => classItem.classId === selectedClass
+  );
+  const availableSlots = selectedClassData?.availableSlots || 0;
+
+  // Form validation
+  const validateForm = () => {
+    if (!selectedCourse) {
+      setNotification("Please select a course");
+      return false;
+    }
+
+    if (!selectedClass) {
+      setNotification("Please select a class");
+      return false;
+    }
+
+    if (
+      bookingType === "group" &&
+      (!slots || slots < 1 || slots > availableSlots)
+    ) {
+      setNotification(
+        `Please enter a valid number of slots (1-${availableSlots})`
+      );
+      return false;
+    }
+
+    const isIndividualBookingValid = bookings.every(
+      (booking) =>
+        booking.name.trim() !== "" &&
+        booking.email.trim() !== "" &&
+        booking.contactNumber.trim() !== ""
+    );
+    if (bookingType === "individual" && !isIndividualBookingValid) {
+      setNotification("Please fill in all individual booking details");
+      return false;
+    }
+
+    setNotification(null);
+    return true;
+  };
+
+  return (
+    <>
+      <Head>
+        <title>About Us | EFG</title>
+        <meta name="description" content="Generated by create next app" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Banner title="About us" />
+
+      <Container size="md" mt={30} className={styles.bookingContainer}>
+        {/* Select Course */}
+        <Select
+          label="Select Course"
+          value={selectedCourse?.toString() || ""}
+          onChange={(value) => handleCourseChange(Number(value))}
+          placeholder="Select a course"
+          data={courses.map((course) => ({
+            value: course.courseId.toString(),
+            label: course.courseName,
+          }))}
+        />
+
+        {/* Select Class */}
+        {selectedCourse && (
+          <Select
+            label="Select Class"
+            value={selectedClass?.toString() || ""}
+            onChange={(value) => setSelectedClass(Number(value))}
+            placeholder="Select a class"
+            data={courseClasses.map((classItem) => ({
+              value: classItem.classId.toString(),
+              label: classItem.timing,
+            }))}
+          />
+        )}
+
+        {/* Booking Type */}
+        {selectedClass && (
+          <Radio.Group
+            value={bookingType}
+            onChange={(value) => handleBookingTypeChange(value)}
+          >
+            <Radio label="Individual" value="individual" />
+            <Radio label="Group" value="group" />
+          </Radio.Group>
+        )}
+
+        {/* Number of Slots */}
+        {bookingType === "group" && (
+          <TextInput
+            type="number"
+            label="Number of Slots"
+            value={slots?.toString() || ""}
+            onChange={handleSlotChange}
+          />
+        )}
+
+        {/* Individual Booking Details */}
+        {selectedClass &&
+          bookingType === "individual" &&
+          bookings.map((booking, index) => (
+            <div key={index}>
+              <Title>Add your details</Title>
+              <TextInput
+                label="Name"
+                value={booking.name}
+                onChange={(event) =>
+                  handleBookingChange(index, "name", event.currentTarget.value)
+                }
+              />
+
+              <TextInput
+                icon={<IconAt />}
+                label="Email"
+                value={booking.email}
+                onChange={(event) =>
+                  handleBookingChange(index, "email", event.currentTarget.value)
+                }
+              />
+              <TextInput
+                label="Contact Number"
+                value={booking.contactNumber}
+                onChange={(event) =>
+                  handleBookingChange(
+                    index,
+                    "contactNumber",
+                    event.currentTarget.value
+                  )
+                }
+              />
+            </div>
+          ))}
+
+        {/* Group Booking Details */}
+        {bookingType === "group" && slots && (
+          <div>
+            {[...Array(slots)].map((_, index) => (
+              <div key={index}>
+                <Title>Person {index + 1} details</Title>
+                <TextInput
+                  label={`Name ${index + 1}`}
+                  value={bookings[index]?.name}
+                  onChange={(event) =>
+                    handleBookingChange(
+                      index,
+                      "name",
+                      event.currentTarget.value
+                    )
+                  }
+                />
+                <TextInput
+                  label={`Email ${index + 1}`}
+                  value={bookings[index]?.email}
+                  onChange={(event) =>
+                    handleBookingChange(
+                      index,
+                      "email",
+                      event.currentTarget.value
+                    )
+                  }
+                />
+                <TextInput
+                  label={`Contact Number ${index + 1}`}
+                  value={bookings[index]?.contactNumber}
+                  onChange={(event) =>
+                    handleBookingChange(
+                      index,
+                      "contactNumber",
+                      event.currentTarget.value
+                    )
+                  }
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Error Notification */}
+        {notification && (
+          <Notification
+            color="red"
+            title="Error"
+            onClose={() => setNotification(null)}
+          >
+            {notification}
+          </Notification>
+        )}
+
+        {/* Submit Button */}
+        <Button onClick={handleSubmit}>Submit</Button>
+      </Container>
+    </>
+  );
+};
+
+export default CourseBookingForm;

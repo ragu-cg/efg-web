@@ -1,39 +1,6 @@
 import Head from "next/head";
 import { Banner } from "../components/Banner/Banner";
-import {
-  Container,
-  Grid,
-  Title,
-  createStyles,
-  Text,
-  List,
-  Group,
-  Divider,
-  ThemeIcon,
-} from "@mantine/core";
-import { IconCircleCheck } from "@tabler/icons";
-import { UserCard } from "../components/UserCard/UserCard";
-
-const data = [
-  {
-    avatar: "https://efg.com.sg/images/rosli.jpg",
-    name: "Mr. Rosli Bin Pitchay",
-    email: "rosli@efg.com.sg",
-    job: "Director",
-  },
-  {
-    avatar: "https://efg.com.sg/images/naseer.jpg",
-    name: "Mr. Nasser",
-    email: "nasser@efg.com.sg",
-    job: "Director",
-  },
-  {
-    avatar: "https://efg.com.sg/images/govind.jpg",
-    name: "Mr. Govind",
-    email: "govind@efg.com.sg",
-    job: "Director",
-  },
-];
+import { Container, createStyles, Text } from "@mantine/core";
 
 const styles = createStyles((theme) => ({
   paragraph: {
@@ -58,10 +25,6 @@ const styles = createStyles((theme) => ({
     },
   },
 }));
-
-const directors = data.map((director) => {
-  return <UserCard key={director.avatar} {...director} />;
-});
 
 export default function About() {
   const { classes } = styles();

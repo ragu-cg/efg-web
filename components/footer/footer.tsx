@@ -59,8 +59,23 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexWrap: "wrap",
 
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
+    div: {
+      [theme.fn.smallerThan("sm")]: {
+        display: "none",
+      },
+    },
+
+    ".column-0": {
+      [theme.fn.smallerThan("sm")]: {
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        textAlign: "center",
+        width: "100%",
+        justifyContent: "center",
+        marginTop: "30px",
+        gap: "5px 15px",
+      },
     },
   },
 
@@ -126,7 +141,7 @@ export function FooterLinks({ data }: FooterLinksProps) {
   const { classes } = useStyles();
   console.log(data);
 
-  const groups = data.map((group) => {
+  const groups = data.map((group, i) => {
     const links = group.links.map((link, index) => (
       <Link key={index} className={classes.link} href={link.link}>
         {link.label}
@@ -134,7 +149,7 @@ export function FooterLinks({ data }: FooterLinksProps) {
     ));
 
     return (
-      <div className={classes.wrapper} key={group.title}>
+      <div className={`${classes.wrapper} column-${i}`} key={group.title}>
         <Text className={classes.title}>{group.title}</Text>
         {links}
       </div>

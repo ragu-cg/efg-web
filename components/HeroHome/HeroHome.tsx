@@ -11,7 +11,7 @@ import Link from "next/link";
 const useStyles = createStyles((theme) => ({
   hero: {
     position: "relative",
-    backgroundImage: "url(https://efg.com.sg/images/hero-bg.jpg)",
+    backgroundImage: "url(./images/hero-bg.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "center bottom",
   },
@@ -93,14 +93,10 @@ export function HeroHome() {
           you on completing the courses.
         </Text>
 
-        <Link href="/courses" className={classes.control}><Button
-          variant="gradient"
-          size="xl"
-          radius="xl"
-          
-        >
-          Explore Courses
-        </Button>
+        <Link href="/courses" className={classes.control}>
+          <Button variant="gradient" size="xl" radius="xl">
+            Explore Courses
+          </Button>
         </Link>
       </Container>
     </div>

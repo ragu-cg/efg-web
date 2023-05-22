@@ -1,0 +1,16 @@
+.courseContainer {
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 20px;
+  }
+  
+  .scheduleContainer {
+    display: flex;
+    margin: 30px 0;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .scheduleItem {
+    margin-bottom: 1rem;
+  }
+  

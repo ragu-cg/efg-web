@@ -1,4 +1,13 @@
-import { Card, Text, Badge, Button, Group } from "@mantine/core";
+import { Card, Text, Badge, Button, Group, createStyles } from "@mantine/core";
+
+const useStyles = createStyles((theme) => ({
+  cardContainer: {
+    gap: 10,
+    "@media (max-width: 520px)": {
+      width: "100%",
+    },
+  },
+}));
 
 type Props = {
   schedule: {
@@ -12,11 +21,12 @@ type Props = {
 };
 
 const ClassCard: React.FC<Props> = ({ schedule }) => {
+  const { classes } = useStyles();
   const { classId, classDate, availableSlots, session, timing, location } =
     schedule;
 
   return (
-    <Card shadow="sm" radius="md" style={{ marginRight: "20px" }} withBorder>
+    <Card className={classes.cardContainer} shadow="sm" radius="md" withBorder>
       <Group position="apart" mt="md" mb="xs">
         <Text weight={500}>{classDate}</Text>
         {availableSlots < 15 && (

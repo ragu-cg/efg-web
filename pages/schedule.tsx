@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import axios from "axios";
-import Link from "next/link";
-import { Text, Anchor, NavLink, Container, Group } from "@mantine/core";
+import {
+  Text,
+  Anchor,
+  NavLink,
+  Container,
+  Group,
+  Divider,
+} from "@mantine/core";
 import styles from "../styles/Schedule.module.css";
 import { Banner } from "../components/Banner/Banner";
 import ClassCard from "../components/ClassCard/ClassCard";

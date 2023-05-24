@@ -4,6 +4,7 @@ import {
   TextInput,
   Button,
   Radio,
+  Grid,
   Notification,
   createStyles,
   Container,
@@ -464,72 +465,86 @@ const CourseBookingForm: React.FC = () => {
               <div key={index}>
                 <Text>Personal details of Person {index + 1}</Text>
                 <Paper radius="md" p="md" mb={20} withBorder>
-                  <TextInput
-                    label="Name"
-                    value={bookings[index]?.name}
-                    onChange={(event) =>
-                      handleBookingChange(
-                        index,
-                        "name",
-                        event.currentTarget.value
-                      )
-                    }
-                  />
-                  <TextInput
-                    label="NRIC / FIN / WP Number"
-                    value={bookings[index]?.icNumber}
-                    onChange={(event) =>
-                      handleBookingChange(
-                        index,
-                        "icNumber",
-                        event.currentTarget.value
-                      )
-                    }
-                  />
-                  <TextInput
-                    label="D.O.B"
-                    value={bookings[index]?.dob}
-                    onChange={(event) =>
-                      handleBookingChange(
-                        index,
-                        "dob",
-                        event.currentTarget.value
-                      )
-                    }
-                  />
-                  <TextInput
-                    label="Nationality"
-                    value={bookings[index]?.nationality}
-                    onChange={(event) =>
-                      handleBookingChange(
-                        index,
-                        "nationality",
-                        event.currentTarget.value
-                      )
-                    }
-                  />
-                  <TextInput
-                    label={`Email`}
-                    value={bookings[index]?.email}
-                    onChange={(event) =>
-                      handleBookingChange(
-                        index,
-                        "email",
-                        event.currentTarget.value
-                      )
-                    }
-                  />
-                  <TextInput
-                    label={`Contact Number`}
-                    value={bookings[index]?.contactNumber}
-                    onChange={(event) =>
-                      handleBookingChange(
-                        index,
-                        "contactNumber",
-                        event.currentTarget.value
-                      )
-                    }
-                  />
+                  <Grid>
+                    <Grid.Col md={6}>
+                      <TextInput
+                        label="Name"
+                        value={bookings[index]?.name}
+                        onChange={(event) =>
+                          handleBookingChange(
+                            index,
+                            "name",
+                            event.currentTarget.value
+                          )
+                        }
+                      />
+                    </Grid.Col>
+                    <Grid.Col md={6}>
+                      <TextInput
+                        label="NRIC / FIN / WP Number"
+                        value={bookings[index]?.icNumber}
+                        onChange={(event) =>
+                          handleBookingChange(
+                            index,
+                            "icNumber",
+                            event.currentTarget.value
+                          )
+                        }
+                      />
+                    </Grid.Col>
+                    <Grid.Col md={6}>
+                      <TextInput
+                        label="D.O.B"
+                        value={bookings[index]?.dob}
+                        onChange={(event) =>
+                          handleBookingChange(
+                            index,
+                            "dob",
+                            event.currentTarget.value
+                          )
+                        }
+                      />
+                    </Grid.Col>
+                    <Grid.Col md={6}>
+                      <TextInput
+                        label="Nationality"
+                        value={bookings[index]?.nationality}
+                        onChange={(event) =>
+                          handleBookingChange(
+                            index,
+                            "nationality",
+                            event.currentTarget.value
+                          )
+                        }
+                      />
+                    </Grid.Col>
+                    <Grid.Col md={6}>
+                      <TextInput
+                        label={`Email`}
+                        value={bookings[index]?.email}
+                        onChange={(event) =>
+                          handleBookingChange(
+                            index,
+                            "email",
+                            event.currentTarget.value
+                          )
+                        }
+                      />
+                    </Grid.Col>
+                    <Grid.Col md={6}>
+                      <TextInput
+                        label={`Contact Number`}
+                        value={bookings[index]?.contactNumber}
+                        onChange={(event) =>
+                          handleBookingChange(
+                            index,
+                            "contactNumber",
+                            event.currentTarget.value
+                          )
+                        }
+                      />
+                    </Grid.Col>
+                  </Grid>
                 </Paper>
               </div>
             ))}

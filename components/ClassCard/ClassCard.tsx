@@ -56,7 +56,7 @@ const ClassCard: React.FC<Props> = ({ schedule }) => {
 
       <Button
         component="a"
-        href="/contact"
+        href="/booking"
         variant="light"
         color="blue"
         fullWidth

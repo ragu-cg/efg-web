@@ -21,13 +21,13 @@ import styles from "../styles/Booking.module.scss";
 
 // Interfaces for data types
 interface Course {
-  courseId: number;
+  courseId: string;
   courseName: string;
   courseSchedule: Class[];
 }
 
 interface Class {
-  classId: number;
+  classId: string;
   classDate: string;
   availableSlots: number;
   session: string;
@@ -36,74 +36,131 @@ interface Class {
 }
 
 interface CourseBooking {
-  courseId: number;
-  classId: number;
-  slots: number | null;
+  courseId: string;
+  classId: string;
+  bookingType: "group" | "individual";
+  companyDetails: Company;
+  participants: number;
   bookings: Booking[];
+}
+
+interface Company {
+  name: string;
+  uen: string;
+  contactPerson: string;
+  contactNumber: string;
+  contactEmail: string;
 }
 
 interface Booking {
   name: string;
+  icNumber: string;
+  dob: string;
+  nationality: string;
   email: string;
   contactNumber: string;
-  company?: string;
 }
 
 const CourseBookingForm: React.FC = () => {
   // State variables
   const [courses, setCourses] = useState<Course[]>([]);
-  const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<string>("");
   const [courseClasses, setCourseClasses] = useState<Class[]>([]);
-  const [selectedClass, setSelectedClass] = useState<number | null>(null);
+  const [selectedClass, setSelectedClass] = useState<string>("");
+  const [companyDetails, setCompanyDetails] = useState<Company>({
+    name: "",
+    uen: "",
+    contactPerson: "",
+    contactNumber: "",
+    contactEmail: "",
+  });
+  const [bookingTypeVisibility, setBookingTypeVisibility] =
+    useState<boolean>(false);
   const [bookingType, setBookingType] = useState<"individual" | "group">(
     "individual"
   );
 
-  const [slots, setSlots] = useState<number | null>(null);
+  const [participants, setParticipants] = useState<number>(1);
   const [bookings, setBookings] = useState<Booking[]>([
-    { name: "", email: "", contactNumber: "" },
+    {
+      name: "",
+      email: "",
+      contactNumber: "",
+      icNumber: "",
+      dob: "",
+      nationality: "",
+    },
   ]);
 
   const [notification, setNotification] = useState<string | null>(null);
 
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day}`;
+
   useEffect(() => {
     // Fetch courses data on component mount
-    axios
-      .get("/jsons/booking.json")
+    const response = axios({
+      method: "post",
+      url: process.env.NEXT_PUBLIC_COURSE_SCHEDULE_API_URL,
+      // url: "/jsons/booking.json",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      data: {
+        reqdate: formattedDate,
+      },
+    })
       .then((response) => setCourses(response.data.courses))
       .catch((error) => console.error("Error fetching courses:", error));
+    console.log("run");
   }, []);
 
   // Handle course selection change
-  const handleCourseChange = (courseId: number) => {
-    const selectedCourse = courses.find(
+  const handleCourseChange = (courseId: string) => {
+    const getSelectedCourse = courses.find(
       (course) => course.courseId === courseId
     );
-    if (selectedCourse) {
-      setCourseClasses(selectedCourse.courseSchedule);
+    if (getSelectedCourse) {
+      setCourseClasses(getSelectedCourse.courseSchedule);
       setSelectedCourse(courseId);
     }
+    setSelectedClass(""); // Reset classes.
   };
 
   // Handle booking type change
   const handleBookingTypeChange = (value: string) => {
     setBookingType(value as "individual" | "group");
-    setSlots(null);
-    setBookings([{ name: "", email: "", contactNumber: "" }]);
+    setParticipants(1);
+    setBookings([
+      {
+        name: "",
+        email: "",
+        contactNumber: "",
+        icNumber: "",
+        dob: "",
+        nationality: "",
+      },
+    ]);
   };
 
   // Handle slot count change
   const handleSlotChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.value;
     const slotCount = Number(value);
-    setSlots(Number.isNaN(slotCount) || slotCount < 0 ? null : slotCount);
+    setParticipants(Number.isNaN(slotCount) || slotCount < 0 ? 1 : slotCount);
     setBookings(
       new Array(slotCount).fill({ name: "", email: "", contactNumber: "" })
     );
   };
 
-  const handleWheel = (event: React.WheelEvent<HTMLInputElement>) => {
-    event.preventDefault();
+  // Handle booking details change
+  const handleCompanyDetailsChange = (field: string, value: string) => {
+    setCompanyDetails((prevState) => ({
+      ...prevState,
+      [field]: value,
+    }));
   };
 
   // Handle booking details change
@@ -125,19 +182,31 @@ const CourseBookingForm: React.FC = () => {
     const booking: CourseBooking = {
       courseId: selectedCourse!,
       classId: selectedClass!,
-      slots: slots!,
+      bookingType: bookingType!,
+      companyDetails: companyDetails,
+      participants: participants!,
       bookings: bookings,
     };
 
-    axios
-      .post("/jsons/booking.json", booking)
+    console.log(booking);
+
+    axios({
+      method: "post",
+      url: process.env.NEXT_PUBLIC_COURSE_BOOKING_API_URL,
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      data: {
+        reqdate: formattedDate,
+      },
+    })
       .then((response) => {
         console.log("Booking submitted successfully:", response.data);
-        setNotification("Booking submitted successfully");
+        setNotification(
+          "Booking submitted successfully. Our admin team will confirm your booking with in 24hrs"
+        );
       })
       .catch((error) => {
         console.error("Error submitting booking:", error);
-        setNotification("Error submitting booking");
+        setNotification("Error submitting booking. Kindly call us directly.");
       });
   };
 
@@ -160,7 +229,7 @@ const CourseBookingForm: React.FC = () => {
 
     if (
       bookingType === "group" &&
-      (!slots || slots < 1 || slots > availableSlots)
+      (!participants || participants < 1 || participants > availableSlots)
     ) {
       setNotification(
         `Please enter a valid number of persons (1-${availableSlots})`
@@ -197,7 +266,7 @@ const CourseBookingForm: React.FC = () => {
         <Select
           label="Select Course"
           value={selectedCourse?.toString() || ""}
-          onChange={(value) => handleCourseChange(Number(value))}
+          onChange={(value: "") => handleCourseChange(value)}
           placeholder="Select a course"
           data={courses.map((course) => ({
             value: course.courseId.toString(),
@@ -210,20 +279,23 @@ const CourseBookingForm: React.FC = () => {
           <Select
             label="Select Class"
             value={selectedClass?.toString() || ""}
-            onChange={(value) => setSelectedClass(Number(value))}
+            onChange={(value: "") => {
+              setSelectedClass(value);
+              setBookingTypeVisibility(true);
+            }}
             placeholder="Select a class"
             data={courseClasses.map((classItem) => ({
               value: classItem.classId.toString(),
-              label: classItem.timing,
+              label: `${classItem.classDate} - ${classItem.timing}`,
             }))}
           />
         )}
 
         {/* Booking Type */}
-        {selectedClass && (
+        {bookingTypeVisibility && (
           <Radio.Group
             value={bookingType}
-            onChange={(value) => handleBookingTypeChange(value)}
+            onChange={(event) => handleBookingTypeChange(event)}
           >
             <Radio label="Individual" value="individual" />
             <Radio label="Group" value="group" />
@@ -237,11 +309,50 @@ const CourseBookingForm: React.FC = () => {
               Company details
             </Text>
             <Paper radius="md" p="md" mb={20} withBorder>
-              <TextInput label="Company" />
-              <TextInput label="Company UEN" />
-              <TextInput label="Contact Person Name" />
-              <TextInput label="Contact Person Number" />
-              <TextInput label="Contact Person Email" />
+              <TextInput
+                label="Company"
+                value={companyDetails.name}
+                onChange={(event) =>
+                  handleCompanyDetailsChange("name", event.currentTarget.value)
+                }
+              />
+              <TextInput
+                label="Company UEN"
+                value={companyDetails.uen}
+                onChange={(event) =>
+                  handleCompanyDetailsChange("uen", event.currentTarget.value)
+                }
+              />
+              <TextInput
+                label="Contact Person Name"
+                value={companyDetails.contactPerson}
+                onChange={(event) =>
+                  handleCompanyDetailsChange(
+                    "contactPerson",
+                    event.currentTarget.value
+                  )
+                }
+              />
+              <TextInput
+                label="Contact Person Number"
+                value={companyDetails.contactNumber}
+                onChange={(event) =>
+                  handleCompanyDetailsChange(
+                    "contactNumber",
+                    event.currentTarget.value
+                  )
+                }
+              />
+              <TextInput
+                label="Contact Person Email"
+                value={companyDetails.contactEmail}
+                onChange={(event) =>
+                  handleCompanyDetailsChange(
+                    "contactEmail",
+                    event.currentTarget.value
+                  )
+                }
+              />
             </Paper>
           </>
         )}
@@ -249,16 +360,15 @@ const CourseBookingForm: React.FC = () => {
         {/* Number of Slots */}
         {bookingType === "group" && (
           <TextInput
-            type="number"
+            type="text"
             label="Number of Participants"
-            value={slots?.toString() || ""}
+            value={participants?.toString() || ""}
             onChange={handleSlotChange}
-            onWheel={handleWheel}
           />
         )}
 
         {/* Individual Booking Details */}
-        {selectedClass &&
+        {bookingTypeVisibility &&
           bookingType === "individual" &&
           bookings.map((booking, index) => (
             <div key={index}>
@@ -273,6 +383,39 @@ const CourseBookingForm: React.FC = () => {
                     handleBookingChange(
                       index,
                       "name",
+                      event.currentTarget.value
+                    )
+                  }
+                />
+
+                <TextInput
+                  label="NRIC / FIN / WP Number"
+                  value={booking.icNumber}
+                  type="text"
+                  onChange={(event) =>
+                    handleBookingChange(
+                      index,
+                      "icNumber",
+                      event.currentTarget.value
+                    )
+                  }
+                />
+
+                <TextInput
+                  label="D.O.B"
+                  value={booking.dob}
+                  onChange={(event) =>
+                    handleBookingChange(index, "dob", event.currentTarget.value)
+                  }
+                />
+
+                <TextInput
+                  label="Nationality"
+                  value={booking.nationality}
+                  onChange={(event) =>
+                    handleBookingChange(
+                      index,
+                      "nationality",
                       event.currentTarget.value
                     )
                   }
@@ -302,11 +445,10 @@ const CourseBookingForm: React.FC = () => {
                 />
                 <TextInput
                   label="Company"
-                  value={booking.company}
+                  value={companyDetails.name}
                   onChange={(event) =>
-                    handleBookingChange(
-                      index,
-                      "company",
+                    handleCompanyDetailsChange(
+                      "name",
                       event.currentTarget.value
                     )
                   }
@@ -316,19 +458,52 @@ const CourseBookingForm: React.FC = () => {
           ))}
 
         {/* Group Booking Details */}
-        {bookingType === "group" && slots && (
+        {bookingType === "group" && participants && (
           <div>
-            {[...Array(slots)].map((_, index) => (
+            {[...Array(participants)].map((_, index) => (
               <div key={index}>
                 <Text>Personal details of Person {index + 1}</Text>
                 <Paper radius="md" p="md" mb={20} withBorder>
                   <TextInput
-                    label={`Name`}
+                    label="Name"
                     value={bookings[index]?.name}
                     onChange={(event) =>
                       handleBookingChange(
                         index,
                         "name",
+                        event.currentTarget.value
+                      )
+                    }
+                  />
+                  <TextInput
+                    label="NRIC / FIN / WP Number"
+                    value={bookings[index]?.icNumber}
+                    onChange={(event) =>
+                      handleBookingChange(
+                        index,
+                        "icNumber",
+                        event.currentTarget.value
+                      )
+                    }
+                  />
+                  <TextInput
+                    label="D.O.B"
+                    value={bookings[index]?.dob}
+                    onChange={(event) =>
+                      handleBookingChange(
+                        index,
+                        "dob",
+                        event.currentTarget.value
+                      )
+                    }
+                  />
+                  <TextInput
+                    label="Nationality"
+                    value={bookings[index]?.nationality}
+                    onChange={(event) =>
+                      handleBookingChange(
+                        index,
+                        "nationality",
                         event.currentTarget.value
                       )
                     }

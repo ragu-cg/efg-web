@@ -3,13 +3,20 @@ const API_URL = process.env.WORDPRESS_API_URL;
 
 async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
   try {
-
-    const res = await axios.post(API_URL as string, {
-      query,
-      variables,
+    const res = await axios({
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: API_URL,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({
+        query,
+        variables
+      })
     });
 
-    const json = await res.data;
+    const json = res.data;
     if (json.errors) {
       console.log(`url`, {
         API_URL,

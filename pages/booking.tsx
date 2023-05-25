@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import {
   Select,
   TextInput,
@@ -6,11 +7,8 @@ import {
   Radio,
   Grid,
   Notification,
-  createStyles,
   Container,
-  Group,
   Text,
-  Title,
   Paper,
 } from "@mantine/core";
 import { IconAt } from "@tabler/icons";
@@ -63,6 +61,7 @@ interface Booking {
 }
 
 const CourseBookingForm: React.FC = () => {
+  const router = useRouter();
   // State variables
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<string>("");
@@ -105,9 +104,9 @@ const CourseBookingForm: React.FC = () => {
   useEffect(() => {
     // Fetch courses data on component mount
     const response = axios({
-      method: "post",
-      url: process.env.NEXT_PUBLIC_COURSE_SCHEDULE_API_URL,
-      // url: "/jsons/booking.json",
+      method: "get",
+      // url: process.env.NEXT_PUBLIC_COURSE_SCHEDULE_API_URL,
+      url: "/jsons/booking.json",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: {
         reqdate: formattedDate,
@@ -118,11 +117,32 @@ const CourseBookingForm: React.FC = () => {
     console.log("run");
   }, []);
 
+  // Function to find available classes for a specific course.
+  const findAvailableClassesForCoruse = (courseId: string) =>
+    courses.find((course) => course.courseId === courseId);
+
+  // Use effect to set the classname and course by default form url.
+  useEffect(() => {
+    // Read query parameter from the URL
+    const { query } = router;
+    const { classId, courseId } = query;
+    if (courseId) {
+      return;
+    }
+    const getSelectedCourse = findAvailableClassesForCoruse(courseId as string);
+    if (getSelectedCourse) {
+      setCourseClasses(getSelectedCourse.courseSchedule);
+      setSelectedCourse(courseId as string);
+    }
+    if (classId) {
+      setSelectedClass(classId as string);
+      setBookingTypeVisibility(true);
+    }
+  }, [router, courses]);
+
   // Handle course selection change
   const handleCourseChange = (courseId: string) => {
-    const getSelectedCourse = courses.find(
-      (course) => course.courseId === courseId
-    );
+    const getSelectedCourse = findAvailableClassesForCoruse(courseId);
     if (getSelectedCourse) {
       setCourseClasses(getSelectedCourse.courseSchedule);
       setSelectedCourse(courseId);

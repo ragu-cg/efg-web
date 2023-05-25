@@ -10,8 +10,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 type Props = {
+  courseId: string;
   schedule: {
-    classId: number;
+    classId: string;
     classDate: string;
     availableSlots: number;
     session: string;
@@ -20,7 +21,7 @@ type Props = {
   };
 };
 
-const ClassCard: React.FC<Props> = ({ schedule }) => {
+const ClassCard: React.FC<Props> = ({ schedule, courseId }) => {
   const { classes } = useStyles();
   const { classId, classDate, availableSlots, session, timing, location } =
     schedule;
@@ -56,7 +57,7 @@ const ClassCard: React.FC<Props> = ({ schedule }) => {
 
       <Button
         component="a"
-        href="/booking"
+        href={`/booking?courseId=${courseId}&classId=${classId}`}
         variant="light"
         color="blue"
         fullWidth

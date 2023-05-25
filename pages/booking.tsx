@@ -104,9 +104,9 @@ const CourseBookingForm: React.FC = () => {
   useEffect(() => {
     // Fetch courses data on component mount
     const response = axios({
-      method: "get",
-      // url: process.env.NEXT_PUBLIC_COURSE_SCHEDULE_API_URL,
-      url: "/jsons/booking.json",
+      method: "post",
+      url: process.env.NEXT_PUBLIC_COURSE_SCHEDULE_API_URL,
+      // url: "/jsons/booking.json",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: {
         reqdate: formattedDate,

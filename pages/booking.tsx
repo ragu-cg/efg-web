@@ -114,7 +114,6 @@ const CourseBookingForm: React.FC = () => {
     })
       .then((response) => setCourses(response.data.courses))
       .catch((error) => console.error("Error fetching courses:", error));
-    console.log("run");
   }, []);
 
   // Function to find available classes for a specific course.
@@ -216,7 +215,7 @@ const CourseBookingForm: React.FC = () => {
       url: process.env.NEXT_PUBLIC_COURSE_BOOKING_API_URL,
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: {
-        reqdate: formattedDate,
+        reqdate: booking,
       },
     })
       .then((response) => {

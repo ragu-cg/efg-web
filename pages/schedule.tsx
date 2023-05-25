@@ -16,9 +16,9 @@ import ClassCard from "../components/ClassCard/ClassCard";
 type CourseSchedule = {
   courses: {
     courseName: string;
-    courseId: string;
+    courseID: string;
     courseSchedule: {
-      classId: string;
+      classID: string;
       classDate: string;
       availableSlots: number;
       session: string;
@@ -85,7 +85,7 @@ const UsersPage: React.FC = () => {
               {course.courseSchedule.map((scheduleItem, scheduleIndex) => (
                 <ClassCard
                   key={scheduleIndex}
-                  courseId={course.courseId}
+                  courseID={course.courseID}
                   schedule={scheduleItem}
                 />
               ))}

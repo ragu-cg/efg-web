@@ -10,9 +10,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 type Props = {
-  courseId: string;
+  courseID: string;
   schedule: {
-    classId: string;
+    classID: string;
     classDate: string;
     availableSlots: number;
     session: string;
@@ -21,11 +21,11 @@ type Props = {
   };
 };
 
-const ClassCard: React.FC<Props> = ({ schedule, courseId }) => {
+const ClassCard: React.FC<Props> = ({ schedule, courseID }) => {
   const { classes } = useStyles();
-  const { classId, classDate, availableSlots, session, timing, location } =
+  const { classID, classDate, availableSlots, session, timing, location } =
     schedule;
-
+  console.log({ schedule });
   return (
     <Card className={classes.cardContainer} shadow="sm" radius="md" withBorder>
       <Group position="apart" mt="md" mb="xs">
@@ -39,7 +39,7 @@ const ClassCard: React.FC<Props> = ({ schedule, courseId }) => {
 
       <Text size="sm" color="dimmed">
         <div>
-          <strong>Class ID</strong>: {classId}
+          <strong>Class ID</strong>: {classID}
         </div>
         <div>
           <strong>Available Slots</strong>: {availableSlots}
@@ -57,7 +57,7 @@ const ClassCard: React.FC<Props> = ({ schedule, courseId }) => {
 
       <Button
         component="a"
-        href={`/booking?courseId=${courseId}&classId=${classId}`}
+        href={`/booking?courseID=${courseID}&classID=${classID}`}
         variant="light"
         color="blue"
         fullWidth

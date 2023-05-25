@@ -20,13 +20,13 @@ import styles from "../styles/Booking.module.scss";
 
 // Interfaces for data types
 interface Course {
-  courseId: string;
+  courseID: string;
   courseName: string;
   courseSchedule: Class[];
 }
 
 interface Class {
-  classId: string;
+  classID: string;
   classDate: string;
   availableSlots: number;
   session: string;
@@ -35,8 +35,8 @@ interface Class {
 }
 
 interface CourseBooking {
-  courseId: string;
-  classId: string;
+  courseID: string;
+  classID: string;
   bookingType: "group" | "individual";
   companyDetails: Company;
   participants: number;
@@ -118,34 +118,34 @@ const CourseBookingForm: React.FC = () => {
   }, []);
 
   // Function to find available classes for a specific course.
-  const findAvailableClassesForCoruse = (courseId: string) =>
-    courses.find((course) => course.courseId === courseId);
+  const findAvailableClassesForCoruse = (courseID: string) =>
+    courses.find((course) => course.courseID === courseID);
 
   // Use effect to set the classname and course by default form url.
   useEffect(() => {
     // Read query parameter from the URL
     const { query } = router;
-    const { classId, courseId } = query;
-    if (courseId) {
+    const { classID, courseID } = query;
+    if (!courseID) {
       return;
     }
-    const getSelectedCourse = findAvailableClassesForCoruse(courseId as string);
+    const getSelectedCourse = findAvailableClassesForCoruse(courseID as string);
     if (getSelectedCourse) {
       setCourseClasses(getSelectedCourse.courseSchedule);
-      setSelectedCourse(courseId as string);
+      setSelectedCourse(courseID as string);
     }
-    if (classId) {
-      setSelectedClass(classId as string);
+    if (classID) {
+      setSelectedClass(classID as string);
       setBookingTypeVisibility(true);
     }
   }, [router, courses]);
 
   // Handle course selection change
-  const handleCourseChange = (courseId: string) => {
-    const getSelectedCourse = findAvailableClassesForCoruse(courseId);
+  const handleCourseChange = (courseID: string) => {
+    const getSelectedCourse = findAvailableClassesForCoruse(courseID);
     if (getSelectedCourse) {
       setCourseClasses(getSelectedCourse.courseSchedule);
-      setSelectedCourse(courseId);
+      setSelectedCourse(courseID);
     }
     setSelectedClass(""); // Reset classes.
   };
@@ -201,8 +201,8 @@ const CourseBookingForm: React.FC = () => {
   // Handle form submission
   const handleSubmit = () => {
     const booking: CourseBooking = {
-      courseId: selectedCourse!,
-      classId: selectedClass!,
+      courseID: selectedCourse!,
+      classID: selectedClass!,
       bookingType: bookingType!,
       companyDetails: companyDetails,
       participants: participants!,
@@ -232,7 +232,7 @@ const CourseBookingForm: React.FC = () => {
   };
 
   const selectedClassData = courseClasses.find(
-    (classItem) => classItem.classId === selectedClass
+    (classItem) => classItem.classID === selectedClass
   );
   const availableSlots = selectedClassData?.availableSlots || 0;
 
@@ -290,7 +290,7 @@ const CourseBookingForm: React.FC = () => {
           onChange={(value: "") => handleCourseChange(value)}
           placeholder="Select a course"
           data={courses.map((course) => ({
-            value: course.courseId.toString(),
+            value: course.courseID.toString(),
             label: course.courseName,
           }))}
         />
@@ -306,7 +306,7 @@ const CourseBookingForm: React.FC = () => {
             }}
             placeholder="Select a class"
             data={courseClasses.map((classItem) => ({
-              value: classItem.classId.toString(),
+              value: classItem.classID.toString(),
               label: `${classItem.classDate} - ${classItem.timing}`,
             }))}
           />

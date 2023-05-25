@@ -41,7 +41,7 @@ export default function Faq() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Banner title="Frequently Asked Questions" />
-      <Container size="sm" mt={30} className={classes.wrapper}>
+      <Container size="md" mt={30} className={classes.wrapper}>
         <Accordion variant="separated">
           <Accordion.Item className={classes.item} value="1">
             <Accordion.Control>

@@ -11,7 +11,7 @@ import {
   Text,
   Paper,
 } from "@mantine/core";
-
+import { IconCheck, IconX } from "@tabler/icons";
 import Head from "next/head";
 import { Banner } from "../components/Banner/Banner";
 import axios from "axios";
@@ -66,6 +66,7 @@ interface Booking {
 const CourseBookingForm: React.FC = () => {
   const router = useRouter();
   // State variables
+  const [formSubmission, setFormSubmission] = useState<boolean>(false);
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<string>("");
   const [courseClasses, setCourseClasses] = useState<Class[]>([]);
@@ -161,6 +162,18 @@ const CourseBookingForm: React.FC = () => {
     setSelectedClass(""); // Reset classes.
   };
 
+  // Handle class select on change
+  const handleClassSelect = (value: string) => {
+    const selectedOption = courseClasses.find(
+      (classItem) => classItem.classID === value
+    );
+    if (selectedOption) {
+      setSelectedClass(value);
+      setAvailableSlots(selectedOption.availableSlots);
+      setBookingTypeVisibility(true);
+    }
+  };
+
   // Handle booking type change
   const handleBookingTypeChange = (value: string) => {
     setBookingType(value as "individual" | "group");
@@ -216,6 +229,34 @@ const CourseBookingForm: React.FC = () => {
     setBookings(updatedBookings);
   };
 
+  // Reset form data.
+  const resetForm = () => {
+    setCourses([]);
+    setSelectedClass("");
+    setCourseClasses([]);
+    setAvailableSlots(0);
+    setParticipants(1);
+    setBookingTypeVisibility(false);
+    setBookingType("individual");
+    setBookings([
+      {
+        name: "",
+        email: "",
+        contactNumber: "",
+        icNumber: "",
+        dob: "",
+        nationality: "",
+      },
+    ]);
+    setCompanyDetails({
+      name: "",
+      uen: "",
+      contactPerson: "",
+      contactNumber: "",
+      contactEmail: "",
+    });
+  };
+
   // Handle form submission
   const handleSubmit = () => {
     // validateForm();
@@ -239,10 +280,13 @@ const CourseBookingForm: React.FC = () => {
       },
     })
       .then((response) => {
-        console.log("Booking submitted successfully:", response.data);
-        setNotification(
-          "Booking submitted successfully. Our admin team will confirm your booking with in 24hrs"
-        );
+        if (response.data.Status !== "Failed") {
+          setFormSubmission(true);
+          resetForm();
+        } else {
+          setFormSubmission(false);
+          setNotification("Error submitting booking. Kindly call us directly.");
+        }
       })
       .catch((error) => {
         console.error("Error submitting booking:", error);
@@ -287,6 +331,17 @@ const CourseBookingForm: React.FC = () => {
       <Banner title="Course Booking Form" />
 
       <Container size="md" mt={40} className={styles.bookingContainer}>
+        {formSubmission && (
+          <Notification
+            icon={<IconCheck size="1.1rem" />}
+            color="teal"
+            title="Success notification"
+            onClose={() => setNotification(null)}
+            mb={30}
+          >
+            Successfully submitted your request for course booking.
+          </Notification>
+        )}
         {/* Select Course */}
         <Select
           label="Select Course"
@@ -303,19 +358,11 @@ const CourseBookingForm: React.FC = () => {
         {selectedCourse && (
           <Select
             label="Select Class"
-            value={selectedClass?.toString() || ""}
-            onChange={(value: "") => {
-              const { slots, classID } = JSON.parse(value);
-              setSelectedClass(classID);
-              setBookingTypeVisibility(true);
-              setAvailableSlots(slots);
-            }}
+            value={selectedClass}
+            onChange={(value: string) => handleClassSelect(value)}
             placeholder="Select a class"
             data={courseClasses.map((classItem) => ({
-              value: JSON.stringify({
-                classID: classItem.classID.toString(),
-                slots: classItem.availableSlots,
-              }),
+              value: classItem.classID,
               label: `${classItem.classDate} - ${classItem.timing}`,
             }))}
           />

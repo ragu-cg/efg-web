@@ -141,16 +141,18 @@ const CourseBookingForm: React.FC = () => {
       setCourseClasses(getSelectedCourse.courseSchedule);
       setSelectedCourse(courseID as string);
     }
-    if (classID) {
+    if (getSelectedCourse && classID) {
       setSelectedClass(classID as string);
-      const selectedClassData = courseClasses.find(
-        (classItem) => classItem.classID === selectedClass
-      );
-      const availableSlots = selectedClassData?.availableSlots || 0;
-      setAvailableSlots(availableSlots);
       setBookingTypeVisibility(true);
+      const selectedClassData = getSelectedCourse.courseSchedule.find(
+        (classItem) => classItem.classID === classID
+      );
+      const slots = selectedClassData?.availableSlots || 0;
+      setAvailableSlots(slots);
     }
   }, [router, courses]);
+
+  console.log(availableSlots);
 
   // Handle course selection change
   const handleCourseChange = (courseID: string) => {
@@ -188,6 +190,7 @@ const CourseBookingForm: React.FC = () => {
         nationality: "",
       },
     ]);
+    console.log(availableSlots);
   };
 
   // Handle slot count change

@@ -2,10 +2,10 @@
     "courses": [
         {
             "courseName": "Apply Workplace Safety & Health in Shipyard (General Trade)",
-            "courseId": "AWSHS-GT",
+            "courseID": "AWSHS-GT",
             "courseSchedule": [
                 {
-                    "classId": "EFG AWSHS-GT 040E",
+                    "classID": "EFG AWSHS-GT 040E",
                     "classDate": "25/04/2023",
                     "availableSlots": "10",
                     "session": "Day",
@@ -16,10 +16,10 @@
         },
         {
             "courseName": "Apply Workplace Safety and Health in Process Plant",
-            "courseId": "AWSHPP",
+            "courseID": "AWSHPP",
             "courseSchedule": [
                 {
-                    "classId": "EFG AWSHPP 240E",
+                    "classID": "EFG AWSHPP 240E",
                     "classDate": "30/04/2023",
                     "availableSlots": "10",
                     "session": "Day",
@@ -30,10 +30,10 @@
         },
         {
             "courseName": "Perform Work in Confined Space Operation",
-            "courseId": "PWCSO",
+            "courseID": "PWCSO",
             "courseSchedule": [
                 {
-                    "classId": "EFG PWCSO 129E",
+                    "classID": "EFG PWCSO 129E",
                     "classDate": "22/04/2023",
                     "availableSlots": "10",
                     "session": "Day",
@@ -41,7 +41,7 @@
                     "location": "Pioneer"
                 },
                 {
-                    "classId": "EFG PWCSO 133E",
+                    "classID": "EFG PWCSO 133E",
                     "classDate": "29/04/2023",
                     "availableSlots": "10",
                     "session": "Day",
@@ -52,10 +52,10 @@
         },
         {
             "courseName": "Shipyard Safety Instruction Course (Painter Trade)-SSICP",
-            "courseId": "SSIC-PT",
+            "courseID": "SSIC-PT",
             "courseSchedule": [
                 {
-                    "classId": "EFG SSIC-PT 004E",
+                    "classID": "EFG SSIC-PT 004E",
                     "classDate": "07/01/2023",
                     "availableSlots": "10",
                     "session": "Day",
@@ -66,10 +66,10 @@
         },
         {
             "courseName": "SSIC Hot-work",
-            "courseId": "SSIC-HW",
+            "courseID": "SSIC-HW",
             "courseSchedule": [
                 {
-                    "classId": "EFG SSIC-HW 033E",
+                    "classID": "EFG SSIC-HW 033E",
                     "classDate": "04/04/2023",
                     "availableSlots": "10",
                     "session": "Day",
@@ -80,10 +80,10 @@
         },
         {
             "courseName": "Tunneling (SOC)",
-            "courseId": "TUNNEL",
+            "courseID": "TUNNEL",
             "courseSchedule": [
                 {
-                    "classId": "EFG TUNNEL 122A",
+                    "classID": "EFG TUNNEL 122A",
                     "classDate": "13/04/2023",
                     "availableSlots": "10",
                     "session": "Day",

@@ -11,7 +11,6 @@ import {
   Text,
   Paper,
 } from "@mantine/core";
-import { IconAt } from "@tabler/icons";
 
 import Head from "next/head";
 import { Banner } from "../components/Banner/Banner";
@@ -60,6 +59,10 @@ interface Booking {
   contactNumber: string;
 }
 
+// interface FormErrors {
+//   availableSlots: boolean;
+// }
+
 const CourseBookingForm: React.FC = () => {
   const router = useRouter();
   // State variables
@@ -67,6 +70,9 @@ const CourseBookingForm: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<string>("");
   const [courseClasses, setCourseClasses] = useState<Class[]>([]);
   const [selectedClass, setSelectedClass] = useState<string>("");
+  const [availableSlots, setAvailableSlots] = useState<number>(0);
+  const [availableSlotsError, setAvailableSlotsError] =
+    useState<boolean>(false);
   const [companyDetails, setCompanyDetails] = useState<Company>({
     name: "",
     uen: "",
@@ -91,15 +97,16 @@ const CourseBookingForm: React.FC = () => {
       nationality: "",
     },
   ]);
-
+  // const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [notification, setNotification] = useState<string | null>(null);
 
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-  const day = String(currentDate.getDate()).padStart(2, "0");
-
-  const formattedDate = `${year}-${month}-${day}`;
+  const formattedDate = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   useEffect(() => {
     // Fetch courses data on component mount
@@ -109,7 +116,7 @@ const CourseBookingForm: React.FC = () => {
       // url: "/jsons/booking.json",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: {
-        reqdate: formattedDate,
+        reqdate: formattedDate(),
       },
     })
       .then((response) => setCourses(response.data.courses))
@@ -135,6 +142,11 @@ const CourseBookingForm: React.FC = () => {
     }
     if (classID) {
       setSelectedClass(classID as string);
+      const selectedClassData = courseClasses.find(
+        (classItem) => classItem.classID === selectedClass
+      );
+      const availableSlots = selectedClassData?.availableSlots || 0;
+      setAvailableSlots(availableSlots);
       setBookingTypeVisibility(true);
     }
   }, [router, courses]);
@@ -170,6 +182,13 @@ const CourseBookingForm: React.FC = () => {
     const value = event.currentTarget.value;
     const slotCount = Number(value);
     setParticipants(Number.isNaN(slotCount) || slotCount < 0 ? 1 : slotCount);
+    console.log(slotCount);
+    if (bookingType === "group" && (!slotCount || slotCount > availableSlots)) {
+      setAvailableSlotsError(true);
+      return false;
+    } else {
+      setAvailableSlotsError(false);
+    }
     setBookings(
       new Array(slotCount).fill({ name: "", email: "", contactNumber: "" })
     );
@@ -199,6 +218,7 @@ const CourseBookingForm: React.FC = () => {
 
   // Handle form submission
   const handleSubmit = () => {
+    // validateForm();
     const booking: CourseBooking = {
       courseID: selectedCourse!,
       classID: selectedClass!,
@@ -230,11 +250,6 @@ const CourseBookingForm: React.FC = () => {
       });
   };
 
-  const selectedClassData = courseClasses.find(
-    (classItem) => classItem.classID === selectedClass
-  );
-  const availableSlots = selectedClassData?.availableSlots || 0;
-
   // Form validation
   const validateForm = () => {
     if (!selectedCourse) {
@@ -244,16 +259,6 @@ const CourseBookingForm: React.FC = () => {
 
     if (!selectedClass) {
       setNotification("Please select a class");
-      return false;
-    }
-
-    if (
-      bookingType === "group" &&
-      (!participants || participants < 1 || participants > availableSlots)
-    ) {
-      setNotification(
-        `Please enter a valid number of persons (1-${availableSlots})`
-      );
       return false;
     }
 
@@ -281,7 +286,7 @@ const CourseBookingForm: React.FC = () => {
       </Head>
       <Banner title="Course Booking Form" />
 
-      <Container size="md" mt={30} className={styles.bookingContainer}>
+      <Container size="md" mt={40} className={styles.bookingContainer}>
         {/* Select Course */}
         <Select
           label="Select Course"
@@ -300,12 +305,17 @@ const CourseBookingForm: React.FC = () => {
             label="Select Class"
             value={selectedClass?.toString() || ""}
             onChange={(value: "") => {
-              setSelectedClass(value);
+              const { slots, classID } = JSON.parse(value);
+              setSelectedClass(classID);
               setBookingTypeVisibility(true);
+              setAvailableSlots(slots);
             }}
             placeholder="Select a class"
             data={courseClasses.map((classItem) => ({
-              value: classItem.classID.toString(),
+              value: JSON.stringify({
+                classID: classItem.classID.toString(),
+                slots: classItem.availableSlots,
+              }),
               label: `${classItem.classDate} - ${classItem.timing}`,
             }))}
           />
@@ -379,12 +389,20 @@ const CourseBookingForm: React.FC = () => {
 
         {/* Number of Slots */}
         {bookingType === "group" && (
-          <TextInput
-            type="text"
-            label="Number of Participants"
-            value={participants?.toString() || ""}
-            onChange={handleSlotChange}
-          />
+          <>
+            <TextInput
+              type="text"
+              label="Number of Participants"
+              value={participants?.toString() || ""}
+              onChange={handleSlotChange}
+            />
+            {availableSlotsError && (
+              <Text color="red">
+                Only {availableSlots} slots left. Please enter a valid number
+                less than {availableSlots}.
+              </Text>
+            )}
+          </>
         )}
 
         {/* Individual Booking Details */}
@@ -406,6 +424,7 @@ const CourseBookingForm: React.FC = () => {
                       event.currentTarget.value
                     )
                   }
+                  withAsterisk
                 />
 
                 <TextInput
@@ -478,7 +497,7 @@ const CourseBookingForm: React.FC = () => {
           ))}
 
         {/* Group Booking Details */}
-        {bookingType === "group" && participants && (
+        {bookingType === "group" && !availableSlotsError && participants && (
           <div>
             {[...Array(participants)].map((_, index) => (
               <div key={index}>

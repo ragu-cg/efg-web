@@ -20,8 +20,8 @@
                     "link": "/booking"
                 },
                 {
-                    "label": "FAQs",
-                    "link": "/faqs"
+                    "label": "FAQ",
+                    "link": "/faq"
                 }
             ]
         },

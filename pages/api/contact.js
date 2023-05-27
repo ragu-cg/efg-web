@@ -11,7 +11,7 @@ export default async function (req, res) {
   });
   console.log(req.body);
   const mailData = {
-    from: "ragu.webdev@gmail.com",
+    from: "admin@efg.com.sg",
     to: "admin@efg.com.sg",
     subject: `Message From EFG Training services pte ltd`,
     //   text: req.body.message + " | Sent from: " + req.body.email,

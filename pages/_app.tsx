@@ -39,19 +39,15 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=UA-53362005-1"
         />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
   
             gtag('config', 'UA-53362005-1');
-        `,
-          }}
-        />
+            `}
+        </Script>
       </Head>
 
       <ColorSchemeProvider

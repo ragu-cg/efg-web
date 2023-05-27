@@ -58,10 +58,6 @@ export default function Faq() {
             Certificate will not be possible.
           </List.Item>
           <List.Item>
-            Credit Terms: 8% will be charged if payment is not received on or
-            before the course date.
-          </List.Item>
-          <List.Item>
             No Amount Will Be Refunded, If They Fail To Attend The Course On The
             Commencement Date or Attend The Course And Discontinued Mid-Way
             Through The Course.
@@ -70,6 +66,32 @@ export default function Faq() {
           <List.Item>
             Kindly take note Singaporeans &amp; PR if grant not approved by SSG
             must make full payment.
+          </List.Item>
+          <List.Item>
+            Fee Payment and Refund Policy
+            <List my={20} spacing="xs" withPadding>
+              <List.Item>
+                Payment is required upon receipt of confirmation.
+              </List.Item>
+              <List.Item>
+                If a written notice of withdrawal is received by EFG at least
+                one week before the course starts, a 90% refund will be
+                provided.
+              </List.Item>
+              <List.Item>
+                If the notice of withdrawal is received by EFG less than one
+                week but more than three working days before the course starts,
+                a 75% refund will be issued.
+              </List.Item>
+              <List.Item>
+                No refund will be given if EFG receives the notice of withdrawal
+                within three working days before the course starts.
+              </List.Item>
+              <List.Item>
+                Participant replacement is allowed if the request is made prior
+                to the course commencement.
+              </List.Item>
+            </List>
           </List.Item>
         </List>
         By proceeding, you acknowledge that you have read, understood, and

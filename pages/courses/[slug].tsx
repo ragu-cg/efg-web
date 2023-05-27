@@ -10,6 +10,7 @@ import {
   Paper,
   Button,
 } from "@mantine/core";
+import Link from "next/link";
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (!params) {
@@ -96,7 +97,10 @@ export default ({ course }: postData) => {
               dangerouslySetInnerHTML={{
                 __html: course.content === null ? "" : course.content,
               }}
-            />
+            ></div>
+            <Link href={"/terms-and-conditions"}>
+              *Terms and Conditins apply
+            </Link>
           </Grid.Col>
           <Grid.Col md={4}>
             <Paper shadow="xs" p="md" mt="xl">

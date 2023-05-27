@@ -111,7 +111,7 @@ const CourseBookingForm: React.FC = () => {
 
   useEffect(() => {
     // Fetch courses data on component mount
-    const response = axios({
+    axios({
       method: "post",
       url: process.env.NEXT_PUBLIC_COURSE_SCHEDULE_API_URL,
       // url: "/jsons/booking.json",
@@ -143,12 +143,15 @@ const CourseBookingForm: React.FC = () => {
     }
     if (getSelectedCourse && classID) {
       setSelectedClass(classID as string);
-      setBookingTypeVisibility(true);
+
       const selectedClassData = getSelectedCourse.courseSchedule.find(
         (classItem) => classItem.classID === classID
       );
       const slots = selectedClassData?.availableSlots || 0;
-      setAvailableSlots(slots);
+      if (slots) {
+        setBookingTypeVisibility(true);
+        setAvailableSlots(slots);
+      }
     }
   }, [router, courses]);
 
@@ -169,8 +172,10 @@ const CourseBookingForm: React.FC = () => {
     );
     if (selectedOption) {
       setSelectedClass(value);
-      setAvailableSlots(selectedOption.availableSlots);
-      setBookingTypeVisibility(true);
+      if (selectedOption.availableSlots > 0) {
+        setAvailableSlots(selectedOption.availableSlots);
+        setBookingTypeVisibility(true);
+      }
     }
   };
 
@@ -370,6 +375,13 @@ const CourseBookingForm: React.FC = () => {
               label: `${classItem.classDate} - ${classItem.timing}`,
             }))}
           />
+        )}
+
+        {availableSlots < 1 && (
+          <Text color="red" my={10}>
+            Sorry, the selected class is fully booked. Please try some other
+            class or contact us
+          </Text>
         )}
 
         {/* Booking Type */}

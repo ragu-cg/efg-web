@@ -277,7 +277,7 @@ const CourseBookingForm: React.FC = () => {
   };
 
   const validateForm = () => {
-    const isIndividualBookingValid = bookings.every(
+    const isBookingValid = bookings.every(
       (booking) =>
         booking.name.trim() !== "" &&
         booking.icNumber.trim() !== "" &&
@@ -285,7 +285,17 @@ const CourseBookingForm: React.FC = () => {
         booking.nationality.trim() !== "" &&
         booking.contactNumber.trim() !== ""
     );
-    if (bookingType === "individual" && !isIndividualBookingValid) {
+    const isCompanyDetailsValid =
+      companyDetails.name !== "" &&
+      companyDetails.contactPerson !== "" &&
+      companyDetails.contactNumber !== "" &&
+      companyDetails.contactEmail !== ""
+        ? true
+        : false;
+    if (
+      !isBookingValid ||
+      (bookingType === "company" && !isCompanyDetailsValid)
+    ) {
       setFormValidationError(true);
       setNotification(
         "Please fill all the required fields with aestrik to proceed."
@@ -661,6 +671,7 @@ const CourseBookingForm: React.FC = () => {
                             event.currentTarget.value
                           )
                         }
+                        withAsterisk
                       />
                     </Grid.Col>
                   </Grid>

@@ -10,8 +10,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 type Props = {
+  courseID: string;
   schedule: {
-    classId: number;
+    classID: string;
     classDate: string;
     availableSlots: number;
     session: string;
@@ -20,25 +21,25 @@ type Props = {
   };
 };
 
-const ClassCard: React.FC<Props> = ({ schedule }) => {
+const ClassCard: React.FC<Props> = ({ schedule, courseID }) => {
   const { classes } = useStyles();
-  const { classId, classDate, availableSlots, session, timing, location } =
+  const { classID, classDate, availableSlots, session, timing, location } =
     schedule;
-
+  console.log({ schedule });
   return (
     <Card className={classes.cardContainer} shadow="sm" radius="md" withBorder>
       <Group position="apart" mt="md" mb="xs">
         <Text weight={500}>{classDate}</Text>
         {availableSlots < 15 && (
           <Badge color="pink" variant="light">
-            On Sale
+            {availableSlots < 1 ? "Fully Booked!" : "On Sale"}
           </Badge>
         )}
       </Group>
 
       <Text size="sm" color="dimmed">
         <div>
-          <strong>Class ID</strong>: {classId}
+          <strong>Class ID</strong>: {classID}
         </div>
         <div>
           <strong>Available Slots</strong>: {availableSlots}
@@ -56,12 +57,13 @@ const ClassCard: React.FC<Props> = ({ schedule }) => {
 
       <Button
         component="a"
-        href="/contact"
+        href={`/booking?courseID=${courseID}&classID=${classID}`}
         variant="light"
         color="blue"
         fullWidth
         mt="md"
         radius="md"
+        disabled={availableSlots < 1 ? true : false}
       >
         Book now!
       </Button>

@@ -13,11 +13,11 @@
                 },
                 {
                     "label": "Terms and Conditions",
-                    "link": "/terms-and-conditions"
+                    "link": "#"
                 },
                 {
                     "label": "Booking",
-                    "link": "/booking"
+                    "link": "#"
                 },
                 {
                     "label": "FAQs",
@@ -37,8 +37,12 @@
                     "link": "/courses/supervise-work-in-confined-space-operation/"
                 },
                 {
-                    "label": "Confined Space Management ",
-                    "link": "/courses/confined-space-management/"
+                    "label": "Manage Workplace Safety And Health In Construction Sites",
+                    "link": "/courses/manage-workplace-safety-and-health-in-construction-sites/"
+                },
+                {
+                    "label": "Apply Workplace Safety and Health in Shipyard General Trade",
+                    "link": "/courses/apply-workplace-safety-and-health-in-shipyard-general-trade/"
                 },
                 {
                     "label": "Workplace Safety and Health Control Measures",
@@ -47,8 +51,19 @@
                 {
                     "label": "Perform Work In Confined Space Operation",
                     "link": "/courses/perform-work-in-confined-space-operation/"
+                },
+                {
+                    "label": "Confined Space Management ",
+                    "link": "/courses/confined-space-management/"
+                },
+                {
+                    "label": "Workplace Safety And Health Management In Marine Industry",
+                    "link": "/courses/workplace-safety-and-health-management-in-marine-industry/"
+                },
+                {
+                    "label": "Workplace Safety And Health Management In Chemical, Process, Pharmaceutical And Laboratories",
+                    "link": "/courses/workplace-safety-and-health-management-in-chemical-process-pharmaceutical-and-laboratories/"
                 }
-                
             ]
         },
         {

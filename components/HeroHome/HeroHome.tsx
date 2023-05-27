@@ -85,12 +85,13 @@ export function HeroHome() {
       />
       <Container className={classes.container} size="lg">
         <Title className={classes.title}>
-          Leading training provider of WHSC courses!
+          Leading training provider of WSQ and LSP courses!
         </Title>
         <Text className={classes.description} size="xl" mt="xl">
-          We are one of the leading training providers of safety courses in
-          Singapore! Our staffs with handful of experience will teach and guide
-          you on completing the courses.
+          We are a prominent provider of safety courses in Singapore, recognized
+          for our excellence in training. Our highly experienced trainers are
+          dedicated to imparting their knowledge and expertise, ensuring your
+          successful completion of the courses.
         </Text>
 
         <Link href="/courses" className={classes.control}>

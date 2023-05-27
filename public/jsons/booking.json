@@ -1,87 +1,96 @@
 {
     "courses": [
-        
         {
-            "courseName": "Safety Orientation Course (Tunneling) for Workers",
-            "courseId": 1,
+            "courseName": "Apply Workplace Safety & Health in Shipyard (General Trade)",
+            "courseID": "AWSHS-GT",
             "courseSchedule": [
                 {
-                    "classId": 1,
-                    "classDate": "16/05/2023",
-                    "availableSlots": 10,
+                    "classID": "EFG AWSHS-GT 040E",
+                    "classDate": "25/04/2023",
+                    "availableSlots": "0",
                     "session": "Day",
-                    "timing": "Day 1 (08:00am to 05:30pm)",
-                    "location": "Pioneer"
-                },
-                {
-                    "classId": 2,
-                    "classDate": "18/05/2023",
-                    "availableSlots": 10,
-                    "session": "Day",
-                    "timing": "Day 1 (08:00am to 05:30pm)",
+                    "timing": "Day 1 (11:00am to 12:00pm)",
                     "location": "Pioneer"
                 }
             ]
         },
         {
-            "courseName": "Shipyard Safety Instruction Course For Workers (Hot Work Trade)",
-            "courseId": 2,
+            "courseName": "Apply Workplace Safety and Health in Process Plant",
+            "courseID": "AWSHPP",
             "courseSchedule": [
                 {
-                    "classId": 1,
-                    "classDate": "16/05/2023",
-                    "availableSlots": 10,
+                    "classID": "EFG AWSHPP 240E",
+                    "classDate": "30/04/2023",
+                    "availableSlots": "10",
                     "session": "Day",
-                    "timing": "Day 1 (08:00am to 05:30pm)",
-                    "location": "Pioneer"
-                },
-                {
-                    "classId": 2,
-                    "classDate": "18/05/2023",
-                    "availableSlots": 10,
-                    "session": "Day",
-                    "timing": "Day 1 (08:00am to 05:30pm)",
-                    "location": "Pioneer"
-                },
-                {
-                    "classId": 3,
-                    "classDate": "19/05/2023",
-                    "availableSlots": 10,
-                    "session": "Day",
-                    "timing": "Day 1 (08:00am to 05:30pm)",
+                    "timing": "Day 1 (02:00pm to 03:00pm)",
                     "location": "Pioneer"
                 }
             ]
         },
         {
-            "courseName": "Shipyard Safety Instruction Course For Workers (Painter Trade)",
-            "courseId": 3,
+            "courseName": "Perform Work in Confined Space Operation",
+            "courseID": "PWCSO",
             "courseSchedule": [
                 {
-                    "classId": 1,
-                    "classDate": "16/05/2023",
-                    "availableSlots": 10,
+                    "classID": "EFG PWCSO 129E",
+                    "classDate": "22/04/2023",
+                    "availableSlots": "10",
                     "session": "Day",
-                    "timing": "Day 1 (08:00am to 05:30pm)",
+                    "timing": "Day 1 (10:30am to 11:30am)",
                     "location": "Pioneer"
                 },
                 {
-                    "classId": 2,
-                    "classDate": "18/05/2023",
-                    "availableSlots": 10,
+                    "classID": "EFG PWCSO 133E",
+                    "classDate": "29/04/2023",
+                    "availableSlots": "10",
                     "session": "Day",
-                    "timing": "Day 1 (08:00am to 05:30pm)",
+                    "timing": "Day 1 (09:30am to 10:30am)",
                     "location": "Pioneer"
-                },
+                }
+            ]
+        },
+        {
+            "courseName": "Shipyard Safety Instruction Course (Painter Trade)-SSICP",
+            "courseID": "SSIC-PT",
+            "courseSchedule": [
                 {
-                    "classId": 3,
-                    "classDate": "19/05/2023",
-                    "availableSlots": 10,
+                    "classID": "EFG SSIC-PT 004E",
+                    "classDate": "07/01/2023",
+                    "availableSlots": "10",
                     "session": "Day",
-                    "timing": "Day 1 (08:00am to 05:30pm)",
+                    "timing": "Day 1 (08:00pm to 09:00pm)",
+                    "location": "Pioneer"
+                }
+            ]
+        },
+        {
+            "courseName": "SSIC Hot-work",
+            "courseID": "SSIC-HW",
+            "courseSchedule": [
+                {
+                    "classID": "EFG SSIC-HW 033E",
+                    "classDate": "04/04/2023",
+                    "availableSlots": "10",
+                    "session": "Day",
+                    "timing": "Day 1 (02:00pm to 03:00pm)",
+                    "location": "Pioneer"
+                }
+            ]
+        },
+        {
+            "courseName": "Tunneling (SOC)",
+            "courseID": "TUNNEL",
+            "courseSchedule": [
+                {
+                    "classID": "EFG TUNNEL 122A",
+                    "classDate": "13/04/2023",
+                    "availableSlots": "10",
+                    "session": "Day",
+                    "timing": "Day 1 (11:00am to 12:00pm)",
                     "location": "Pioneer"
                 }
             ]
         }
-    ]     
+    ]
 }

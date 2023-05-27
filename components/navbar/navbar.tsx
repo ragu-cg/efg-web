@@ -6,7 +6,7 @@ import {
   Container,
   Group,
   Button,
-  Burger
+  Burger,
 } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,7 +35,8 @@ const useStyles = createStyles((theme) => ({
     [theme.fn.smallerThan("sm")]: {
       display: "none",
 
-      '&.m-menu-open': { // when hamburger menu is open.
+      "&.m-menu-open": {
+        // when hamburger menu is open.
         display: "block",
         position: "absolute",
         width: "100%",
@@ -43,12 +44,12 @@ const useStyles = createStyles((theme) => ({
         top: "80px",
         zIndex: 10,
         background: "#ffffff",
-  
+
         a: {
           padding: "20px",
           borderBottom: "1px solid rgba(0, 0, 0, 0.15)",
-        }
-      }
+        },
+      },
     },
   },
 
@@ -95,14 +96,20 @@ interface HeaderActionProps {
 export const HeaderAction = (props: HeaderActionProps) => {
   const { classes } = useStyles();
   const [opened, { toggle }] = useDisclosure(false, {
-    onOpen: () => { document.body.classList.add('no-scroll')},
-    onClose: () => { document.body.classList.remove('no-scroll')},
+    onOpen: () => {
+      document.body.classList.add("no-scroll");
+    },
+    onClose: () => {
+      document.body.classList.remove("no-scroll");
+    },
   });
   // const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   // const dark = colorScheme === "dark";
   const items = props.links.map((link) => {
     const menuItems = link.links?.map((item) => (
-      <Menu.Item component="a" href={item.link} key={item.link}>{item.label}</Menu.Item>
+      <Menu.Item component="a" href={item.link} key={item.link}>
+        {item.label}
+      </Menu.Item>
     ));
 
     if (menuItems) {
@@ -126,11 +133,7 @@ export const HeaderAction = (props: HeaderActionProps) => {
     }
 
     return (
-      <a
-        key={link.label}
-        href={link.link}
-        className={classes.link}
-      >
+      <a key={link.label} href={link.link} className={classes.link}>
         {link.label}
       </a>
     );
@@ -150,19 +153,31 @@ export const HeaderAction = (props: HeaderActionProps) => {
             className={classes.burger}
             size="md"
           />
-          <Link href="/"><Image className={classes.logo}
-            src={"/images/efg-logo.png"}
-            width={64}
-            height={60}
-            alt="EFG Logo"
-          /></Link>
-         
+          <Link href="/">
+            <Image
+              className={classes.logo}
+              src={"/images/efg-logo.png"}
+              width={64}
+              height={60}
+              alt="EFG Logo"
+            />
+          </Link>
         </Group>
-        <Group spacing={5} className={`${classes.links} ${opened ? 'm-menu-open' : ''}`}>
+        <Group
+          spacing={5}
+          className={`${classes.links} ${opened ? "m-menu-open" : ""}`}
+        >
           {items}
         </Group>
         <Group>
-          <Button component="a" href="/contact" radius="xl" sx={{ height: 40 }} variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>
+          <Button
+            component="a"
+            href="/booking"
+            radius="xl"
+            sx={{ height: 40 }}
+            variant="gradient"
+            gradient={{ from: "indigo", to: "cyan" }}
+          >
             Book now!
           </Button>
           <ColorSchemeToggle />

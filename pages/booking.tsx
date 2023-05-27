@@ -67,6 +67,8 @@ const CourseBookingForm: React.FC = () => {
   const router = useRouter();
   // State variables
   const [formSubmission, setFormSubmission] = useState<boolean>(false);
+  const [formValidationError, setFormValidationError] =
+    useState<boolean>(false);
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<string>("");
   const [courseClasses, setCourseClasses] = useState<Class[]>([]);
@@ -274,8 +276,35 @@ const CourseBookingForm: React.FC = () => {
     setNotification(null);
   };
 
+  const validateForm = () => {
+    const isIndividualBookingValid = bookings.every(
+      (booking) =>
+        booking.name.trim() !== "" &&
+        booking.icNumber.trim() !== "" &&
+        booking.dob.trim() !== "" &&
+        booking.nationality.trim() !== "" &&
+        booking.contactNumber.trim() !== ""
+    );
+    if (bookingType === "individual" && !isIndividualBookingValid) {
+      setFormValidationError(true);
+      setNotification(
+        "Please fill all the required fields with aestrik to proceed."
+      );
+      return false;
+    } else {
+      setFormValidationError(false);
+      return true;
+    }
+  };
+
   // Handle form submission
   const handleSubmit = () => {
+    if (!validateForm()) {
+      return;
+    }
+    // if (formValidationError) {
+    //   return;
+    // }
     const booking: CourseBooking = {
       courseID: selectedCourse!,
       classID: selectedClass!,
@@ -644,6 +673,7 @@ const CourseBookingForm: React.FC = () => {
         {/* Error Notification */}
         {notification && (
           <Notification
+            mb={20}
             color="red"
             title="Error"
             onClose={() => setNotification(null)}

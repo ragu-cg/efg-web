@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import NextApp, { AppProps, AppContext } from "next/app";
 import { getCookie, setCookie } from "cookies-next";
-import Script from "next/script";
 import Head from "next/head";
 import {
   MantineProvider,
@@ -34,20 +33,6 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
         <link rel="shortcut icon" href="/favicon.svg" />
-
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=UA-53362005-1"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-  
-            gtag('config', 'UA-53362005-1');
-            `}
-        </Script>
       </Head>
 
       <ColorSchemeProvider

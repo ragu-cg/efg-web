@@ -323,11 +323,12 @@ const CourseBookingForm: React.FC = () => {
           <Notification
             icon={<IconCheck size="1.1rem" />}
             color="teal"
-            title="Success notification"
+            title="Success"
             onClose={() => setNotification(null)}
             mb={30}
           >
-            Successfully submitted your request for course booking.
+            Successfully submitted your request for course booking. Our team
+            will contact you within 24hrs.
           </Notification>
         )}
         {/* Select Course */}

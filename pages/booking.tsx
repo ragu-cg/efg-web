@@ -112,9 +112,9 @@ const CourseBookingForm: React.FC = () => {
   useEffect(() => {
     // Fetch courses data on component mount
     axios({
-      method: "post",
-      url: process.env.NEXT_PUBLIC_COURSE_SCHEDULE_API_URL,
-      // url: "/jsons/booking.json",
+      method: "get",
+      // url: process.env.NEXT_PUBLIC_COURSE_SCHEDULE_API_URL,
+      url: "/jsons/booking.json",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: {
         reqdate: formattedDate(),
@@ -140,6 +140,7 @@ const CourseBookingForm: React.FC = () => {
     if (getSelectedCourse) {
       setCourseClasses(getSelectedCourse.courseSchedule);
       setSelectedCourse(courseID as string);
+      setAvailableSlotsError(false);
     }
     if (getSelectedCourse && classID) {
       setSelectedClass(classID as string);
@@ -151,6 +152,8 @@ const CourseBookingForm: React.FC = () => {
       if (slots) {
         setBookingTypeVisibility(true);
         setAvailableSlots(slots);
+      } else {
+        setAvailableSlotsError(true);
       }
     }
   }, [router, courses]);
@@ -161,6 +164,8 @@ const CourseBookingForm: React.FC = () => {
     if (getSelectedCourse) {
       setCourseClasses(getSelectedCourse.courseSchedule);
       setSelectedCourse(courseID);
+      setAvailableSlotsError(false);
+      setBookingTypeVisibility(false);
     }
     setSelectedClass(""); // Reset classes.
   };
@@ -175,6 +180,8 @@ const CourseBookingForm: React.FC = () => {
       if (selectedOption.availableSlots > 0) {
         setAvailableSlots(selectedOption.availableSlots);
         setBookingTypeVisibility(true);
+      } else {
+        setAvailableSlotsError(true);
       }
     }
   };
@@ -269,7 +276,6 @@ const CourseBookingForm: React.FC = () => {
 
   // Handle form submission
   const handleSubmit = () => {
-    // validateForm();
     const booking: CourseBooking = {
       courseID: selectedCourse!,
       classID: selectedClass!,
@@ -301,33 +307,6 @@ const CourseBookingForm: React.FC = () => {
         console.error("Error submitting booking:", error);
         setNotification("Error submitting booking. Kindly call us directly.");
       });
-  };
-
-  // Form validation
-  const validateForm = () => {
-    if (!selectedCourse) {
-      setNotification("Please select a course");
-      return false;
-    }
-
-    if (!selectedClass) {
-      setNotification("Please select a class");
-      return false;
-    }
-
-    const isIndividualBookingValid = bookings.every(
-      (booking) =>
-        booking.name.trim() !== "" &&
-        booking.email.trim() !== "" &&
-        booking.contactNumber.trim() !== ""
-    );
-    if (bookingType === "individual" && !isIndividualBookingValid) {
-      setNotification("Please fill in all individual booking details");
-      return false;
-    }
-
-    setNotification(null);
-    return true;
   };
 
   return (
@@ -377,7 +356,7 @@ const CourseBookingForm: React.FC = () => {
           />
         )}
 
-        {availableSlots < 1 && (
+        {availableSlotsError && (
           <Text color="red" my={10}>
             Sorry, the selected class is fully booked. Please try some other
             class or contact us
@@ -673,7 +652,12 @@ const CourseBookingForm: React.FC = () => {
         )}
 
         {/* Submit Button */}
-        <Button onClick={handleSubmit}>Submit</Button>
+        <Button
+          onClick={handleSubmit}
+          disabled={availableSlotsError ? true : false}
+        >
+          Submit
+        </Button>
       </Container>
     </>
   );

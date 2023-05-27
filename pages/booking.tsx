@@ -36,7 +36,7 @@ interface Class {
 interface CourseBooking {
   courseID: string;
   classID: string;
-  bookingType: "group" | "individual";
+  bookingType: "company" | "individual";
   companyDetails: Company;
   participants: number;
   bookings: Booking[];
@@ -83,7 +83,7 @@ const CourseBookingForm: React.FC = () => {
   });
   const [bookingTypeVisibility, setBookingTypeVisibility] =
     useState<boolean>(false);
-  const [bookingType, setBookingType] = useState<"individual" | "group">(
+  const [bookingType, setBookingType] = useState<"individual" | "company">(
     "individual"
   );
 
@@ -152,8 +152,6 @@ const CourseBookingForm: React.FC = () => {
     }
   }, [router, courses]);
 
-  console.log(availableSlots);
-
   // Handle course selection change
   const handleCourseChange = (courseID: string) => {
     const getSelectedCourse = findAvailableClassesForCoruse(courseID);
@@ -178,7 +176,7 @@ const CourseBookingForm: React.FC = () => {
 
   // Handle booking type change
   const handleBookingTypeChange = (value: string) => {
-    setBookingType(value as "individual" | "group");
+    setBookingType(value as "individual" | "company");
     setParticipants(1);
     setBookings([
       {
@@ -199,7 +197,10 @@ const CourseBookingForm: React.FC = () => {
     const slotCount = Number(value);
     setParticipants(Number.isNaN(slotCount) || slotCount < 0 ? 1 : slotCount);
     console.log(slotCount);
-    if (bookingType === "group" && (!slotCount || slotCount > availableSlots)) {
+    if (
+      bookingType === "company" &&
+      (!slotCount || slotCount > availableSlots)
+    ) {
       setAvailableSlotsError(true);
       return false;
     } else {
@@ -378,12 +379,12 @@ const CourseBookingForm: React.FC = () => {
             onChange={(event) => handleBookingTypeChange(event)}
           >
             <Radio label="Individual" value="individual" />
-            <Radio label="Group" value="group" />
+            <Radio label="Company" value="company" />
           </Radio.Group>
         )}
 
         {/* Company Details */}
-        {bookingType === "group" && (
+        {bookingType === "company" && (
           <>
             <Text fw={700} mt={10}>
               Company details
@@ -395,6 +396,7 @@ const CourseBookingForm: React.FC = () => {
                 onChange={(event) =>
                   handleCompanyDetailsChange("name", event.currentTarget.value)
                 }
+                withAsterisk
               />
               <TextInput
                 label="Company UEN"
@@ -412,9 +414,10 @@ const CourseBookingForm: React.FC = () => {
                     event.currentTarget.value
                   )
                 }
+                withAsterisk
               />
               <TextInput
-                label="Contact Person Number"
+                label="Company Contact Number"
                 value={companyDetails.contactNumber}
                 onChange={(event) =>
                   handleCompanyDetailsChange(
@@ -422,6 +425,7 @@ const CourseBookingForm: React.FC = () => {
                     event.currentTarget.value
                   )
                 }
+                withAsterisk
               />
               <TextInput
                 label="Contact Person Email"
@@ -432,13 +436,14 @@ const CourseBookingForm: React.FC = () => {
                     event.currentTarget.value
                   )
                 }
+                withAsterisk
               />
             </Paper>
           </>
         )}
 
         {/* Number of Slots */}
-        {bookingType === "group" && (
+        {bookingType === "company" && (
           <>
             <TextInput
               type="text"
@@ -488,6 +493,7 @@ const CourseBookingForm: React.FC = () => {
                       event.currentTarget.value
                     )
                   }
+                  withAsterisk
                 />
 
                 <TextInput
@@ -496,6 +502,7 @@ const CourseBookingForm: React.FC = () => {
                   onChange={(event) =>
                     handleBookingChange(index, "dob", event.currentTarget.value)
                   }
+                  withAsterisk
                 />
 
                 <TextInput
@@ -508,6 +515,7 @@ const CourseBookingForm: React.FC = () => {
                       event.currentTarget.value
                     )
                   }
+                  withAsterisk
                 />
 
                 <TextInput
@@ -531,23 +539,14 @@ const CourseBookingForm: React.FC = () => {
                       event.currentTarget.value
                     )
                   }
-                />
-                <TextInput
-                  label="Company"
-                  value={companyDetails.name}
-                  onChange={(event) =>
-                    handleCompanyDetailsChange(
-                      "name",
-                      event.currentTarget.value
-                    )
-                  }
+                  withAsterisk
                 />
               </Paper>
             </div>
           ))}
 
         {/* Group Booking Details */}
-        {bookingType === "group" && !availableSlotsError && participants && (
+        {bookingType === "company" && !availableSlotsError && participants && (
           <div>
             {[...Array(participants)].map((_, index) => (
               <div key={index}>
@@ -565,6 +564,7 @@ const CourseBookingForm: React.FC = () => {
                             event.currentTarget.value
                           )
                         }
+                        withAsterisk
                       />
                     </Grid.Col>
                     <Grid.Col md={6}>
@@ -578,6 +578,7 @@ const CourseBookingForm: React.FC = () => {
                             event.currentTarget.value
                           )
                         }
+                        withAsterisk
                       />
                     </Grid.Col>
                     <Grid.Col md={6}>
@@ -591,6 +592,7 @@ const CourseBookingForm: React.FC = () => {
                             event.currentTarget.value
                           )
                         }
+                        withAsterisk
                       />
                     </Grid.Col>
                     <Grid.Col md={6}>
@@ -604,6 +606,7 @@ const CourseBookingForm: React.FC = () => {
                             event.currentTarget.value
                           )
                         }
+                        withAsterisk
                       />
                     </Grid.Col>
                     <Grid.Col md={6}>

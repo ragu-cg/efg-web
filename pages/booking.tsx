@@ -259,6 +259,7 @@ const CourseBookingForm: React.FC = () => {
       contactNumber: "",
       contactEmail: "",
     });
+    setNotification(null);
   };
 
   // Handle form submission
@@ -280,7 +281,7 @@ const CourseBookingForm: React.FC = () => {
       maxBodyLength: Infinity,
       url: process.env.NEXT_PUBLIC_COURSE_BOOKING_API_URL,
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      data: JSON.stringify(booking),
+      data: booking,
     })
       .then((response) => {
         if (response.data.Status !== "Failed") {

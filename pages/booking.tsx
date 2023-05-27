@@ -277,11 +277,10 @@ const CourseBookingForm: React.FC = () => {
 
     axios({
       method: "post",
+      maxBodyLength: Infinity,
       url: process.env.NEXT_PUBLIC_COURSE_BOOKING_API_URL,
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      data: {
-        reqdate: booking,
-      },
+      headers: { "Content-Type": "application/json" },
+      data: JSON.stringify(booking),
     })
       .then((response) => {
         if (response.data.Status !== "Failed") {
@@ -499,9 +498,15 @@ const CourseBookingForm: React.FC = () => {
                 <TextInput
                   label="D.O.B"
                   value={booking.dob}
-                  onChange={(event) =>
-                    handleBookingChange(index, "dob", event.currentTarget.value)
-                  }
+                  description="Example if the date of birth is 16th Decemeber of 1987 then enter as 1987-12-16 in Year-Month-Date format"
+                  placeholder="yyyy-mm-dd"
+                  onChange={(event) => {
+                    handleBookingChange(
+                      index,
+                      "dob",
+                      event.currentTarget.value
+                    );
+                  }}
                   withAsterisk
                 />
 
@@ -585,6 +590,7 @@ const CourseBookingForm: React.FC = () => {
                       <TextInput
                         label="D.O.B"
                         value={bookings[index]?.dob}
+                        placeholder="yyyy-mm-dd"
                         onChange={(event) =>
                           handleBookingChange(
                             index,

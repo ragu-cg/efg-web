@@ -43,6 +43,16 @@ export default function Faq() {
       <Banner title="Frequently Asked Questions" />
       <Container size="md" mt={30} className={classes.wrapper}>
         <Accordion variant="separated">
+          <Accordion.Item className={classes.item} value="2">
+            <Accordion.Control>
+              What types of safety courses do you offer?
+            </Accordion.Control>
+            <Accordion.Panel>
+              We offer a wide range of safety courses tailored to various
+              industries and needs. Our courses are WSQ and LSP approved. Visit{" "}
+              <a href="/courses">our courses</a>.
+            </Accordion.Panel>
+          </Accordion.Item>
           <Accordion.Item className={classes.item} value="1">
             <Accordion.Control>
               How do I book a safety course?
@@ -55,20 +65,10 @@ export default function Faq() {
               and fill out the course booking form. Provide the required
               information such as your name, contact details, preferred course
               date, and any additional details if needed. Submit the form, and
-              our team will contact you to confirm your booking.
-            </Accordion.Panel>
-          </Accordion.Item>
-
-          <Accordion.Item className={classes.item} value="2">
-            <Accordion.Control>
-              What types of safety courses do you offer?
-            </Accordion.Control>
-            <Accordion.Panel>
-              We offer a wide range of safety courses tailored to various
-              industries and needs. Our courses cover topics such as first aid,
-              CPR, fire safety, workplace safety, hazard identification, and
-              more. Visit our course catalog to explore the full list of
-              available courses.
+              our team will contact you to confirm your booking. Otherwise you
+              can <a href="tel:+6563347872">call us</a> or{" "}
+              <a href="mailto:admin@efg.com.sg">email us</a> directly with your
+              queries and our team will respond within 24hrs.
             </Accordion.Panel>
           </Accordion.Item>
 
@@ -102,19 +102,6 @@ export default function Faq() {
             </Accordion.Panel>
           </Accordion.Item>
 
-          <Accordion.Item className={classes.item} value="6">
-            <Accordion.Control>
-              Do you provide certification upon course completion?
-            </Accordion.Control>
-            <Accordion.Panel>
-              Yes, upon successful completion of a safety course, we provide
-              certification that verifies your participation and achievement.
-              The type of certification may vary depending on the course and its
-              accreditation. Our certificates are recognized and widely accepted
-              within the industry.
-            </Accordion.Panel>
-          </Accordion.Item>
-
           <Accordion.Item className={classes.item} value="7">
             <Accordion.Control>
               Can companies or organizations book safety courses for their
@@ -126,6 +113,26 @@ export default function Faq() {
               employees. Our team can customize the training programs to meet
               specific organizational needs and deliver the courses at your
               preferred location or our training facility.
+            </Accordion.Panel>
+          </Accordion.Item>
+          <Accordion.Item className={classes.item} value="11">
+            <Accordion.Control>
+              What items should be brought when attending the class?
+            </Accordion.Control>
+            <Accordion.Panel>
+              <ul>
+                <li>Please bring a copy of your NRIC/WP/IPA/S Pass/E Pass.</li>
+                <li>
+                  Safety shoes are required on the second day of the course.
+                </li>
+                <li>
+                  Make sure to bring any valid ID card with your photograph.
+                </li>
+                <li>
+                  Please bring the necessary payment for the course if it is
+                  still pending.
+                </li>
+              </ul>
             </Accordion.Panel>
           </Accordion.Item>
 
@@ -143,22 +150,28 @@ export default function Faq() {
             </Accordion.Panel>
           </Accordion.Item>
 
-          <Accordion.Item className={classes.item} value="9">
+          <Accordion.Item className={classes.item} value="50">
             <Accordion.Control>
-              How can I contact your support team for further assistance?
+              When can I collect the course completion card (pass)?
             </Accordion.Control>
             <Accordion.Panel>
-              If you have any questions, concerns, or need further assistance,
-              you can reach our support team through the contact information
-              provided on{" "}
-              <a href="/contact" target="_blank">
-                our website
-              </a>
-              . We are available via phone, email, or through the contact form.
-              Our team will be happy to assist you with any inquiries or help
-              you with your booking process.
+              Upon successfully completing the course and passing the exam, the
+              collection of the safety pass differs based on the level:
+              <ul>
+                <li>
+                  For workers, the safety pass can be collected on the last day
+                  of the course. The card will remain valid until the specified
+                  expiration date.
+                </li>
+                <li>
+                  For supervisors, the safety pass can be collected three days
+                  after the course has finished. The card will also be valid
+                  until the specified expiration date.
+                </li>
+              </ul>
             </Accordion.Panel>
           </Accordion.Item>
+
           <Accordion.Item className={classes.item} value="10">
             <Accordion.Control>
               What payment methods are available for booking?
@@ -168,7 +181,7 @@ export default function Faq() {
               <ul>
                 <li>PayNow</li>
                 <li>Bank Transfer</li>
-                <li>Nets</li>
+                <li>GIRO</li>
                 <li>Cash</li>
                 <li>Cheque</li>
               </ul>

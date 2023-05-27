@@ -279,7 +279,7 @@ const CourseBookingForm: React.FC = () => {
       method: "post",
       maxBodyLength: Infinity,
       url: process.env.NEXT_PUBLIC_COURSE_BOOKING_API_URL,
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: JSON.stringify(booking),
     })
       .then((response) => {

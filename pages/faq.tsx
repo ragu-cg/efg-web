@@ -61,7 +61,7 @@ export default function Faq() {
               To book a safety course, go to our website's{" "}
               <a href="/booking" target="_blank">
                 booking page
-              </a>
+              </a>{" "}
               and fill out the course booking form. Provide the required
               information such as your name, contact details, preferred course
               date, and any additional details if needed. Submit the form, and

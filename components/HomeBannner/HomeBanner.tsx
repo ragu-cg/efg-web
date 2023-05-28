@@ -99,6 +99,8 @@ export function HomeBannner() {
             </Text>
 
             <Button
+              component="a"
+              href="/courses"
               variant="gradient"
               size="xl"
               radius="xl"

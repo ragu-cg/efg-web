@@ -3,6 +3,7 @@ import { Card, Text, Badge, Button, Group, createStyles } from "@mantine/core";
 const useStyles = createStyles((theme) => ({
   cardContainer: {
     gap: 10,
+    maxWidth: "33.3%",
     "@media (max-width: 520px)": {
       width: "100%",
     },

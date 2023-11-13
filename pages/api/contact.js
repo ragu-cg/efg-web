@@ -14,7 +14,6 @@ export default async function (req, res) {
     from: "govind@efg.com.sg",
     to: "admin@efg.com.sg",
     subject: `Message From EFG Training services pte ltd`,
-    //   text: req.body.message + " | Sent from: " + req.body.email,
     html: `
     <div><strong>Name:</strong> ${req.body.contactName}</div>
     <br/>

@@ -34,7 +34,7 @@ const ClassCard: React.FC<Props> = ({ schedule, courseID }) => {
         <Text weight={500}>{classDate}</Text>
         {availableSlots < 15 && (
           <Badge color="pink" variant="light">
-            {availableSlots < 1 ? "Fully Booked!" : "On Sale"}
+            {availableSlots < 1 ? "Fully Booked!" : "Limited Availability"}
           </Badge>
         )}
       </Group>

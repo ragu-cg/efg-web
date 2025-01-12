@@ -73,6 +73,7 @@ type postData = {
         mediaItemurl: string;
       };
     };
+    efgCourseApplicationForm?: string;
   };
 };
 
@@ -126,6 +127,18 @@ export default ({ course }: postData) => {
               >
                 Register now
               </Button>
+              {course.efgCourseApplicationForm && (
+                <Button
+                  component="a"
+                  href="/schedule"
+                  size="md"
+                  radius="xl"
+                  sx={{ height: 40 }}
+                  mt={40}
+                >
+                  Download Application
+                </Button>
+              )}
             </Paper>
           </Grid.Col>
         </Grid>

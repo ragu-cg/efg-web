@@ -43,6 +43,8 @@ export async function getAllCoursesWithSlug() {
         nodes {
           slug
           uri
+          efgCourseUserCategory
+          efgCourseApplicationForm
         }
       }
     }`
@@ -54,7 +56,7 @@ export async function getAllPosts() {
   const data = await fetchAPI(
     `
     query AllPosts {
-      courses (first:100)  {
+      courses(first: 100) {
         nodes {
           title
           slug
@@ -66,6 +68,7 @@ export async function getAllPosts() {
               mediaItemUrl
             }
           }
+          efgCourseUserCategory
         }
       }
     }
@@ -123,6 +126,8 @@ export async function GetPostBySlug(slug: string) {
             mediaItemUrl
           }
         }
+        efgCourseUserCategory
+        efgCourseApplicationForm
       }
     }
   `,

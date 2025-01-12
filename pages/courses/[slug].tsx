@@ -130,7 +130,7 @@ export default ({ course }: postData) => {
               {course.efgCourseApplicationForm && (
                 <Button
                   component="a"
-                  href="/schedule"
+                  href={course.efgCourseApplicationForm}
                   size="md"
                   radius="xl"
                   sx={{ height: 40 }}

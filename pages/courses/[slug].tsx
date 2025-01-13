@@ -124,6 +124,7 @@ export default ({ course }: postData) => {
                 radius="xl"
                 sx={{ height: 40 }}
                 mt={40}
+                mb={40}
               >
                 Register now
               </Button>
@@ -141,7 +142,7 @@ export default ({ course }: postData) => {
                     size="md"
                     radius="xl"
                     sx={{ height: 40 }}
-                    mt={40}
+                    mt={20}
                   >
                     Download
                   </Button>

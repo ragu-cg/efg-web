@@ -102,7 +102,6 @@ export async function getFeaturedPosts() {
     }
   `
   );
-  console.log(data);
   return data?.courseCategories.nodes[0];
 }
 

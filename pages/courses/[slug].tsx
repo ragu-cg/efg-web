@@ -128,16 +128,24 @@ export default ({ course }: postData) => {
                 Register now
               </Button>
               {course.efgCourseApplicationForm && (
-                <Button
-                  component="a"
-                  href={course.efgCourseApplicationForm}
-                  size="md"
-                  radius="xl"
-                  sx={{ height: 40 }}
-                  mt={40}
-                >
-                  Download Application
-                </Button>
+                <div>
+                  <p>
+                    Download application form to register offline. Please
+                    complete the application form and send to us for
+                    registration.{" "}
+                  </p>
+                  <Button
+                    component="a"
+                    variant="light"
+                    href={course.efgCourseApplicationForm}
+                    size="md"
+                    radius="xl"
+                    sx={{ height: 40 }}
+                    mt={40}
+                  >
+                    Download
+                  </Button>
+                </div>
               )}
             </Paper>
           </Grid.Col>

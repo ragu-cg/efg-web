@@ -131,8 +131,9 @@ export default ({ course }: postData) => {
               {course.efgCourseApplicationForm && (
                 <div>
                   <p>
-                    Download application form to register offline. Please
-                    complete the application form and send to us for
+                    Download the below application forms to register offline.
+                    Please complete the application form and send to us back to
+                    <a href="mailto:admin@efg.com.sg"> admin@efg.com.sg</a> for
                     registration.{" "}
                   </p>
                   <Button
@@ -143,8 +144,20 @@ export default ({ course }: postData) => {
                     radius="xl"
                     sx={{ height: 40 }}
                     mt={20}
+                    mr={20}
                   >
-                    Download
+                    Individual
+                  </Button>
+                  <Button
+                    component="a"
+                    variant="light"
+                    href="https://www.efg.com.sg/application-form/EFG-Course-Registration-Individual.docx"
+                    size="md"
+                    radius="xl"
+                    sx={{ height: 40 }}
+                    mt={20}
+                  >
+                    Company
                   </Button>
                 </div>
               )}

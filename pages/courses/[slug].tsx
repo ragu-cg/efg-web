@@ -146,18 +146,18 @@ export default ({ course }: postData) => {
                     mt={20}
                     mr={20}
                   >
-                    Individual
+                    Company
                   </Button>
                   <Button
                     component="a"
                     variant="light"
-                    href="https://www.efg.com.sg/application-form/EFG-Course-Registration-Individual.docx"
+                    href="https://www.efg.com.sg/application-forms/EFG-Course-Registration-Individual.docx"
                     size="md"
                     radius="xl"
                     sx={{ height: 40 }}
                     mt={20}
                   >
-                    Company
+                    Individual
                   </Button>
                 </div>
               )}

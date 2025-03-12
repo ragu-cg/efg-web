@@ -76,7 +76,7 @@ export default ({ courseList }: postData) => {
             textTransform: "capitalize",
           }}
         >
-          {item.efgCourseUserCategory} Level Courses
+          {item.efgCourseUserCategory} Courses
         </h2>
       );
     }

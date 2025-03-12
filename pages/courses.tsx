@@ -101,7 +101,7 @@ export default ({ courseList }: postData) => {
   return (
     <>
       <Head>
-        <title>About Us | EFG</title>
+        <title>About Us | EFG Training Services Pte Ltd</title>
         <meta name="description" content="EFG Training Services" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -9,7 +9,9 @@ import {
   Notification,
   Container,
   Text,
+  List,
   Paper,
+  Checkbox,
 } from "@mantine/core";
 import { IconCheck, IconX } from "@tabler/icons";
 import Head from "next/head";
@@ -100,6 +102,9 @@ const CourseBookingForm: React.FC = () => {
       nationality: "",
     },
   ]);
+
+  const [privacyChecked, setPrivacyChecked] = useState(false);
+
   // const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [notification, setNotification] = useState<string | null>(null);
 
@@ -300,6 +305,10 @@ const CourseBookingForm: React.FC = () => {
       setNotification(
         "Please fill all the required fields with aestrik to proceed."
       );
+      return false;
+    } else if (!privacyChecked) {
+      setFormValidationError(true);
+      setNotification("Please accept the above privacy.");
       return false;
     } else {
       setFormValidationError(false);
@@ -680,6 +689,41 @@ const CourseBookingForm: React.FC = () => {
             ))}
           </div>
         )}
+
+        {/* Acceptance checkbox */}
+        <Text mb={"1rem"}>
+          I, the Applicant, consent to the collection, use, and disclosure of my
+          personal data and training records to companies that access the
+          Ministry of Manpower (MOM)'s Training Record System (TRS). Companies
+          using the Check Workers WSH Training Records eService on the MOM
+          website may verify my training records, including the following
+          information:
+          <List size="md" withPadding>
+            <List.Item color="teal">
+              Identification Number (Work Permit Number / FIN Number / NRIC
+              Number){" "}
+            </List.Item>
+            <List.Item> Name </List.Item>
+            <List.Item>
+              {" "}
+              Eligibility for 4 years of Safety Orientation Course (CSOC / SSIC
+              / MSOC certification, if applicable){" "}
+            </List.Item>
+            <List.Item> Course Title </List.Item>
+            <List.Item> Name of Training Provider </List.Item>
+            <List.Item> Date of Assessment </List.Item>
+            <List.Item> Certificate Expiry Date </List.Item>
+            <List.Item> Result of Assessment</List.Item>
+          </List>
+        </Text>
+        <Checkbox
+          checked={privacyChecked}
+          label="By checking this box, I confirm my consent for the disclosure of the selected
+          information."
+          size="md"
+          mb={"1rem"}
+          onChange={(event) => setPrivacyChecked(event.currentTarget.checked)}
+        />
 
         {/* Error Notification */}
         {notification && (

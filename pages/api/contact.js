@@ -1,3 +1,4 @@
+// Simple function to send email when submitted via contact form.
 export default async function (req, res) {
   let nodemailer = require("nodemailer");
   const transporter = nodemailer.createTransport({
@@ -13,7 +14,7 @@ export default async function (req, res) {
   const mailData = {
     from: "govind@efg.com.sg",
     to: "admin@efg.com.sg",
-    subject: `Message From EFG Training services pte ltd`,
+    subject: `Contact Message From EFG Training services pte ltd`,
     html: `
     <div><strong>Name:</strong> ${req.body.contactName}</div>
     <br/>

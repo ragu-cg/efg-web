@@ -278,6 +278,7 @@ const CourseBookingForm: React.FC = () => {
       contactNumber: "",
       contactEmail: "",
     });
+    setPrivacyChecked(false);
     setNotification(null);
   };
 
@@ -333,8 +334,6 @@ const CourseBookingForm: React.FC = () => {
       bookings: bookings,
     };
 
-    console.log(booking);
-
     axios({
       method: "post",
       maxBodyLength: Infinity,
@@ -346,6 +345,25 @@ const CourseBookingForm: React.FC = () => {
         if (response.data.Status !== "Failed") {
           setFormSubmission(true);
           resetForm();
+          // Call booking email api to send booking info as email to admin.
+          fetch("/api/booking", {
+            method: "POST",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(booking),
+          })
+            .then((res) => {
+              if (res.status === 200) {
+                console.log("Successfully sent email to admin!");
+              } else {
+                console.log(
+                  "Something went wrong while sending email to admin."
+                );
+              }
+            })
+            .catch((e) => console.log(e));
         } else {
           setFormSubmission(false);
           setNotification("Error submitting booking. Kindly call us directly.");

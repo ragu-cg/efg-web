@@ -21,9 +21,10 @@ export default async function (req, res) {
     <p><strong>Course ID:</strong> ${data.courseID}</p>
     <p><strong>Class ID:</strong> ${data.classID}</p>
     <p><strong>Booking Type:</strong> ${data.bookingType}</p>
-    <p><strong>Participants:</strong> ${data.participants}</p>
-  
-    <h3>🏢 Company Details</h3>
+    <p><strong>Participants:</strong> ${data.participants}</p>`;
+
+    if (company) {
+      html += `<h3>🏢 Company Details</h3>
     <ul>
       <li><strong>Name:</strong> ${company.name}</li>
       <li><strong>UEN:</strong> ${company.uen}</li>
@@ -34,6 +35,7 @@ export default async function (req, res) {
   
     <h3>👥 Participants</h3>
   `;
+    }
 
     data.bookings.forEach((p, i) => {
       html += `
@@ -49,7 +51,27 @@ export default async function (req, res) {
       `;
     });
 
-    return html;
+    const contactPerson = company?.contactPerson || data.bookings[0].name;
+
+    const emailBody = `
+<p>I, the Applicant, consent to the collection, use, and disclosure of my personal data and training records to companies that access the Ministry of Manpower (MOM)'s Training Record System (TRS). Companies using the Check Workers WSH Training Records eService on the MOM website may verify my training records, including the following information:</p>
+
+<ul>
+  <li>Identification Number (Work Permit Number / FIN Number / NRIC Number)</li>
+  <li>Name</li>
+  <li>Eligibility for 4 years of Safety Orientation Course (CSOC / SSIC / MSOC certification, if applicable)</li>
+  <li>Course Title</li>
+  <li>Name of Training Provider</li>
+  <li>Date of Assessment</li>
+  <li>Certificate Expiry Date</li>
+  <li>Result of Assessment</li>
+</ul>
+
+<p>Yours sincerely,</p>
+<p>${contactPerson}</p>
+`;
+
+    return `${html} ${emailBody}`;
   }
 
   // Use in nodemailer like:
@@ -58,6 +80,7 @@ export default async function (req, res) {
   const mailData = {
     from: "govind@efg.com.sg",
     to: "admin@efg.com.sg",
+    // to: 'ragu.webdev@gmail.com',
     subject: `Booking Message From EFG Training services pte ltd`,
     html: generateEmailHTML(req.body),
   };

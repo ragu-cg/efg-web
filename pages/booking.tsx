@@ -39,7 +39,7 @@ interface CourseBooking {
   courseID: string;
   classID: string;
   bookingType: "company" | "individual";
-  companyDetails: Company;
+  companyDetails: Company | null;
   participants: number;
   bookings: Booking[];
 }
@@ -254,7 +254,7 @@ const CourseBookingForm: React.FC = () => {
 
   // Reset form data.
   const resetForm = () => {
-    setCourses([]);
+    // setCourses([]);
     setSelectedClass("");
     setCourseClasses([]);
     setAvailableSlots(0);
@@ -329,7 +329,7 @@ const CourseBookingForm: React.FC = () => {
       courseID: selectedCourse!,
       classID: selectedClass!,
       bookingType: bookingType!,
-      companyDetails: companyDetails,
+      companyDetails: bookingType === "company" ? companyDetails : null,
       participants: participants!,
       bookings: bookings,
     };

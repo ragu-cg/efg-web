@@ -278,6 +278,7 @@ const CourseBookingForm: React.FC = () => {
       contactNumber: "",
       contactEmail: "",
     });
+    setPrivacyChecked(false);
     setNotification(null);
   };
 
@@ -336,7 +337,7 @@ const CourseBookingForm: React.FC = () => {
     axios({
       method: "post",
       maxBodyLength: Infinity,
-      url: process.env.NEXT_PUBLIC_COURSE_BOOKING_API_URLS,
+      url: process.env.NEXT_PUBLIC_COURSE_BOOKING_API_URL,
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: booking,
     })

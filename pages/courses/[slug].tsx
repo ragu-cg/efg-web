@@ -151,7 +151,7 @@ export default ({ course }: postData) => {
                   <Button
                     component="a"
                     variant="light"
-                    href="https://www.efg.com.sg/application-forms/EFG-Course-Registration-Individual.docx"
+                    href="https://www.efg.com.sg/application-forms/EFG-Course-Registration-Individual.pdf"
                     size="md"
                     radius="xl"
                     sx={{ height: 40 }}

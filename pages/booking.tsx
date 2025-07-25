@@ -329,7 +329,16 @@ const CourseBookingForm: React.FC = () => {
       courseID: selectedCourse!,
       classID: selectedClass!,
       bookingType: bookingType!,
-      companyDetails: bookingType === "company" ? companyDetails : null,
+      companyDetails:
+        bookingType === "company"
+          ? companyDetails
+          : {
+              name: "Individual",
+              uen: "1234567M",
+              contactPerson: "",
+              contactNumber: "",
+              contactEmail: "admin@efg.com.sg",
+            },
       participants: participants!,
       bookings: bookings,
     };

@@ -46,7 +46,7 @@ const handleSubmit = async (e) => {
           "Something went wrong. Please try again later or call / email us directly";
       }
       console.log(notification);
-      contactForm.querySelector(".notification").innerHTML = notification;
+      contactForm.querySelector(".notification").textContent = String(notification);
     })
     .catch((e) => console.log(e));
 };

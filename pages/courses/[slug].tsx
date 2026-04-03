@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
+import sanitizeHtml from "sanitize-html";
 import { Banner } from "../../components/Banner/Banner";
 import { getAllCoursesWithSlug, GetPostBySlug } from "../../lib/api";
 import {
@@ -96,7 +97,14 @@ export default ({ course }: postData) => {
             <div
               className={classes.content}
               dangerouslySetInnerHTML={{
-                __html: course.content === null ? "" : course.content,
+                __html: sanitizeHtml(course.content ?? "", {
+                  allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "h1", "h2"]),
+                  allowedAttributes: {
+                    ...sanitizeHtml.defaults.allowedAttributes,
+                    img: ["src", "alt", "width", "height"],
+                    a: ["href", "target", "rel"],
+                  },
+                }),
               }}
             ></div>
             <Link href={"/terms-and-conditions"}>

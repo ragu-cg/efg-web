@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -25,10 +28,18 @@
     "nodemailer": "^6.9.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sanitize-html": "^2.17.2",
     "sass": "^1.62.1",
     "typescript": "4.8.4"
   },
   "devDependencies": {
-    "@types/dompurify": "^2.4.0"
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/dompurify": "^2.4.0",
+    "@types/jest": "^30.0.0",
+    "@types/sanitize-html": "^2.16.1",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0"
   }
 }

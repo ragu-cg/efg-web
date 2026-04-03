@@ -1,52 +1,89 @@
-// Simple function which will be called via fetch to send email of booiing details.
-export default async function (req, res) {
-  let nodemailer = require("nodemailer");
+import type { NextApiRequest, NextApiResponse } from 'next';
+import nodemailer from 'nodemailer';
+import { escapeHtml } from '../../lib/htmlUtils';
+
+interface CompanyDetails {
+  name: string;
+  uen: string;
+  contactPerson: string;
+  contactNumber: string;
+  contactEmail: string;
+}
+
+interface Participant {
+  name: string;
+  email: string;
+  contactNumber: string;
+  icNumber: string;
+  dob: string;
+  nationality: string;
+}
+
+interface BookingRequest {
+  courseID: string;
+  classID: string;
+  bookingType: 'company' | 'individual';
+  companyDetails: CompanyDetails | null;
+  participants: number;
+  bookings: Participant[];
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { courseID, classID, bookingType, companyDetails, participants, bookings } =
+    req.body as BookingRequest;
+
+  if (!courseID || !classID || !bookingType || !Array.isArray(bookings) || bookings.length === 0) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
   const transporter = nodemailer.createTransport({
     port: 465,
-    host: "smtp.gmail.com",
+    host: 'smtp.gmail.com',
     auth: {
       user: process.env.email,
       pass: process.env.password,
     },
     secure: true,
   });
-  console.log(req.body);
 
-  const getBookingEmailTemplate = (data) => {
-    const {
-      courseID,
-      classID,
-      bookingType,
-      companyDetails,
-      participants,
-      bookings,
-    } = data;
-
-    const companyInfo = bookingType === "company" ? `
+  const getBookingEmailTemplate = (data: BookingRequest): string => {
+    const companyInfo =
+      data.bookingType === 'company' && data.companyDetails
+        ? `
       <h3>Company Details:</h3>
       <ul>
-        <li><strong>Name:</strong> ${companyDetails.name}</li>
-        <li><strong>UEN:</strong> ${companyDetails.uen}</li>
-        <li><strong>Contact Person:</strong> ${companyDetails.contactPerson}</li>
-        <li><strong>Contact Number:</strong> ${companyDetails.contactNumber}</li>
-        <li><strong>Email:</strong> ${companyDetails.contactEmail}</li>
+        <li><strong>Name:</strong> ${escapeHtml(data.companyDetails.name)}</li>
+        <li><strong>UEN:</strong> ${escapeHtml(data.companyDetails.uen)}</li>
+        <li><strong>Contact Person:</strong> ${escapeHtml(data.companyDetails.contactPerson)}</li>
+        <li><strong>Contact Number:</strong> ${escapeHtml(data.companyDetails.contactNumber)}</li>
+        <li><strong>Email:</strong> ${escapeHtml(data.companyDetails.contactEmail)}</li>
       </ul>
-    ` : '';
+    `
+        : '';
 
-    const participantRows = bookings.map(
-      (p, index) => `
+    const participantRows = data.bookings
+      .map(
+        (p, index) => `
         <tr>
           <td>${index + 1}</td>
-          <td>${p.name}</td>
-          <td>${p.email}</td>
-          <td>${p.contactNumber}</td>
-          <td>${p.icNumber}</td>
-          <td>${p.dob}</td>
-          <td>${p.nationality}</td>
+          <td>${escapeHtml(p.name)}</td>
+          <td>${escapeHtml(p.email)}</td>
+          <td>${escapeHtml(p.contactNumber)}</td>
+          <td>${escapeHtml(p.icNumber)}</td>
+          <td>${escapeHtml(p.dob)}</td>
+          <td>${escapeHtml(p.nationality)}</td>
         </tr>
       `
-    ).join('');
-    const contactPerson = companyDetails?.contactPerson || bookings[0].name;
+      )
+      .join('');
+
+    const contactPerson = escapeHtml(
+      data.companyDetails?.contactPerson || data.bookings[0]?.name
+    );
 
     return `
     <div style="font-family: Arial, sans-serif; color: #333;">
@@ -65,19 +102,17 @@ export default async function (req, res) {
         </tr>
       </table>
 
-
-  
       <div style="padding: 20px;">
         <h2>Online Course Booking Details</h2>
         <p>We have received a course booking. Below are the details:</p>
-  
-        <p><strong>Course ID:</strong> ${courseID}</p>
-        <p><strong>Class ID:</strong> ${classID}</p>
-        <p><strong>Booking Type:</strong> ${bookingType}</p>
-        <p><strong>Number of Participants:</strong> ${participants}</p>
-  
+
+        <p><strong>Course ID:</strong> ${escapeHtml(data.courseID)}</p>
+        <p><strong>Class ID:</strong> ${escapeHtml(data.classID)}</p>
+        <p><strong>Booking Type:</strong> ${escapeHtml(data.bookingType)}</p>
+        <p><strong>Number of Participants:</strong> ${escapeHtml(String(data.participants))}</p>
+
         ${companyInfo}
-  
+
         <h3>Participant Details</h3>
         <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse;">
           <thead style="background-color: #e3f2fd;">
@@ -95,7 +130,7 @@ export default async function (req, res) {
             ${participantRows}
           </tbody>
         </table>
-  
+
         <hr />
         <p style="font-size: 12px; color: #555;">
           I, the Applicant, consent to the collection, use, and disclosure of my personal data and training records to companies that access the Ministry of Manpower (MOM)'s Training Record System (TRS).
@@ -111,7 +146,7 @@ export default async function (req, res) {
           <li>Certificate Expiry Date</li>
           <li>Result of Assessment</li>
         </ul>
-  
+
         <p style="margin-top: 40px;">Yours sincerely,<br />
         <strong>${contactPerson}</strong></p>
       </div>
@@ -119,26 +154,23 @@ export default async function (req, res) {
     `;
   };
 
-  // Use in nodemailer like:
-  // html: generateEmailHTML(yourBookingObject)
-
   const mailData = {
-    from: "govind@efg.com.sg",
-    to: "admin@efg.com.sg",
-    // to: 'ragu.webdev@gmail.com',
+    from: 'govind@efg.com.sg',
+    to: 'admin@efg.com.sg',
     subject: `Online Course Booking Message From EFG Training services pte ltd`,
-    html: getBookingEmailTemplate(req.body),
+    html: getBookingEmailTemplate(req.body as BookingRequest),
   };
+
   await new Promise((resolve, reject) => {
     transporter.sendMail(mailData, function (err, info) {
       if (err) {
-        console.log(err);
+        console.error(err);
         reject(err);
       } else {
-        console.log(info);
         resolve(info);
       }
     });
   });
-  res.status(200).json({ status: "OK" });
+
+  res.status(200).json({ status: 'OK' });
 }

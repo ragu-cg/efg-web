@@ -2,7 +2,7 @@ import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
 import sanitizeHtml from "sanitize-html";
 import { Banner } from "../../components/Banner/Banner";
-import { getAllCoursesWithSlug, GetPostBySlug } from "../../lib/api";
+import courseDetails from "../../public/jsons/course-details.json";
 import {
   Container,
   Grid,
@@ -20,23 +20,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
-  const data = await GetPostBySlug(params?.slug as string);
-  return {
-    props: {
-      course: data,
-    },
-  };
+  const slug = params?.slug as string;
+  const course = courseDetails[slug as keyof typeof courseDetails] ?? null;
+  if (!course) return { notFound: true };
+  return { props: { course } };
 };
 
-type courseType = {
-  slug: String;
-};
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const allCourses = await getAllCoursesWithSlug();
-
-  const paths = allCourses.nodes.map((course: courseType) => ({
-    params: { slug: course.slug.toString() },
+  const paths = Object.keys(courseDetails).map((slug) => ({
+    params: { slug },
   }));
 
   return { paths, fallback: false };
@@ -71,10 +64,11 @@ type postData = {
     efgCourseLanguage: string;
     featuredImage: {
       node: {
-        mediaItemurl: string;
+        mediaItemUrl: string;
       };
     };
     efgCourseApplicationForm?: string;
+    courseID?: string;
   };
 };
 
@@ -83,13 +77,13 @@ export default ({ course }: postData) => {
   return (
     <>
       <Head>
-        <title>{course.title} | EFG</title>
+        <title>{`${course.title} | EFG`}</title>
         <meta name="description" content="EFG Training Services" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Banner
         title={course.title}
-        img={course.featuredImage?.node?.mediaItemurl}
+        img={course.featuredImage?.node?.mediaItemUrl}
       />
       <Container size="lg">
         <Grid>
@@ -127,7 +121,7 @@ export default ({ course }: postData) => {
               </Text>
               <Button
                 component="a"
-                href="/schedule"
+                href={course.courseID ? `/schedule/${course.courseID}` : "/schedule"}
                 size="md"
                 radius="xl"
                 sx={{ height: 40 }}

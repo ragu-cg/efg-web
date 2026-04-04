@@ -10,36 +10,72 @@ import {
   Text,
   Paper,
   Button,
+  Title,
 } from "@mantine/core";
 import Link from "next/link";
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  if (!params) {
-    return {
-      notFound: true,
-    };
-  }
-
+  if (!params) return { notFound: true };
   const slug = params?.slug as string;
   const course = courseDetails[slug as keyof typeof courseDetails] ?? null;
   if (!course) return { notFound: true };
   return { props: { course } };
 };
 
-
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = Object.keys(courseDetails).map((slug) => ({
     params: { slug },
   }));
-
   return { paths, fallback: false };
 };
 
-const styles = createStyles((theme) => ({
-  content: {},
+const SECTION_LABELS: Record<string, string> = {
+  overview: "Course Overview",
+  audience: "Who Should Attend",
+  objectives: "Course Objectives",
+  courseContent: "Course Content",
+  prerequisites: "Pre-Requisites",
+  methodology: "Training Methodology",
+  assessment: "Assessment",
+  trainerRatio: "Trainer to Trainee Ratio",
+  attendance: "Attendance Requirements",
+  medium: "Medium of Instruction",
+  learningEnv: "Learning Environment",
+  certifications: "Certifications",
+  funding: "Funding & Claims",
+};
+
+// Ordered list of sections to render
+const SECTION_ORDER = [
+  "overview",
+  "audience",
+  "objectives",
+  "courseContent",
+  "prerequisites",
+  "methodology",
+  "medium",
+  "learningEnv",
+  "trainerRatio",
+  "attendance",
+  "assessment",
+  "certifications",
+  "funding",
+];
+
+const SANITIZE_OPTIONS = {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "h1", "h2", "h3"]),
+  allowedAttributes: {
+    ...sanitizeHtml.defaults.allowedAttributes,
+    img: ["src", "alt", "width", "height"],
+    a: ["href", "target", "rel"],
+    ol: ["style", "class"],
+    ul: ["class"],
+  },
+};
+
+const useStyles = createStyles((theme) => ({
   row: {
     display: "flex",
-
     span: {
       display: "inline-block",
       margin: "0 5px",
@@ -50,7 +86,38 @@ const styles = createStyles((theme) => ({
     display: "inline-block",
     fontWeight: 600,
   },
+  leftCol: {
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+    borderRadius: "8px",
+    padding: "1.5rem",
+  },
+  section: {
+    padding: "0.5rem 0",
+    borderBottom: `2px solid ${theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.white}`,
+    "&:last-of-type": {
+      borderBottom: "none",
+    },
+  },
+  sectionHeading: {
+    display: "inline-block",
+    paddingBottom: "0.25rem",
+    borderBottom: `2px solid ${theme.colors.blue[5]}`,
+    marginBottom: "0.5rem",
+  },
+  sectionContent: {
+    "& ul, & ol": {
+      paddingLeft: "1.5rem",
+    },
+    "& p": {
+      marginBottom: "0.5rem",
+    },
+    "& p:last-child": {
+      marginBottom: 0,
+    },
+  },
 }));
+
+type Sections = Partial<Record<keyof typeof SECTION_LABELS, string>>;
 
 type postData = {
   course: {
@@ -58,7 +125,7 @@ type postData = {
     slug: string;
     title: string;
     uri: string;
-    content: string | null;
+    sections?: Sections;
     efgCourseFee: string;
     efgCourseDuration: string;
     efgCourseLanguage: string;
@@ -73,7 +140,9 @@ type postData = {
 };
 
 export default ({ course }: postData) => {
-  const { classes } = styles();
+  const { classes } = useStyles();
+  const sections = course.sections ?? {};
+
   return (
     <>
       <Head>
@@ -85,24 +154,30 @@ export default ({ course }: postData) => {
         title={course.title}
         img={course.featuredImage?.node?.mediaItemUrl}
       />
-      <Container size="lg">
+      <Container size="lg" pb="xl" mt="xl">
         <Grid>
           <Grid.Col md={8}>
-            <div
-              className={classes.content}
-              dangerouslySetInnerHTML={{
-                __html: sanitizeHtml(course.content ?? "", {
-                  allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "h1", "h2"]),
-                  allowedAttributes: {
-                    ...sanitizeHtml.defaults.allowedAttributes,
-                    img: ["src", "alt", "width", "height"],
-                    a: ["href", "target", "rel"],
-                  },
-                }),
-              }}
-            ></div>
+            <div className={classes.leftCol}>
+            {SECTION_ORDER.map((key) => {
+              const html = sections[key as keyof typeof SECTION_LABELS];
+              if (!html) return null;
+              return (
+                <div key={key} className={classes.section}>
+                  <Title order={4} className={classes.sectionHeading}>
+                    {SECTION_LABELS[key]}
+                  </Title>
+                  <div
+                    className={classes.sectionContent}
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizeHtml(html, SANITIZE_OPTIONS),
+                    }}
+                  />
+                </div>
+              );
+            })}
+            </div>
             <Link href={"/terms-and-conditions"}>
-              *Terms and Conditins apply
+              *Terms and Conditions apply
             </Link>
           </Grid.Col>
           <Grid.Col md={4}>

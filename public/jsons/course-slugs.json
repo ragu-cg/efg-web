@@ -1,0 +1,46 @@
+{
+  "nodes": [
+    {
+      "slug": "safety-orientation-course-tunneling-for-workers",
+      "uri": "/courses/safety-orientation-course-tunneling-for-workers/",
+      "efgCourseUserCategory": null,
+      "efgCourseApplicationForm": null
+    },
+    {
+      "slug": "shipyard-safety-instruction-course-for-workers-hot-work-trade",
+      "uri": "/courses/shipyard-safety-instruction-course-for-workers-hot-work-trade/",
+      "efgCourseUserCategory": null,
+      "efgCourseApplicationForm": null
+    },
+    {
+      "slug": "shipyard-safety-instruction-course-for-workers-painter-trade",
+      "uri": "/courses/shipyard-safety-instruction-course-for-workers-painter-trade/",
+      "efgCourseUserCategory": null,
+      "efgCourseApplicationForm": null
+    },
+    {
+      "slug": "manage-work-at-height",
+      "uri": "/courses/manage-work-at-height/",
+      "efgCourseUserCategory": null,
+      "efgCourseApplicationForm": null
+    },
+    {
+      "slug": "perform-metal-scaffold-erection",
+      "uri": "/courses/perform-metal-scaffold-erection/",
+      "efgCourseUserCategory": null,
+      "efgCourseApplicationForm": null
+    },
+    {
+      "slug": "apply-workplace-safety-and-health-in-shipyard-general-trade",
+      "uri": "/courses/apply-workplace-safety-and-health-in-shipyard-general-trade/",
+      "efgCourseUserCategory": null,
+      "efgCourseApplicationForm": null
+    },
+    {
+      "slug": "perform-work-at-height",
+      "uri": "/courses/perform-work-at-height/",
+      "efgCourseUserCategory": null,
+      "efgCourseApplicationForm": null
+    }
+  ]
+}

@@ -2,7 +2,8 @@ import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
 import sanitizeHtml from "sanitize-html";
 import { Banner } from "../../components/Banner/Banner";
-import { getAllCoursesWithSlug, GetPostBySlug } from "../../lib/api";
+import { GetPostBySlug } from "../../lib/api";
+import courseSlugs from "../../public/jsons/course-slugs.json";
 import {
   Container,
   Grid,
@@ -33,9 +34,7 @@ type courseType = {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const allCourses = await getAllCoursesWithSlug();
-
-  const paths = allCourses.nodes.map((course: courseType) => ({
+  const paths = courseSlugs.nodes.map((course: courseType) => ({
     params: { slug: course.slug.toString() },
   }));
 

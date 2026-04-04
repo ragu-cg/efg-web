@@ -14,6 +14,11 @@ const useStyles = createStyles((theme) => ({
   sectionTitle: {
     marginBottom: theme.spacing.md,
   },
+  list: {
+    "& strong": {
+      display: "inline",
+    },
+  },
 }));
 
 export default function PaymentAndRefundPolicy() {
@@ -30,7 +35,7 @@ export default function PaymentAndRefundPolicy() {
 
         <div className={classes.section}>
           <Title order={3} className={classes.sectionTitle}>Payment Policy</Title>
-          <List type="ordered" spacing="sm" withPadding>
+          <List type="ordered" spacing="sm" withPadding className={classes.list}>
             <List.Item>All payments can be made by crossed cheque payable to EFG Training Services Private Ltd, Bank Transfer, PayNow, or SkillsFuture Credit.</List.Item>
             <List.Item>Payment must be made on or before the course commencement date.</List.Item>
             <List.Item>If payment is not received, the printing of the ID Pass / Certificate will not be possible.</List.Item>
@@ -43,7 +48,7 @@ export default function PaymentAndRefundPolicy() {
 
         <div className={classes.section}>
           <Title order={3} className={classes.sectionTitle}>Refund Policy</Title>
-          <List type="ordered" spacing="sm" withPadding>
+          <List type="ordered" spacing="sm" withPadding className={classes.list}>
             <List.Item>Payment is required upon receipt of confirmation.</List.Item>
             <List.Item>If a written notice of withdrawal is received by EFG at least one week before the course starts, a <strong>90% refund</strong> will be provided.</List.Item>
             <List.Item>If the notice of withdrawal is received less than one week but more than three working days before the course starts, a <strong>75% refund</strong> will be issued.</List.Item>
@@ -52,6 +57,11 @@ export default function PaymentAndRefundPolicy() {
             <List.Item>Participant replacement is allowed if the request is made prior to course commencement.</List.Item>
           </List>
         </div>
+
+        <Text size="sm" mt="md">
+          All refund and cancellation requests must be submitted in writing to{" "}
+          <a href="mailto:admin@efg.com.sg">admin@efg.com.sg</a>
+        </Text>
 
         <Divider my="xl" />
 

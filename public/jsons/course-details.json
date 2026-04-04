@@ -39,7 +39,8 @@
     "efgCourseLanguage": "english",
     "efgCourseUserCategory": "MEWP & Forklift operator course",
     "efgCourseApplicationForm": "https://www.efg.com.sg/application-forms/EFG-SP-02-D-OBL-Application-Form.pdf",
-    "featuredImage": null
+    "featuredImage": null,
+    "courseID": "OBL"
   },
   "operate-scissor-lift": {
     "title": "Operate Scissor Lift",
@@ -53,7 +54,8 @@
     "efgCourseLanguage": "english",
     "efgCourseUserCategory": "MEWP & Forklift operator course",
     "efgCourseApplicationForm": "https://www.efg.com.sg/application-forms/EFG-SP-02-D-OSL-Application-Form.pdf",
-    "featuredImage": null
+    "featuredImage": null,
+    "courseID": "OSL"
   },
   "operate-forklift-without-class-3-license": {
     "title": "Operate Forklift without Class 3 License",
@@ -67,7 +69,8 @@
     "efgCourseLanguage": "english",
     "efgCourseUserCategory": "MEWP & Forklift operator course",
     "efgCourseApplicationForm": "https://www.efg.com.sg/application-forms/EFG-SP-02-D-OFL-Without-Class-3-Application-Form.pdf",
-    "featuredImage": null
+    "featuredImage": null,
+    "courseID": "OFL"
   },
   "operate-forklift-with-class-3-license": {
     "title": "Operate Forklift with Class 3 license",
@@ -183,7 +186,8 @@
     "efgCourseLanguage": "english",
     "efgCourseUserCategory": "Worker",
     "efgCourseApplicationForm": "https://www.efg.com.sg/application-forms/EFG-SP-02-E-FW-Application-Form.doc",
-    "featuredImage": null
+    "featuredImage": null,
+    "courseID": "FWTC"
   },
   "basic-traffic-control-course-for-workers": {
     "title": "Basic Traffic Control Course for Workers",
@@ -225,7 +229,8 @@
     "efgCourseLanguage": "english",
     "efgCourseUserCategory": "Worker",
     "efgCourseApplicationForm": "https://www.efg.com.sg/application-forms/EFG-SP-02-D-AWSHPP-Application-Form.pdf",
-    "featuredImage": null
+    "featuredImage": null,
+    "courseID": "AWSHPP"
   },
   "confined-space-management": {
     "title": "Confined Space Management (Assess Confined Space for Safe Entry and Work)",
@@ -275,7 +280,8 @@
       "node": {
         "mediaItemUrl": "https://efg-web.raguguru.me/efg/wp-content/uploads/2022/09/anthony-fomin-sTw2KYpoujk-unsplash.jpg"
       }
-    }
+    },
+    "courseID": "PWCSO"
   },
   "supervise-work-in-confined-space-operation": {
     "title": "Supervise Work In Confined Space Operation",
@@ -399,6 +405,7 @@
     "efgCourseLanguage": "english",
     "efgCourseUserCategory": "Worker",
     "efgCourseApplicationForm": "https://www.efg.com.sg/application-forms/EFG-SP-02-D-AWSHSGT-Application-Form.pdf",
-    "featuredImage": null
+    "featuredImage": null,
+    "courseID": "AWSHS-GT"
   }
 }

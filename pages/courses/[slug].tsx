@@ -68,6 +68,7 @@ type postData = {
       };
     };
     efgCourseApplicationForm?: string;
+    courseID?: string;
   };
 };
 
@@ -120,7 +121,7 @@ export default ({ course }: postData) => {
               </Text>
               <Button
                 component="a"
-                href="/schedule"
+                href={course.courseID ? `/schedule/${course.courseID}` : "/schedule"}
                 size="md"
                 radius="xl"
                 sx={{ height: 40 }}

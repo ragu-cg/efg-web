@@ -22,6 +22,10 @@
                 {
                     "label": "FAQ",
                     "link": "/faq"
+                },
+                {
+                    "label": "Payment & Refund Policy",
+                    "link": "/payment-and-refund-policy"
                 }
             ]
         },

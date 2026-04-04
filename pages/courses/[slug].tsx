@@ -12,7 +12,6 @@ import {
   Button,
   Title,
 } from "@mantine/core";
-import Link from "next/link";
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   if (!params) return { notFound: true };
@@ -183,9 +182,9 @@ export default ({ course }: postData) => {
               );
             })}
             </div>
-            <Link href={"/terms-and-conditions"}>
-              *Terms and Conditions apply
-            </Link>
+            <Text size="sm" mt="md" color="dimmed">
+              *<a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer">Terms and Conditions</a> and <a href="/payment-and-refund-policy" target="_blank" rel="noopener noreferrer">Payment &amp; Refund Policy</a> apply.
+            </Text>
           </Grid.Col>
           <Grid.Col md={4}>
             <Paper shadow="xs" p="md" mt="xl">

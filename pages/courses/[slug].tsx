@@ -63,13 +63,20 @@ const SECTION_ORDER = [
 ];
 
 const SANITIZE_OPTIONS = {
-  allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "h1", "h2", "h3"]),
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "h1", "h2", "h3", "table", "thead", "tbody", "tr", "th", "td", "div"]),
   allowedAttributes: {
     ...sanitizeHtml.defaults.allowedAttributes,
     img: ["src", "alt", "width", "height"],
     a: ["href", "target", "rel"],
     ol: ["style", "class"],
     ul: ["class"],
+    table: ["style"],
+    thead: ["style"],
+    tbody: ["style"],
+    tr: ["style"],
+    th: ["style"],
+    td: ["style", "colspan", "rowspan"],
+    div: ["style"],
   },
 };
 

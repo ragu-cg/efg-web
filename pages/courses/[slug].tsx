@@ -116,9 +116,13 @@ const useStyles = createStyles((theme) => ({
     },
     "& p": {
       marginBottom: "0.5rem",
+      textAlign: "justify",
     },
     "& p:last-child": {
       marginBottom: 0,
+    },
+    "& li": {
+      textAlign: "justify",
     },
   },
 }));

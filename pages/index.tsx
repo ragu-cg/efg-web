@@ -1,11 +1,11 @@
 import Head from "next/head";
+import Link from "next/link";
 import { FeaturesGrid } from "../components/Features/Features";
 import { HeroHome } from "../components/HeroHome/HeroHome";
-import { FeaturedCourseCard } from "../components/FeaturedCourseCard/FeaturedCourseCard";
 import { HomeBannner } from "../components/HomeBannner/HomeBanner";
-import { Container, Grid, Title, createStyles, Text } from "@mantine/core";
+import { Container, Grid, Title, Text, Button, createStyles } from "@mantine/core";
 import { GetStaticProps } from "next";
-import courseDetails from "../public/jsons/course-details.json";
+import { CATEGORIES } from "../lib/categories";
 
 const data = {
   title: "Committed to provide the best to our customers",
@@ -14,78 +14,72 @@ const data = {
 };
 
 const useStyles = createStyles((theme) => ({
-  wrapper: {
-    paddingTop: theme.spacing.xl * 4,
-    paddingBottom: theme.spacing.xl * 2,
-  },
-
-  title: {
+  sectionTitle: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontWeight: 900,
-    marginBottom: theme.spacing.md,
     textAlign: "center",
-
     [theme.fn.smallerThan("sm")]: {
       fontSize: 28,
       textAlign: "left",
     },
   },
-
-  description: {
-    textAlign: "center",
-
-    [theme.fn.smallerThan("sm")]: {
-      textAlign: "left",
+  categoryCard: {
+    minHeight: 300,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    padding: theme.spacing.xl,
+    borderRadius: theme.radius.md,
+    overflow: "hidden",
+    position: "relative" as const,
+    transition: "transform 120ms ease, box-shadow 120ms ease",
+    cursor: "pointer",
+    "&:hover": {
+      transform: "translateY(-3px)",
+      boxShadow: theme.shadows.lg,
     },
+  },
+  cardContent: {
+    position: "relative" as const,
+    zIndex: 1,
+  },
+  cardTitle: {
+    color: theme.white,
+    fontWeight: 700,
+    fontSize: 22,
+    lineHeight: 1.2,
+    marginBottom: theme.spacing.xs,
+  },
+  cardDesc: {
+    color: "rgba(255,255,255,0.78)",
+    fontSize: theme.fontSizes.sm,
+    lineHeight: 1.5,
+    marginBottom: theme.spacing.md,
   },
 }));
 
-const FEATURED_SLUGS = [
-  "work-at-height-rescue-course",
-  "confined-space-management",
-  "perform-work-in-confined-space-operation",
-  "supervise-work-in-confined-space-operation",
-  "shipyard-safety-instruction-course-for-workers-hot-work-trade",
-  "shipyard-safety-instruction-course-for-workers-painter-trade",
-];
+type CategoryProp = {
+  slug: string;
+  label: string;
+  description: string;
+  gradientFrom: string;
+  gradientTo: string;
+};
 
-export const getStaticProps: GetStaticProps = async () => {
-  const courseList = FEATURED_SLUGS.map((slug) => {
-    const c = courseDetails[slug as keyof typeof courseDetails];
-    return {
+export const getStaticProps: GetStaticProps = async () => ({
+  props: {
+    categories: CATEGORIES.map(({ slug, label, description, gradientFrom, gradientTo }) => ({
       slug,
-      title: c.title,
-      uri: `/courses/${slug}/`,
-      featuredImage: c.featuredImage ?? null,
-    };
-  });
-  return { props: { courseList } };
-};
+      label,
+      description,
+      gradientFrom,
+      gradientTo,
+    })),
+  },
+});
 
-type postData = {
-  courseList: {
-    slug: string;
-    title: string;
-    uri: string;
-    featuredImage?: {
-      node?: {
-        mediaItemUrl: string;
-      };
-    } | null;
-  }[];
-};
-
-export default function Home({ courseList }: postData) {
+export default function Home({ categories }: { categories: CategoryProp[] }) {
   const { classes } = useStyles();
-  const gridItems = courseList.map((item, index) => (
-    <Grid.Col key={`FCC-${index}`} md={6} lg={4}>
-      <FeaturedCourseCard
-        title={item.title}
-        link={item.uri}
-        image={item.featuredImage?.node?.mediaItemUrl ?? undefined}
-      />
-    </Grid.Col>
-  ));
 
   return (
     <>
@@ -99,17 +93,35 @@ export default function Home({ courseList }: postData) {
       </Head>
 
       <HeroHome />
-      <Container size="lg" my={40}>
-        <Title className={classes.title} mt={60} mb={40}>
-          Courses on demand!
+      <Container size="lg" my={60}>
+        <Title className={classes.sectionTitle} mb={8}>
+          Browse by Category
         </Title>
-
-        {/* <Container size={560} p={0}>
-          <Text size="sm" className={classes.description}>
-            Some of our safety courses on high demand.
-          </Text>
-        </Container> */}
-        <Grid gutter={40}>{gridItems}</Grid>
+        <Text align="center" color="dimmed" mb={40}>
+          Find the right course for your role and industry.
+        </Text>
+        <Grid gutter={24}>
+          {categories.map((cat) => (
+            <Grid.Col key={cat.slug} xs={12} sm={6} md={3}>
+              <Link href={`/courses/category/${cat.slug}`} style={{ textDecoration: "none" }}>
+                <div
+                  className={classes.categoryCard}
+                  style={{
+                    background: `linear-gradient(150deg, ${cat.gradientFrom} 0%, ${cat.gradientTo} 100%)`,
+                  }}
+                >
+                  <div className={classes.cardContent}>
+                    <div className={classes.cardTitle}>{cat.label}</div>
+                    <div className={classes.cardDesc}>{cat.description}</div>
+                    <Button size="xs" radius="xl" variant="white" color="dark">
+                      View courses
+                    </Button>
+                  </div>
+                </div>
+              </Link>
+            </Grid.Col>
+          ))}
+        </Grid>
       </Container>
       <HomeBannner />
       <FeaturesGrid {...data} />

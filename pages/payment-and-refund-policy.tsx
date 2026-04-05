@@ -19,7 +19,6 @@ const useStyles = createStyles((theme) => ({
     "& li": {
       marginBottom: theme.spacing.sm,
       lineHeight: 1.6,
-      textAlign: "justify",
     },
     "& li:last-child": {
       marginBottom: 0,

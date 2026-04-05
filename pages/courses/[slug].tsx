@@ -10,6 +10,7 @@ import {
   Text,
   Button,
   Title,
+  BackgroundImage,
 } from "@mantine/core";
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -104,10 +105,9 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 600,
   },
   rightCard: {
-    background:
-      theme.colorScheme === "dark"
-        ? `linear-gradient(135deg, ${theme.colors.dark[6]}, ${theme.colors.dark[7]})`
-        : `linear-gradient(135deg, ${theme.colors.blue[4]}, ${theme.colors.blue[6]})`,
+    backgroundImage: `linear-gradient(135deg, ${
+      theme.colors[theme.primaryColor][6]
+    } 0%, ${theme.colors[theme.primaryColor][4]} 100%)`,
     borderRadius: "12px",
     padding: "1.5rem",
     color: theme.white,

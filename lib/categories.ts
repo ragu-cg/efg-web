@@ -6,6 +6,8 @@ export type Category = {
   // hex colours for gradient — intentionally muted to match site's dark navy theme
   gradientFrom: string;
   gradientTo: string;
+  // background image for homepage category cards
+  image: string;
 };
 
 export const CATEGORIES: Category[] = [
@@ -17,6 +19,7 @@ export const CATEGORIES: Category[] = [
     categoryValue: "Worker",
     gradientFrom: "#1c3d5a",
     gradientTo: "#2e6a9e",
+    image: "/images/safety-bg.jpg",
   },
   {
     slug: "supervisor",
@@ -26,6 +29,7 @@ export const CATEGORIES: Category[] = [
     categoryValue: "Supervisor",
     gradientFrom: "#1a4d3a",
     gradientTo: "#2e7d5e",
+    image: "/images/safety-bg.jpg",
   },
   {
     slug: "professional",
@@ -35,6 +39,7 @@ export const CATEGORIES: Category[] = [
     categoryValue: "Professional",
     gradientFrom: "#2d1b4e",
     gradientTo: "#4a3080",
+    image: "/images/safety-bg.jpg",
   },
   {
     slug: "mewp-forklift",
@@ -44,6 +49,7 @@ export const CATEGORIES: Category[] = [
     categoryValue: "MEWP & Forklift operator course",
     gradientFrom: "#4a2c0a",
     gradientTo: "#7a4e1a",
+    image: "/images/safety-bg.jpg",
   },
 ];
 

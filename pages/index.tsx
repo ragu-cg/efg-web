@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FeaturesGrid } from "../components/Features/Features";
 import { HeroHome } from "../components/HeroHome/HeroHome";
 import { HomeBannner } from "../components/HomeBannner/HomeBanner";
-import { Container, Grid, Title, Text, Button, createStyles } from "@mantine/core";
+import { Container, Grid, Title, Text, Button, Paper, createStyles } from "@mantine/core";
 import { GetStaticProps } from "next";
 import { CATEGORIES } from "../lib/categories";
 
@@ -28,10 +28,8 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-end",
-    padding: theme.spacing.xl,
-    borderRadius: theme.radius.md,
-    overflow: "hidden",
-    position: "relative" as const,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     transition: "transform 120ms ease, box-shadow 120ms ease",
     cursor: "pointer",
     "&:hover": {
@@ -39,19 +37,15 @@ const useStyles = createStyles((theme) => ({
       boxShadow: theme.shadows.lg,
     },
   },
-  cardContent: {
-    position: "relative" as const,
-    zIndex: 1,
-  },
   cardTitle: {
     color: theme.white,
-    fontWeight: 700,
+    fontWeight: 900,
     fontSize: 22,
     lineHeight: 1.2,
     marginBottom: theme.spacing.xs,
   },
   cardDesc: {
-    color: "rgba(255,255,255,0.78)",
+    color: "rgba(255,255,255,0.82)",
     fontSize: theme.fontSizes.sm,
     lineHeight: 1.5,
     marginBottom: theme.spacing.md,
@@ -62,18 +56,16 @@ type CategoryProp = {
   slug: string;
   label: string;
   description: string;
-  gradientFrom: string;
-  gradientTo: string;
+  image: string;
 };
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: {
-    categories: CATEGORIES.map(({ slug, label, description, gradientFrom, gradientTo }) => ({
+    categories: CATEGORIES.map(({ slug, label, description, image }) => ({
       slug,
       label,
       description,
-      gradientFrom,
-      gradientTo,
+      image,
     })),
   },
 });
@@ -104,20 +96,21 @@ export default function Home({ categories }: { categories: CategoryProp[] }) {
           {categories.map((cat) => (
             <Grid.Col key={cat.slug} xs={12} sm={6} md={3}>
               <Link href={`/courses/category/${cat.slug}`} style={{ textDecoration: "none" }}>
-                <div
+                <Paper
+                  shadow="md"
+                  p="xl"
+                  radius="md"
                   className={classes.categoryCard}
-                  style={{
-                    background: `linear-gradient(150deg, ${cat.gradientFrom} 0%, ${cat.gradientTo} 100%)`,
+                  sx={{
+                    backgroundImage: `linear-gradient(270deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.80) 80%), url(${cat.image})`,
                   }}
                 >
-                  <div className={classes.cardContent}>
-                    <div className={classes.cardTitle}>{cat.label}</div>
-                    <div className={classes.cardDesc}>{cat.description}</div>
-                    <Button size="xs" radius="xl" variant="white" color="dark">
-                      View courses
-                    </Button>
-                  </div>
-                </div>
+                  <div className={classes.cardTitle}>{cat.label}</div>
+                  <div className={classes.cardDesc}>{cat.description}</div>
+                  <Button size="xs" radius="xl" variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
+                    View courses
+                  </Button>
+                </Paper>
               </Link>
             </Grid.Col>
           ))}

@@ -112,6 +112,10 @@ const useStyles = createStyles((theme) => ({
     "& .mantine-Text-root": {
       color: theme.white,
     },
+    [theme.fn.largerThan("md")]: {
+      position: "sticky" as const,
+      top: 24,
+    },
   },
   infoLabel: {
     color: "rgba(255,255,255,0.9)",

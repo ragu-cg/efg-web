@@ -24,7 +24,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
   categoryCard: {
-    minHeight: 300,
+    minHeight: 420,
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-end",
@@ -40,7 +40,7 @@ const useStyles = createStyles((theme) => ({
   cardTitle: {
     color: theme.white,
     fontWeight: 900,
-    fontSize: 22,
+    fontSize: 28,
     lineHeight: 1.2,
     marginBottom: theme.spacing.xs,
   },
@@ -107,7 +107,7 @@ export default function Home({ categories }: { categories: CategoryProp[] }) {
                 >
                   <div className={classes.cardTitle}>{cat.label}</div>
                   <div className={classes.cardDesc}>{cat.description}</div>
-                  <Button size="xs" radius="xl" variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
+                  <Button size="sm" radius="xl" variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
                     View courses
                   </Button>
                 </Paper>

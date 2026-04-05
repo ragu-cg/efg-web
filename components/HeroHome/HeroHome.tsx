@@ -11,7 +11,7 @@ import Link from "next/link";
 const useStyles = createStyles((theme) => ({
   hero: {
     position: "relative",
-    backgroundImage: "url(./images/hero-bg.jpg)",
+    backgroundImage: "url(/images/hero-bg.jpg)",
     backgroundSize: "cover",
     backgroundPosition: "center bottom",
   },

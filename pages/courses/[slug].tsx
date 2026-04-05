@@ -105,9 +105,7 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 600,
   },
   rightCard: {
-    backgroundImage: `linear-gradient(135deg, ${
-      theme.colors[theme.primaryColor][6]
-    } 0%, ${theme.colors[theme.primaryColor][4]} 100%)`,
+    backgroundImage: `linear-gradient(60deg, indigo 0%, cyan 100%)`,
     borderRadius: "12px",
     padding: "1.5rem",
     color: theme.white,

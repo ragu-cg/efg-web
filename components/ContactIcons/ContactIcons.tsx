@@ -44,8 +44,10 @@ const useStyles = createStyles((theme, { variant }: ContactIconStyles) => ({
   },
 }));
 
-interface ContactIconProps
-  extends Omit<React.ComponentPropsWithoutRef<"div">, "title"> {
+interface ContactIconProps extends Omit<
+  React.ComponentPropsWithoutRef<"div">,
+  "title"
+> {
   icon: React.FC<any>;
   title: React.ReactNode;
   description: React.ReactNode;

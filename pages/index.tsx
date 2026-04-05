@@ -5,8 +5,7 @@ import { FeaturedCourseCard } from "../components/FeaturedCourseCard/FeaturedCou
 import { HomeBannner } from "../components/HomeBannner/HomeBanner";
 import { Container, Grid, Title, createStyles, Text } from "@mantine/core";
 import { GetStaticProps } from "next";
-import courses from "../public/jsons/courses.json";
-import { getFeaturedPosts } from "../lib/api";
+import courseDetails from "../public/jsons/course-details.json";
 
 const data = {
   title: "Committed to provide the best to our customers",
@@ -41,28 +40,38 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+const FEATURED_SLUGS = [
+  "work-at-height-rescue-course",
+  "confined-space-management",
+  "perform-work-in-confined-space-operation",
+  "supervise-work-in-confined-space-operation",
+  "shipyard-safety-instruction-course-for-workers-hot-work-trade",
+  "shipyard-safety-instruction-course-for-workers-painter-trade",
+];
+
 export const getStaticProps: GetStaticProps = async () => {
-  const featuredPosts = await getFeaturedPosts();
-  console.log(featuredPosts);
-  return {
-    props: {
-      courseList: featuredPosts.courses.nodes,
-    },
-  };
+  const courseList = FEATURED_SLUGS.map((slug) => {
+    const c = courseDetails[slug as keyof typeof courseDetails];
+    return {
+      slug,
+      title: c.title,
+      uri: `/courses/${slug}/`,
+      featuredImage: c.featuredImage ?? null,
+    };
+  });
+  return { props: { courseList } };
 };
 
 type postData = {
   courseList: {
-    databaseId: number;
     slug: string;
     title: string;
     uri: string;
-    content: string | null;
     featuredImage?: {
       node?: {
         mediaItemUrl: string;
       };
-    };
+    } | null;
   }[];
 };
 
@@ -73,11 +82,7 @@ export default function Home({ courseList }: postData) {
       <FeaturedCourseCard
         title={item.title}
         link={item.uri}
-        image={
-          item.featuredImage &&
-          item.featuredImage.node &&
-          item.featuredImage.node.mediaItemUrl
-        }
+        image={item.featuredImage?.node?.mediaItemUrl ?? undefined}
       />
     </Grid.Col>
   ));

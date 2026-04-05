@@ -1,117 +1,98 @@
 import Head from "next/head";
+import Link from "next/link";
 import { GetStaticProps } from "next";
 import { Banner } from "../components/Banner/Banner";
 import { FeaturedCourseCard } from "../components/FeaturedCourseCard/FeaturedCourseCard";
-import { getAllPosts } from "../lib/api";
+import courseDetailsRaw from "../public/jsons/course-details.json";
+import { Container, Grid, Title, Button, createStyles } from "@mantine/core";
+import { CATEGORIES } from "../lib/categories";
 
-import { Center, Container, Grid, createStyles } from "@mantine/core";
-
-type Course = {
-  databaseId: number;
-  slug: string;
+type CourseEntry = {
   title: string;
-  uri: string;
-  content: string | null;
-  featuredImage?: {
-    node?: {
-      mediaItemUrl: string;
-    };
-  };
-  efgCourseUserCategory?: string;
+  slug: string;
+  efgCourseUserCategory: string;
+  featuredImage?: { node?: { mediaItemUrl: string } } | null;
 };
 
-// Define a type for the props passed to the page component
-interface postData {
-  courseList: Course[];
-  groupedCourses: { [key: string]: Course[] }; // Grouped by `efgCourseUserCategory`
-}
+type GroupedCategory = {
+  categorySlug: string;
+  label: string;
+  courses: (CourseEntry & { slug: string })[];
+};
+
+type Props = { grouped: GroupedCategory[] };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const allPosts = await getAllPosts();
-  const courseList = allPosts.nodes;
+  const all = Object.entries(
+    courseDetailsRaw as unknown as Record<string, CourseEntry>
+  ).map(([slug, c]) => ({ ...c, slug }));
 
-  // Sort by `efgCourseUserCategory`
-  const sortedCourseList = courseList.sort((a: Course, b: Course) => {
-    const categoryA = a.efgCourseUserCategory || "";
-    const categoryB = b.efgCourseUserCategory || "";
-    if (categoryA < categoryB) return -1;
-    if (categoryA > categoryB) return 1;
-    return 0;
-  });
+  const grouped: GroupedCategory[] = CATEGORIES.map((cat) => ({
+    categorySlug: cat.slug,
+    label: cat.label,
+    courses: all.filter((c) => c.efgCourseUserCategory === cat.categoryValue),
+  })).filter((g) => g.courses.length > 0);
 
-  return {
-    props: {
-      courseList: sortedCourseList,
-    },
-  };
+  return { props: { grouped } };
 };
 
-const styles = createStyles((theme) => ({
-  content: {},
-
-  highlight: {
-    minWidth: "80px",
-    display: "inline-block",
-    fontWeight: 600,
+const useStyles = createStyles((theme) => ({
+  categoryHeader: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 60,
+    marginBottom: theme.spacing.lg,
+    paddingBottom: theme.spacing.sm,
+    borderBottom: `2px solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2]
+    }`,
+  },
+  firstCategoryHeader: {
+    marginTop: 40,
   },
 }));
 
-export default ({ courseList }: postData) => {
-  const { classes } = styles();
-  let previousCategory = ""; // Declare a variable to track the previous category
-  const gridItems = courseList.map((item, index) => {
-    // Store the HTML content for category if it hasn't been rendered before
-    let categoryElement = null;
+export default function CoursesPage({ grouped }: Props) {
+  const { classes } = useStyles();
 
-    if (
-      item.efgCourseUserCategory &&
-      item.efgCourseUserCategory !== previousCategory
-    ) {
-      previousCategory = item.efgCourseUserCategory;
-      categoryElement = (
-        <h2
-          style={{
-            width: "100%",
-            textAlign: "center",
-            textTransform: "capitalize",
-          }}
-        >
-          {item.efgCourseUserCategory === "z"
-            ? "Others"
-            : item.efgCourseUserCategory}{" "}
-          Courses
-        </h2>
-      );
-    }
-    return (
-      <>
-        {categoryElement}
-
-        <Grid.Col key={`FCC-${index}`} md={6} lg={4}>
-          <FeaturedCourseCard
-            title={item.title}
-            link={item.uri}
-            image={
-              item.featuredImage &&
-              item.featuredImage.node &&
-              item.featuredImage.node.mediaItemUrl
-            }
-          />
-        </Grid.Col>
-      </>
-    );
-  });
   return (
     <>
       <Head>
-        <title>About Us | EFG Training Services Pte Ltd</title>
-        <meta name="description" content="EFG Training Services" />
+        <title>All Courses | EFG Training Services</title>
+        <meta name="description" content="EFG Training Services — browse all courses" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Banner title="All Courses" />
-      <Container size="lg" mt={40}>
-        <Grid gutter={40}>{gridItems}</Grid>
+      <Container size="lg" py="xl">
+        {grouped.map(({ categorySlug, label, courses }, i) => (
+          <div key={categorySlug}>
+            <div className={`${classes.categoryHeader} ${i === 0 ? classes.firstCategoryHeader : ""}`}>
+              <Title order={2}>{label}</Title>
+              <Button
+                component={Link}
+                href={`/courses/category/${categorySlug}`}
+                variant="light"
+                size="sm"
+                radius="xl"
+              >
+                View all
+              </Button>
+            </div>
+            <Grid gutter={40}>
+              {courses.map((course, i) => (
+                <Grid.Col key={`${categorySlug}-${i}`} xs={12} sm={6} md={6} lg={4}>
+                  <FeaturedCourseCard
+                    title={course.title}
+                    link={`/courses/${course.slug}`}
+                    image={course.featuredImage?.node?.mediaItemUrl}
+                  />
+                </Grid.Col>
+              ))}
+            </Grid>
+          </div>
+        ))}
       </Container>
     </>
   );
-};
+}

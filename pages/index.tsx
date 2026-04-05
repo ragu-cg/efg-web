@@ -1,12 +1,11 @@
 import Head from "next/head";
+import Link from "next/link";
 import { FeaturesGrid } from "../components/Features/Features";
 import { HeroHome } from "../components/HeroHome/HeroHome";
-import { FeaturedCourseCard } from "../components/FeaturedCourseCard/FeaturedCourseCard";
 import { HomeBannner } from "../components/HomeBannner/HomeBanner";
-import { Container, Grid, Title, createStyles, Text } from "@mantine/core";
+import { Container, Grid, Title, Text, Button, Paper, createStyles } from "@mantine/core";
 import { GetStaticProps } from "next";
-import courses from "../public/jsons/courses.json";
-import { getFeaturedPosts } from "../lib/api";
+import { CATEGORIES } from "../lib/categories";
 
 const data = {
   title: "Committed to provide the best to our customers",
@@ -15,72 +14,64 @@ const data = {
 };
 
 const useStyles = createStyles((theme) => ({
-  wrapper: {
-    paddingTop: theme.spacing.xl * 4,
-    paddingBottom: theme.spacing.xl * 2,
-  },
-
-  title: {
+  sectionTitle: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontWeight: 900,
-    marginBottom: theme.spacing.md,
     textAlign: "center",
-
     [theme.fn.smallerThan("sm")]: {
       fontSize: 28,
       textAlign: "left",
     },
   },
-
-  description: {
-    textAlign: "center",
-
-    [theme.fn.smallerThan("sm")]: {
-      textAlign: "left",
+  categoryCard: {
+    minHeight: 420,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    transition: "transform 120ms ease, box-shadow 120ms ease",
+    cursor: "pointer",
+    "&:hover": {
+      transform: "translateY(-3px)",
+      boxShadow: theme.shadows.lg,
     },
+  },
+  cardTitle: {
+    color: theme.white,
+    fontWeight: 900,
+    fontSize: 28,
+    lineHeight: 1.2,
+    marginBottom: theme.spacing.xs,
+  },
+  cardDesc: {
+    color: "rgba(255,255,255,0.82)",
+    fontSize: theme.fontSizes.sm,
+    lineHeight: 1.5,
+    marginBottom: theme.spacing.md,
   },
 }));
 
-export const getStaticProps: GetStaticProps = async () => {
-  const featuredPosts = await getFeaturedPosts();
-  console.log(featuredPosts);
-  return {
-    props: {
-      courseList: featuredPosts.courses.nodes,
-    },
-  };
+type CategoryProp = {
+  slug: string;
+  label: string;
+  description: string;
+  image: string;
 };
 
-type postData = {
-  courseList: {
-    databaseId: number;
-    slug: string;
-    title: string;
-    uri: string;
-    content: string | null;
-    featuredImage?: {
-      node?: {
-        mediaItemUrl: string;
-      };
-    };
-  }[];
-};
+export const getStaticProps: GetStaticProps = async () => ({
+  props: {
+    categories: CATEGORIES.map(({ slug, label, description, image }) => ({
+      slug,
+      label,
+      description,
+      image,
+    })),
+  },
+});
 
-export default function Home({ courseList }: postData) {
+export default function Home({ categories }: { categories: CategoryProp[] }) {
   const { classes } = useStyles();
-  const gridItems = courseList.map((item, index) => (
-    <Grid.Col key={`FCC-${index}`} md={6} lg={4}>
-      <FeaturedCourseCard
-        title={item.title}
-        link={item.uri}
-        image={
-          item.featuredImage &&
-          item.featuredImage.node &&
-          item.featuredImage.node.mediaItemUrl
-        }
-      />
-    </Grid.Col>
-  ));
 
   return (
     <>
@@ -94,17 +85,36 @@ export default function Home({ courseList }: postData) {
       </Head>
 
       <HeroHome />
-      <Container size="lg" my={40}>
-        <Title className={classes.title} mt={60} mb={40}>
-          Courses on demand!
+      <Container size="lg" my={60}>
+        <Title className={classes.sectionTitle} mb={8}>
+          Browse by Category
         </Title>
-
-        {/* <Container size={560} p={0}>
-          <Text size="sm" className={classes.description}>
-            Some of our safety courses on high demand.
-          </Text>
-        </Container> */}
-        <Grid gutter={40}>{gridItems}</Grid>
+        <Text align="center" color="dimmed" mb={40}>
+          Find the right course for your role and industry.
+        </Text>
+        <Grid gutter={24}>
+          {categories.map((cat) => (
+            <Grid.Col key={cat.slug} xs={12} sm={6} md={6} lg={3}>
+              <Link href={`/courses/category/${cat.slug}`} style={{ textDecoration: "none" }}>
+                <Paper
+                  shadow="md"
+                  p="xl"
+                  radius="md"
+                  className={classes.categoryCard}
+                  sx={{
+                    backgroundImage: `linear-gradient(270deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.80) 80%), url(${cat.image})`,
+                  }}
+                >
+                  <div className={classes.cardTitle}>{cat.label}</div>
+                  <div className={classes.cardDesc}>{cat.description}</div>
+                  <Button size="sm" radius="xl" variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
+                    View courses
+                  </Button>
+                </Paper>
+              </Link>
+            </Grid.Col>
+          ))}
+        </Grid>
       </Container>
       <HomeBannner />
       <FeaturesGrid {...data} />

@@ -41,7 +41,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const courseId = params?.courseId as string;
   const course = Object.values(courseDetails).find(
-    (c) => c.courseID === courseId
+    (c) => c.courseID === courseId,
   );
 
   if (!course) return { notFound: true };
@@ -61,7 +61,7 @@ const CourseSchedulePage: React.FC<Props> = ({ courseId, courseName }) => {
   useEffect(() => {
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}-${String(
-      currentDate.getMonth() + 1
+      currentDate.getMonth() + 1,
     ).padStart(2, "0")}-${String(currentDate.getDate()).padStart(2, "0")}`;
 
     axios({
@@ -72,7 +72,7 @@ const CourseSchedulePage: React.FC<Props> = ({ courseId, courseName }) => {
     })
       .then((response) => {
         const matched = response.data.courses?.find(
-          (c: { courseID: string }) => c.courseID === courseId
+          (c: { courseID: string }) => c.courseID === courseId,
         );
         setSchedule(matched?.courseSchedule ?? []);
       })
@@ -88,7 +88,9 @@ const CourseSchedulePage: React.FC<Props> = ({ courseId, courseName }) => {
       </Head>
       <Banner title={`${courseName} — Schedule`} />
       <Container size="md" mt={60}>
-        <Anchor href={`/courses/${Object.values(courseDetails).find(c => c.courseID === courseId)?.slug}`}>
+        <Anchor
+          href={`/courses/${Object.values(courseDetails).find((c) => c.courseID === courseId)?.slug}`}
+        >
           ← Back to course
         </Anchor>
 
@@ -103,7 +105,24 @@ const CourseSchedulePage: React.FC<Props> = ({ courseId, courseName }) => {
         )}
 
         {!error && schedule !== null && schedule.length === 0 && (
-          <Text mt="xl">No upcoming sessions available at this time.</Text>
+          <>
+            <Text mt="xl" color="dimmed">
+              There are no scheduled sessions for this course at the moment.
+              However, we can arrange a dedicated run for your group — whether
+              you are an individual looking to join others or a company
+              registering your team.{" "}
+            </Text>
+            <Text mt="sm" color="dimmed">
+              A minimum of 3 participants is required to open a new class. For
+              enquiries, please reach out to us at{" "}
+              <Anchor href="tel:+6563347872">+65 6334 7872</Anchor> or{" "}
+              <Anchor href="mailto:admin@efg.com.sg">admin@efg.com.sg</Anchor>.
+            </Text>
+            <Text mt="sm" color="dimmed">
+              In the meantime, feel free to{" "}
+              <Anchor href="/courses">browse our other courses</Anchor>.
+            </Text>
+          </>
         )}
 
         {!error && schedule !== null && schedule.length > 0 && (

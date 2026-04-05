@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Paper,
   Text,
@@ -13,43 +14,6 @@ import Head from "next/head";
 import { Banner } from "../components/Banner/Banner";
 import { ContactIconsList } from "./../components/ContactIcons/ContactIcons";
 import bg from "./../public/images/blue-bg.svg";
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  // Get data from the form.
-  const data = {
-    contactName: e.target.contactName.value,
-    contactEmail: e.target.contactEmail.value,
-    contactSubject: e.target.contactSubject.value,
-    contactMessage: e.target.contactMessage.value,
-  };
-  const contactForm = document.getElementById("contactForm");
-  let notification: String;
-  fetch("/api/contact", {
-    method: "POST",
-    headers: {
-      Accept: "application/json, text/plain, */*",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((res) => {
-      // console.log("Response received", res);
-      if (res.status === 200) {
-        // console.log("Response succeeded!");
-        notification = "Thank you for contacting us!";
-
-        contactForm && contactForm.reset();
-      } else {
-        // console.log("Email/Password is invalid.");
-        notification =
-          "Something went wrong. Please try again later or call / email us directly";
-      }
-      console.log(notification);
-      contactForm.querySelector(".notification").textContent = String(notification);
-    })
-    .catch((e) => console.log(e));
-};
 
 const useStyles = createStyles((theme) => {
   const BREAKPOINT = theme.fn.smallerThan("sm");
@@ -147,6 +111,32 @@ const useStyles = createStyles((theme) => {
 
 export default function Contact() {
   const { classes } = useStyles();
+  const [notification, setNotification] = useState<{ text: string; ok: boolean } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = {
+      contactName: (form.elements.namedItem("contactName") as HTMLInputElement).value,
+      contactEmail: (form.elements.namedItem("contactEmail") as HTMLInputElement).value,
+      contactSubject: (form.elements.namedItem("contactSubject") as HTMLInputElement).value,
+      contactMessage: (form.elements.namedItem("contactMessage") as HTMLTextAreaElement).value,
+    };
+    fetch("/api/contact", {
+      method: "POST",
+      headers: { Accept: "application/json, text/plain, */*", "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          setNotification({ text: "Thank you for contacting us!", ok: true });
+          form.reset();
+        } else {
+          setNotification({ text: "Something went wrong. Please try again later or call / email us directly.", ok: false });
+        }
+      })
+      .catch(() => setNotification({ text: "Something went wrong. Please try again later or call / email us directly.", ok: false }));
+  };
   return (
     <>
       <Head>
@@ -222,7 +212,11 @@ export default function Contact() {
                     Send message
                   </Button>
                 </Group>
-                <p className="notification" style={{ color: "green" }}></p>
+                {notification && (
+                  <p style={{ color: notification.ok ? "green" : "red", marginTop: "0.5rem" }}>
+                    {notification.text}
+                  </p>
+                )}
               </div>
             </form>
           </div>

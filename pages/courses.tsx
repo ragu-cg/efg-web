@@ -81,7 +81,7 @@ export default function CoursesPage({ grouped }: Props) {
             </div>
             <Grid gutter={40}>
               {courses.map((course, i) => (
-                <Grid.Col key={`${categorySlug}-${i}`} md={6} lg={4}>
+                <Grid.Col key={`${categorySlug}-${i}`} xs={12} sm={6} md={6} lg={4}>
                   <FeaturedCourseCard
                     title={course.title}
                     link={`/courses/${course.slug}`}

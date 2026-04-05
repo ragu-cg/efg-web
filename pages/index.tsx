@@ -94,7 +94,7 @@ export default function Home({ categories }: { categories: CategoryProp[] }) {
         </Text>
         <Grid gutter={24}>
           {categories.map((cat) => (
-            <Grid.Col key={cat.slug} xs={12} sm={6} md={3}>
+            <Grid.Col key={cat.slug} xs={12} sm={6} md={6} lg={3}>
               <Link href={`/courses/category/${cat.slug}`} style={{ textDecoration: "none" }}>
                 <Paper
                   shadow="md"

@@ -46,21 +46,49 @@ export default function PaymentAndRefundPolicy() {
           </Title>
           <ol className={classes.list}>
             <li>
-              All payments can be made by crossed cheque payable to EFG Training
-              Services Private Ltd, Bank Transfer, PayNow, or SkillsFuture
-              Credit.
+              All payments may be made via crossed cheque payable to EFG
+              Training Services Private Ltd, Bank Transfer, PayNow, or
+              SkillsFuture Credit.
             </li>
             <li>
               Payment must be made on or before the course commencement date.
             </li>
             <li>
-              If payment is not received, the printing of the ID Pass /
-              Certificate will not be possible.
+              If payment is not received, the issuance of the ID Pass and/or
+              Certificate will not be processed.
             </li>
-            <li>For retake exams, the full course fee applies.</li>
+            <li>For retake examinations, the full course fee shall apply.</li>
             <li>
-              Singaporeans &amp; PRs: if a grant is not approved by SSG, full
-              payment must be made by the participant.
+              For Singapore Citizens and Permanent Residents, funding is subject
+              to approval by SkillsFuture Singapore (SSG). If the grant is not
+              approved, the participant shall be liable to pay the full course
+              fee.
+            </li>
+            <li>
+              Please note that funding is subject to final approval and
+              disbursement by SkillsFuture Singapore (SSG). If the funding is
+              not approved or not disbursed for any reason after the course
+              commences, the trainee/sponsoring company shall be liable to pay
+              the full outstanding course fees.
+              <div style={{ marginTop: "1.5rem" }}>
+                <Text size="sm" weight={600} mb="xs">
+                  This includes, but is not limited to:
+                </Text>
+                <ul style={{ paddingLeft: "1.5rem", margin: 0 }}>
+                  <li style={{ marginBottom: "0.5rem", lineHeight: 1.6 }}>
+                    insufficient attendance
+                  </li>
+                  <li style={{ marginBottom: "0.5rem", lineHeight: 1.6 }}>
+                    failure to meet assessment requirements
+                  </li>
+                  <li style={{ marginBottom: "0.5rem", lineHeight: 1.6 }}>
+                    ineligibility based on CPF contributions
+                  </li>
+                  <li style={{ marginBottom: 0, lineHeight: 1.6 }}>
+                    non-compliance with SSG funding criteria
+                  </li>
+                </ul>
+              </div>
             </li>
           </ol>
         </div>
@@ -69,33 +97,42 @@ export default function PaymentAndRefundPolicy() {
 
         <div className={classes.section}>
           <Title order={3} className={classes.sectionTitle}>
-            Refund Policy
+            Refund and Withdrawal Policy
           </Title>
           <ol className={classes.list}>
             <li>Payment is required upon receipt of confirmation.</li>
             <li>
-              If a written notice of withdrawal is received by EFG at least one
-              week before the course starts, a <strong>90% refund</strong> will
-              be provided.
-            </li>
-            <li>
-              If the notice of withdrawal is received less than one week but
-              more than three working days before the course starts, a{" "}
-              <strong>75% refund</strong> will be issued.
+              A <strong>100% refund</strong> will be provided if a written
+              notice of withdrawal is received by EFG at least one week before
+              the course commencement.
             </li>
             <li>
               <strong>No refund</strong> will be given if EFG receives the
-              notice of withdrawal within three working days before the course
-              starts.
+              notice of withdrawal within{" "}
+              <strong>three (3) working days</strong> before the course
+              commencement date.
             </li>
             <li>
-              <strong>No refund</strong> will be issued if the participant fails
-              to attend the course on the commencement date or discontinues
-              mid-way through the course.
+              <strong>No refund</strong> will be issued if the participant{" "}
+              <strong>fails to attend</strong> the course on the commencement
+              date or <strong>discontinues mid-way</strong> through the course.
             </li>
             <li>
-              Participant replacement is allowed if the request is made prior to
-              course commencement.
+              Participant replacement is allowed, provided that the request is
+              made prior to course commencement.
+            </li>
+            <li>
+              If EFG cancels the course{" "}
+              <strong>within three (3) working days</strong> before the course
+              commencement date, the refund or alternative arrangement will be{" "}
+              <strong>
+                reviewed and decided by Management on a case-by-case basis
+              </strong>
+              .
+            </li>
+            <li>
+              EFG reserves the right to review and decide on any exceptional
+              cases at Management's discretion.
             </li>
           </ol>
         </div>
@@ -113,8 +150,8 @@ export default function PaymentAndRefundPolicy() {
           refund policy.
         </Text>
         <a
-          href="/pdfs/efg-payment-and-refund-policy.txt"
-          download="EFG-Payment-and-Refund-Policy.txt"
+          href="/docs/EFG-Payment-Policy.docx"
+          download="EFG-Payment-Policy.docx"
         >
           Download Payment & Refund Policy
         </a>

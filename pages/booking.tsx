@@ -88,7 +88,7 @@ const CourseBookingForm: React.FC = () => {
   const [bookingTypeVisibility, setBookingTypeVisibility] =
     useState<boolean>(false);
   const [bookingType, setBookingType] = useState<"individual" | "company">(
-    "individual"
+    "individual",
   );
 
   const [participants, setParticipants] = useState<number>(1);
@@ -153,7 +153,7 @@ const CourseBookingForm: React.FC = () => {
       setSelectedClass(classID as string);
 
       const selectedClassData = getSelectedCourse.courseSchedule.find(
-        (classItem) => classItem.classID === classID
+        (classItem) => classItem.classID === classID,
       );
       const slots = selectedClassData?.availableSlots || 0;
       if (slots) {
@@ -180,7 +180,7 @@ const CourseBookingForm: React.FC = () => {
   // Handle class select on change
   const handleClassSelect = (value: string) => {
     const selectedOption = courseClasses.find(
-      (classItem) => classItem.classID === value
+      (classItem) => classItem.classID === value,
     );
     if (selectedOption) {
       setSelectedClass(value);
@@ -207,7 +207,6 @@ const CourseBookingForm: React.FC = () => {
         nationality: "",
       },
     ]);
-    console.log(availableSlots);
   };
 
   // Handle slot count change
@@ -215,18 +214,24 @@ const CourseBookingForm: React.FC = () => {
     const value = event.currentTarget.value;
     const slotCount = Number(value);
     setParticipants(Number.isNaN(slotCount) || slotCount < 0 ? 1 : slotCount);
-    console.log(slotCount);
     if (
       bookingType === "company" &&
       (!slotCount || slotCount > availableSlots)
     ) {
       setAvailableSlotsError(true);
-      return false;
+      return;
     } else {
       setAvailableSlotsError(false);
     }
     setBookings(
-      new Array(slotCount).fill({ name: "", email: "", contactNumber: "" })
+      new Array(slotCount).fill(null).map(() => ({
+        name: "",
+        email: "",
+        contactNumber: "",
+        icNumber: "",
+        dob: "",
+        nationality: "",
+      })),
     );
   };
 
@@ -289,22 +294,20 @@ const CourseBookingForm: React.FC = () => {
         booking.icNumber.trim() !== "" &&
         booking.dob.trim() !== "" &&
         booking.nationality.trim() !== "" &&
-        booking.contactNumber.trim() !== ""
+        booking.contactNumber.trim() !== "",
     );
     const isCompanyDetailsValid =
       companyDetails.name !== "" &&
       companyDetails.contactPerson !== "" &&
       companyDetails.contactNumber !== "" &&
-      companyDetails.contactEmail !== ""
-        ? true
-        : false;
+      companyDetails.contactEmail !== "";
     if (
       !isBookingValid ||
       (bookingType === "company" && !isCompanyDetailsValid)
     ) {
       setFormValidationError(true);
       setNotification(
-        "Please fill all the required fields with aestrik to proceed."
+        "Please fill all the required fields marked with an asterisk to proceed.",
       );
       return false;
     } else if (!privacyChecked) {
@@ -368,7 +371,7 @@ const CourseBookingForm: React.FC = () => {
                 console.log("Successfully sent email to admin!");
               } else {
                 console.log(
-                  "Something went wrong while sending email to admin."
+                  "Something went wrong while sending email to admin.",
                 );
               }
             })
@@ -410,7 +413,7 @@ const CourseBookingForm: React.FC = () => {
         <Select
           label="Select Course"
           value={selectedCourse?.toString() || ""}
-          onChange={(value: "") => handleCourseChange(value)}
+          onChange={(value: string) => handleCourseChange(value)}
           placeholder="Select a course"
           data={courses.map((course) => ({
             value: course.courseID.toString(),
@@ -478,7 +481,7 @@ const CourseBookingForm: React.FC = () => {
                 onChange={(event) =>
                   handleCompanyDetailsChange(
                     "contactPerson",
-                    event.currentTarget.value
+                    event.currentTarget.value,
                   )
                 }
                 withAsterisk
@@ -489,7 +492,7 @@ const CourseBookingForm: React.FC = () => {
                 onChange={(event) =>
                   handleCompanyDetailsChange(
                     "contactNumber",
-                    event.currentTarget.value
+                    event.currentTarget.value,
                   )
                 }
                 withAsterisk
@@ -500,7 +503,7 @@ const CourseBookingForm: React.FC = () => {
                 onChange={(event) =>
                   handleCompanyDetailsChange(
                     "contactEmail",
-                    event.currentTarget.value
+                    event.currentTarget.value,
                   )
                 }
                 withAsterisk
@@ -543,7 +546,7 @@ const CourseBookingForm: React.FC = () => {
                     handleBookingChange(
                       index,
                       "name",
-                      event.currentTarget.value
+                      event.currentTarget.value,
                     )
                   }
                   withAsterisk
@@ -557,7 +560,7 @@ const CourseBookingForm: React.FC = () => {
                     handleBookingChange(
                       index,
                       "icNumber",
-                      event.currentTarget.value
+                      event.currentTarget.value,
                     )
                   }
                   withAsterisk
@@ -572,7 +575,7 @@ const CourseBookingForm: React.FC = () => {
                     handleBookingChange(
                       index,
                       "dob",
-                      event.currentTarget.value
+                      event.currentTarget.value,
                     );
                   }}
                   withAsterisk
@@ -585,7 +588,7 @@ const CourseBookingForm: React.FC = () => {
                     handleBookingChange(
                       index,
                       "nationality",
-                      event.currentTarget.value
+                      event.currentTarget.value,
                     )
                   }
                   withAsterisk
@@ -598,7 +601,7 @@ const CourseBookingForm: React.FC = () => {
                     handleBookingChange(
                       index,
                       "email",
-                      event.currentTarget.value
+                      event.currentTarget.value,
                     )
                   }
                 />
@@ -609,7 +612,7 @@ const CourseBookingForm: React.FC = () => {
                     handleBookingChange(
                       index,
                       "contactNumber",
-                      event.currentTarget.value
+                      event.currentTarget.value,
                     )
                   }
                   withAsterisk
@@ -634,7 +637,7 @@ const CourseBookingForm: React.FC = () => {
                           handleBookingChange(
                             index,
                             "name",
-                            event.currentTarget.value
+                            event.currentTarget.value,
                           )
                         }
                         withAsterisk
@@ -648,7 +651,7 @@ const CourseBookingForm: React.FC = () => {
                           handleBookingChange(
                             index,
                             "icNumber",
-                            event.currentTarget.value
+                            event.currentTarget.value,
                           )
                         }
                         withAsterisk
@@ -663,7 +666,7 @@ const CourseBookingForm: React.FC = () => {
                           handleBookingChange(
                             index,
                             "dob",
-                            event.currentTarget.value
+                            event.currentTarget.value,
                           )
                         }
                         withAsterisk
@@ -677,7 +680,7 @@ const CourseBookingForm: React.FC = () => {
                           handleBookingChange(
                             index,
                             "nationality",
-                            event.currentTarget.value
+                            event.currentTarget.value,
                           )
                         }
                         withAsterisk
@@ -691,7 +694,7 @@ const CourseBookingForm: React.FC = () => {
                           handleBookingChange(
                             index,
                             "email",
-                            event.currentTarget.value
+                            event.currentTarget.value,
                           )
                         }
                       />
@@ -704,7 +707,7 @@ const CourseBookingForm: React.FC = () => {
                           handleBookingChange(
                             index,
                             "contactNumber",
-                            event.currentTarget.value
+                            event.currentTarget.value,
                           )
                         }
                         withAsterisk
@@ -717,40 +720,45 @@ const CourseBookingForm: React.FC = () => {
           </div>
         )}
 
-        {/* Acceptance checkbox */}
-        <Text mb={"1rem"}>
-          I, the Applicant, consent to the collection, use, and disclosure of my
-          personal data and training records to companies that access the
-          Ministry of Manpower (MOM)'s Training Record System (TRS). Companies
-          using the Check Workers WSH Training Records eService on the MOM
-          website may verify my training records, including the following
-          information:
-          <List size="md" withPadding>
-            <List.Item color="teal">
-              Identification Number (Work Permit Number / FIN Number / NRIC
-              Number){" "}
-            </List.Item>
-            <List.Item> Name </List.Item>
-            <List.Item>
-              {" "}
-              Eligibility for 4 years of Safety Orientation Course (CSOC / SSIC
-              / MSOC certification, if applicable){" "}
-            </List.Item>
-            <List.Item> Course Title </List.Item>
-            <List.Item> Name of Training Provider </List.Item>
-            <List.Item> Date of Assessment </List.Item>
-            <List.Item> Certificate Expiry Date </List.Item>
-            <List.Item> Result of Assessment</List.Item>
-          </List>
-        </Text>
-        <Checkbox
-          checked={privacyChecked}
-          label="By checking this box, I confirm my consent for the disclosure of the selected
-          information."
-          size="md"
-          mb={"1rem"}
-          onChange={(event) => setPrivacyChecked(event.currentTarget.checked)}
-        />
+        {/* Acceptance checkbox — only shown once a class is selected */}
+        {bookingTypeVisibility && (
+          <>
+            <Text mb={"1rem"}>
+              I, the Applicant, consent to the collection, use, and disclosure
+              of my personal data and training records to companies that access
+              the Ministry of Manpower (MOM)'s Training Record System (TRS).
+              Companies using the Check Workers WSH Training Records eService on
+              the MOM website may verify my training records, including the
+              following information:
+              <List size="md" withPadding>
+                <List.Item color="teal">
+                  Identification Number (Work Permit Number / FIN Number / NRIC
+                  Number){" "}
+                </List.Item>
+                <List.Item> Name </List.Item>
+                <List.Item>
+                  {" "}
+                  Eligibility for 4 years of Safety Orientation Course (CSOC /
+                  SSIC / MSOC certification, if applicable){" "}
+                </List.Item>
+                <List.Item> Course Title </List.Item>
+                <List.Item> Name of Training Provider </List.Item>
+                <List.Item> Date of Assessment </List.Item>
+                <List.Item> Certificate Expiry Date </List.Item>
+                <List.Item> Result of Assessment</List.Item>
+              </List>
+            </Text>
+            <Checkbox
+              checked={privacyChecked}
+              label="By checking this box, I confirm my consent for the disclosure of the selected information."
+              size="md"
+              mb={"1rem"}
+              onChange={(event) =>
+                setPrivacyChecked(event.currentTarget.checked)
+              }
+            />
+          </>
+        )}
 
         {/* Error Notification */}
         {notification && (
@@ -765,10 +773,7 @@ const CourseBookingForm: React.FC = () => {
         )}
 
         {/* Submit Button */}
-        <Button
-          onClick={handleSubmit}
-          disabled={availableSlotsError ? true : false}
-        >
+        <Button onClick={handleSubmit} disabled={availableSlotsError}>
           Submit
         </Button>
       </Container>

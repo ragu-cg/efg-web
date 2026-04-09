@@ -150,10 +150,11 @@ export default function PaymentAndRefundPolicy() {
           refund policy.
         </Text>
         <a
-          href="/docs/EFG-Payment-Policy.docx"
-          download="EFG-Payment-Policy.docx"
+          href="/Refund-Request-Form.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Download Payment & Refund Policy
+          Download Refund Request Form
         </a>
       </Container>
     </>

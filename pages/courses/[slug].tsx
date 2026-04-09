@@ -200,6 +200,7 @@ type postData = {
       };
     };
     efgCourseApplicationForm?: string;
+    efgCourseApplicationFormIndividual?: string;
     courseID?: string;
   };
 };
@@ -323,7 +324,7 @@ export default ({ course }: postData) => {
                   <Button
                     component="a"
                     variant="outline"
-                    href="https://www.efg.com.sg/application-forms/EFG-Course-Registration-Individual.pdf"
+                    href={course.efgCourseApplicationFormIndividual || "/application-forms/2026/Individual/EFG-Course-Registration-Individual.pdf"}
                     size="sm"
                     radius="xl"
                     mt="xs"

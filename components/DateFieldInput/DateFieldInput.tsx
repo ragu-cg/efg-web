@@ -34,7 +34,7 @@ export function DateFieldInput({
   const error = (() => {
     if (!value) return undefined;
     if (!parsedDate) return "Enter a valid date in DD/MM/YYYY format";
-    return validate ? validate(parsedDate, value) ?? undefined : undefined;
+    return validate ? (validate(parsedDate, value) ?? undefined) : undefined;
   })();
 
   return (
@@ -58,7 +58,7 @@ export function DateFieldInput({
               variant="transparent"
               title="Open calendar"
             >
-              <IconCalendar size={16} />
+              <IconCalendar size={22} />
             </ActionIcon>
           }
         />

@@ -71,6 +71,8 @@ interface Booking {
   contactNumber: string;
   isSgResident?: string;
   applyingSsg?: string;
+  employmentStatus?: string;
+  monthlySalary?: string;
 }
 
 // interface FormErrors {
@@ -571,6 +573,14 @@ const CourseBookingForm: React.FC = () => {
                     onSsgChange={(val) =>
                       handleBookingChange(index, "applyingSsg", val)
                     }
+                    employmentStatus={booking.employmentStatus ?? ""}
+                    monthlySalary={booking.monthlySalary ?? ""}
+                    onEmploymentStatusChange={(val) =>
+                      handleBookingChange(index, "employmentStatus", val)
+                    }
+                    onMonthlySalaryChange={(val) =>
+                      handleBookingChange(index, "monthlySalary", val)
+                    }
                   />
                 )}
                 <TextInput
@@ -664,6 +674,14 @@ const CourseBookingForm: React.FC = () => {
                       }
                       onSsgChange={(val) =>
                         handleBookingChange(index, "applyingSsg", val)
+                      }
+                      employmentStatus={bookings[index]?.employmentStatus ?? ""}
+                      monthlySalary={bookings[index]?.monthlySalary ?? ""}
+                      onEmploymentStatusChange={(val) =>
+                        handleBookingChange(index, "employmentStatus", val)
+                      }
+                      onMonthlySalaryChange={(val) =>
+                        handleBookingChange(index, "monthlySalary", val)
                       }
                     />
                   )}

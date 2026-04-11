@@ -1,10 +1,32 @@
-import { Paper, Text, Radio, Group, List } from "@mantine/core";
+import {
+  Paper,
+  Text,
+  Radio,
+  Group,
+  List,
+  Checkbox,
+  Stack,
+} from "@mantine/core";
+
+const SALARY_RANGES = [
+  "Below $1000",
+  "$1000 - $1499",
+  "$1500 - $2000",
+  "$2000 - $2500",
+  "$2500 - $3000",
+  "$3000 - $3500",
+  "$3500 and above",
+];
 
 interface FundingInfoProps {
   isSgResident: string;
   applyingSsg: string;
   onResidentChange: (val: string) => void;
   onSsgChange: (val: string) => void;
+  employmentStatus?: string;
+  monthlySalary?: string;
+  onEmploymentStatusChange?: (val: string) => void;
+  onMonthlySalaryChange?: (val: string) => void;
 }
 
 export function FundingInfo({
@@ -12,6 +34,10 @@ export function FundingInfo({
   applyingSsg,
   onResidentChange,
   onSsgChange,
+  employmentStatus = "",
+  monthlySalary = "",
+  onEmploymentStatusChange,
+  onMonthlySalaryChange,
 }: FundingInfoProps) {
   return (
     <Paper
@@ -56,82 +82,42 @@ export function FundingInfo({
       )}
 
       {isSgResident === "yes" && applyingSsg === "yes" && (
-        <Paper
-          withBorder
-          p="md"
-          radius="md"
-          mt="md"
-          sx={{ borderColor: "#e0a800", backgroundColor: "#fffdf0" }}
-        >
-          <Text weight={700} mb="sm">
-            Grant Disbursement Criteria
-          </Text>
-          <Text size="sm" mb="sm">
-            To qualify for grant disbursement, the following conditions must be met:
-          </Text>
+        <>
+          {/* Employment status — required for SSG grant */}
+          <Radio.Group
+            label="Employment Status"
+            value={employmentStatus}
+            onChange={onEmploymentStatusChange}
+            mt="md"
+          >
+            <Group mt="xs">
+              <Radio value="employed" label="Employed" />
+              <Radio value="unemployed" label="Unemployed" />
+            </Group>
+          </Radio.Group>
 
-          <List size="sm" spacing="sm" icon="➢">
-            <List.Item>
-              <Text size="sm" weight={600} component="span">
-                Training Grant Criteria:{" "}
+          {employmentStatus === "employed" && (
+            <Stack mt="md" spacing="xs">
+              <Text size="sm" weight={600}>
+                Monthly salary:
               </Text>
-              <Text size="sm" component="span">
-                To qualify for SkillsFuture Singapore (SSG), the trainee must be
-                receiving at least 03 months of CPF contributions from the sponsoring
-                company. Otherwise, funding will likely be rejected, and we will have
-                to back charge the fees to you. Thank you for your understanding.
-              </Text>
-            </List.Item>
-          </List>
-
-          <Text size="sm" mt="sm" mb="sm">
-            Please note that the funding is subject to final approval and
-            disbursement by Skills Future Singapore (SSG). If the funding is not
-            approved or released for any reason after the course, the trainee
-            and/or sponsoring company shall be liable to pay the full outstanding
-            course fees. This may include, but is not limited to, reasons such as
-            insufficient attendance, failure to meet assessment requirements,
-            ineligibility based on CPF contributions, or any other non-compliance
-            with SSG funding criteria.
-          </Text>
-
-          <List size="sm" spacing="sm" icon="➢">
-            <List.Item>
-              <Text size="sm" weight={600} component="span">
-                Attendance Requirement:{" "}
-              </Text>
-              <Text size="sm" component="span">
-                The Trainee must achieve 100% attendance.
-              </Text>
-            </List.Item>
-            <List.Item>
-              <Text size="sm" weight={600} component="span">
-                Assessment:{" "}
-              </Text>
-              <Text size="sm" component="span">
-                The Trainee must pass all prescribed examinations or assessments.
-              </Text>
-            </List.Item>
-            <List.Item>
-              <Text size="sm" weight={600} component="span">
-                Payment:{" "}
-              </Text>
-              <Text size="sm" component="span">
-                All course fees must be paid in full on or before course date.
-              </Text>
-            </List.Item>
-          </List>
-
-          <Text size="xs" color="dimmed" mt="sm">
-            Please note that EFG Training Services will not be held liable for any
-            rejected grant applications if the required procedures and documentation
-            is not followed.
-          </Text>
-          <Text size="xs" color="dimmed" mt="xs">
-            Singapore Citizens / Singapore Permanent Residents applying for grants
-            — mandatory to take attendance using Singpass App.
-          </Text>
-        </Paper>
+              <Group spacing="xs" sx={{ flexWrap: "wrap" }}>
+                {SALARY_RANGES.map((range) => (
+                  <Checkbox
+                    key={range}
+                    label={range}
+                    checked={monthlySalary === range}
+                    onChange={() =>
+                      onMonthlySalaryChange?.(
+                        monthlySalary === range ? "" : range,
+                      )
+                    }
+                  />
+                ))}
+              </Group>
+            </Stack>
+          )}
+        </>
       )}
     </Paper>
   );

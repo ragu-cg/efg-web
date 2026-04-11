@@ -19,6 +19,8 @@ interface Participant {
   nationality: string;
   isSgResident?: string;
   applyingSsg?: string;
+  employmentStatus?: string;
+  monthlySalary?: string;
 }
 
 interface BookingRequest {
@@ -80,6 +82,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           <td>${escapeHtml(p.nationality)}</td>
           <td>${escapeHtml(p.isSgResident || '-')}</td>
           <td>${escapeHtml(p.applyingSsg || '-')}</td>
+          <td>${escapeHtml(p.employmentStatus || '-')}</td>
+          <td>${escapeHtml(p.monthlySalary || '-')}</td>
         </tr>
       `
       )
@@ -130,6 +134,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               <th>Nationality</th>
               <th>SG Resident / PR</th>
               <th>SSG Funding</th>
+              <th>Employment Status</th>
+              <th>Monthly Salary</th>
             </tr>
           </thead>
           <tbody>

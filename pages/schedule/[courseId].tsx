@@ -7,7 +7,7 @@ import { Banner } from "../../components/Banner/Banner";
 import ClassCard from "../../components/ClassCard/ClassCard";
 import courseDetailsRaw from "../../public/jsons/course-details.json";
 import styles from "../../styles/Schedule.module.css";
-import { isClassInFuture } from "../../lib/scheduleUtils";
+import { isClassInFuture, sortScheduleItem } from "../../lib/scheduleUtils";
 
 type CourseEntry = {
   title: string;
@@ -75,9 +75,9 @@ const CourseSchedulePage: React.FC<Props> = ({ courseId, courseName }) => {
         const matched = response.data.courses?.find(
           (c: { courseID: string }) => c.courseID === courseId,
         );
-        const filtered = (matched?.courseSchedule ?? []).filter(
-          (item: { classDate: string }) => isClassInFuture(item.classDate)
-        );
+        const filtered = (matched?.courseSchedule ?? [] as CourseScheduleItem[])
+          .map((item: CourseScheduleItem) => sortScheduleItem(item))
+          .filter((item) => isClassInFuture(item.classDate));
         setSchedule(filtered);
       })
       .catch(() => setError(true));

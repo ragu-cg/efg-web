@@ -259,16 +259,11 @@ const CourseBookingForm: React.FC = () => {
 
   // Handle booking details change
   const handleBookingChange = (index: number, field: string, value: string) => {
-    const updatedBookings = bookings.map((booking, i) => {
-      if (i === index) {
-        return {
-          ...booking,
-          [field]: value,
-        };
-      }
-      return booking;
-    });
-    setBookings(updatedBookings);
+    setBookings((prev) =>
+      prev.map((booking, i) =>
+        i === index ? { ...booking, [field]: value } : booking
+      )
+    );
   };
 
   // Reset form data.
@@ -557,10 +552,9 @@ const CourseBookingForm: React.FC = () => {
                   <FundingInfo
                     isSgResident={booking.isSgResident ?? ""}
                     applyingSsg={booking.applyingSsg ?? ""}
-                    onResidentChange={(val) => {
-                      handleBookingChange(index, "isSgResident", val);
-                      handleBookingChange(index, "applyingSsg", "");
-                    }}
+                    onResidentChange={(val) =>
+                      handleBookingChange(index, "isSgResident", val)
+                    }
                     onSsgChange={(val) =>
                       handleBookingChange(index, "applyingSsg", val)
                     }
@@ -659,10 +653,9 @@ const CourseBookingForm: React.FC = () => {
                     <FundingInfo
                       isSgResident={bookings[index]?.isSgResident ?? ""}
                       applyingSsg={bookings[index]?.applyingSsg ?? ""}
-                      onResidentChange={(val) => {
-                        handleBookingChange(index, "isSgResident", val);
-                        handleBookingChange(index, "applyingSsg", "");
-                      }}
+                      onResidentChange={(val) =>
+                        handleBookingChange(index, "isSgResident", val)
+                      }
                       onSsgChange={(val) =>
                         handleBookingChange(index, "applyingSsg", val)
                       }

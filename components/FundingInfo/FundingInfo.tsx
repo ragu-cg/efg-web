@@ -1,16 +1,25 @@
-import { useState } from "react";
 import { Paper, Text, Radio, Group, List } from "@mantine/core";
 
-export function FundingInfo() {
-  const [isSgResident, setIsSgResident] = useState("");
-  const [applyingSsg, setApplyingSsg] = useState("");
+interface FundingInfoProps {
+  isSgResident: string;
+  applyingSsg: string;
+  onResidentChange: (val: string) => void;
+  onSsgChange: (val: string) => void;
+}
 
+export function FundingInfo({
+  isSgResident,
+  applyingSsg,
+  onResidentChange,
+  onSsgChange,
+}: FundingInfoProps) {
   return (
     <Paper
       withBorder
       p="md"
       radius="md"
       mt="md"
+      mb="md"
       sx={{ borderColor: "#1c8fa0", backgroundColor: "#f0faff" }}
     >
       <Text weight={700} mb="xs">
@@ -21,8 +30,8 @@ export function FundingInfo() {
         label="Are you a Singaporean or Permanent Resident?"
         value={isSgResident}
         onChange={(val) => {
-          setIsSgResident(val);
-          setApplyingSsg("");
+          onResidentChange(val);
+          onSsgChange("");
         }}
         mt="xs"
       >
@@ -36,7 +45,7 @@ export function FundingInfo() {
         <Radio.Group
           label="Are you applying for SSG funding?"
           value={applyingSsg}
-          onChange={setApplyingSsg}
+          onChange={onSsgChange}
           mt="md"
         >
           <Group mt="xs">

@@ -131,6 +131,48 @@ describe('POST /api/booking', () => {
     expect(sentHtml).not.toContain('<script>');
   });
 
+  it('includes SG Resident and SSG Funding columns in the email', async () => {
+    const nodemailer = require('nodemailer');
+    const sendMail = nodemailer.createTransport().sendMail as jest.Mock;
+    sendMail.mockClear();
+
+    const req = {
+      method: 'POST',
+      body: {
+        ...validBody,
+        bookings: [
+          {
+            ...validBody.bookings[0],
+            isSgResident: 'yes',
+            applyingSsg: 'yes',
+          },
+        ],
+      },
+    } as NextApiRequest;
+    const res = mockRes();
+    await handler(req, res);
+
+    const sentHtml: string = sendMail.mock.calls[0][0].html;
+    expect(sentHtml).toContain('SG Resident / PR');
+    expect(sentHtml).toContain('SSG Funding');
+    expect(sentHtml).toContain('>yes<');
+  });
+
+  it('shows "-" for SG Resident and SSG Funding when fields are absent', async () => {
+    const nodemailer = require('nodemailer');
+    const sendMail = nodemailer.createTransport().sendMail as jest.Mock;
+    sendMail.mockClear();
+
+    const req = { method: 'POST', body: validBody } as NextApiRequest;
+    const res = mockRes();
+    await handler(req, res);
+
+    const sentHtml: string = sendMail.mock.calls[0][0].html;
+    // Both SSG columns should fall back to "-"
+    const dashMatches = (sentHtml.match(/>-</g) || []).length;
+    expect(dashMatches).toBeGreaterThanOrEqual(2);
+  });
+
   it('escapes HTML in company details before sending', async () => {
     const nodemailer = require('nodemailer');
     const sendMail = nodemailer.createTransport().sendMail as jest.Mock;

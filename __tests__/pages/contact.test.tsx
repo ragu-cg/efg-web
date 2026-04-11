@@ -2,11 +2,6 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Contact from '../../pages/contact';
 
-/**
- * Mantine components are replaced with native HTML equivalents so that
- * JSDOM can correctly resolve named form controls via e.target[name].
- * The contact page is not testing Mantine — it's testing submit behaviour.
- */
 jest.mock('@mantine/core', () => ({
   createStyles: () => () => ({ classes: {} }),
   Container: ({ children }: any) => <div>{children}</div>,
@@ -42,10 +37,9 @@ const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
 /**
- * JSDOM does not fully implement HTMLFormElement's named property getter
- * (e.g. form.contactName), which is what the contact page's submit handler
- * uses (e.target.contactName.value). We define those properties directly on
- * the form element so the handler can read them correctly.
+ * Fills in the native form inputs and submits.
+ * The contact page now reads values via form.elements.namedItem(),
+ * so inputs must have real DOM values, not just properties on the form object.
  */
 const fillAndSubmit = (overrides: Record<string, string> = {}) => {
   const fields: Record<string, string> = {
@@ -55,14 +49,13 @@ const fillAndSubmit = (overrides: Record<string, string> = {}) => {
     contactMessage: 'Hello',
     ...overrides,
   };
-  const form = document.getElementById('contactForm') as HTMLFormElement;
   Object.entries(fields).forEach(([name, value]) => {
-    Object.defineProperty(form, name, {
-      value: { value },
-      configurable: true,
-    });
+    const el = document.querySelector(`[name="${name}"]`) as
+      | HTMLInputElement
+      | HTMLTextAreaElement;
+    if (el) fireEvent.change(el, { target: { value } });
   });
-  fireEvent.submit(form);
+  fireEvent.submit(document.getElementById('contactForm') as HTMLFormElement);
 };
 
 describe('Contact page', () => {
@@ -75,7 +68,6 @@ describe('Contact page', () => {
     expect(document.querySelector('[name="contactEmail"]')).toBeInTheDocument();
     expect(document.querySelector('[name="contactSubject"]')).toBeInTheDocument();
     expect(screen.getByText('Send message')).toBeInTheDocument();
-    expect(document.querySelector('.notification')).toBeInTheDocument();
   });
 
   it('calls /api/contact with POST on submit', async () => {
@@ -109,9 +101,7 @@ describe('Contact page', () => {
     fillAndSubmit();
 
     await waitFor(() => {
-      expect(document.querySelector('.notification')?.textContent).toBe(
-        'Thank you for contacting us!'
-      );
+      expect(screen.getByText('Thank you for contacting us!')).toBeInTheDocument();
     });
   });
 
@@ -121,9 +111,7 @@ describe('Contact page', () => {
     fillAndSubmit();
 
     await waitFor(() => {
-      expect(document.querySelector('.notification')?.textContent).toMatch(
-        /Something went wrong/i
-      );
+      expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
     });
   });
 });

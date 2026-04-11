@@ -61,6 +61,8 @@ interface Booking {
   nationality: string;
   email: string;
   contactNumber: string;
+  isSgResident?: string;
+  applyingSsg?: string;
 }
 
 // interface FormErrors {
@@ -551,7 +553,19 @@ const CourseBookingForm: React.FC = () => {
                 Personal details
               </Text>
               <Paper radius="md" p="md" mb={20} withBorder>
-                {hasFunding && <FundingInfo />}
+                {hasFunding && (
+                  <FundingInfo
+                    isSgResident={booking.isSgResident ?? ""}
+                    applyingSsg={booking.applyingSsg ?? ""}
+                    onResidentChange={(val) => {
+                      handleBookingChange(index, "isSgResident", val);
+                      handleBookingChange(index, "applyingSsg", "");
+                    }}
+                    onSsgChange={(val) =>
+                      handleBookingChange(index, "applyingSsg", val)
+                    }
+                  />
+                )}
                 <TextInput
                   label="Full Name"
                   value={booking.name}
@@ -641,7 +655,19 @@ const CourseBookingForm: React.FC = () => {
               <div key={index}>
                 <Text>Personal details of Person {index + 1}</Text>
                 <Paper radius="md" p="md" mb={20} withBorder>
-                  {hasFunding && <FundingInfo />}
+                  {hasFunding && (
+                    <FundingInfo
+                      isSgResident={bookings[index]?.isSgResident ?? ""}
+                      applyingSsg={bookings[index]?.applyingSsg ?? ""}
+                      onResidentChange={(val) => {
+                        handleBookingChange(index, "isSgResident", val);
+                        handleBookingChange(index, "applyingSsg", "");
+                      }}
+                      onSsgChange={(val) =>
+                        handleBookingChange(index, "applyingSsg", val)
+                      }
+                    />
+                  )}
                   <Grid>
                     <Grid.Col md={6}>
                       <TextInput

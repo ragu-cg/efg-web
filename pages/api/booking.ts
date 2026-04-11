@@ -17,6 +17,8 @@ interface Participant {
   icNumber: string;
   dob: string;
   nationality: string;
+  isSgResident?: string;
+  applyingSsg?: string;
 }
 
 interface BookingRequest {
@@ -76,6 +78,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           <td>${escapeHtml(p.icNumber)}</td>
           <td>${escapeHtml(p.dob)}</td>
           <td>${escapeHtml(p.nationality)}</td>
+          <td>${escapeHtml(p.isSgResident || '-')}</td>
+          <td>${escapeHtml(p.applyingSsg || '-')}</td>
         </tr>
       `
       )
@@ -124,6 +128,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               <th>IC Number</th>
               <th>DOB</th>
               <th>Nationality</th>
+              <th>SG Resident / PR</th>
+              <th>SSG Funding</th>
             </tr>
           </thead>
           <tbody>

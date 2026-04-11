@@ -14,12 +14,14 @@ import {
   Checkbox,
 } from "@mantine/core";
 import { IconCheck, IconX } from "@tabler/icons";
+import { DobInput } from "../components/DobInput/DobInput";
 import Head from "next/head";
 import { Banner } from "../components/Banner/Banner";
 import { FundingInfo } from "../components/FundingInfo/FundingInfo";
 import axios from "axios";
 import styles from "../styles/Booking.module.scss";
 import courseDetailsRaw from "../public/jsons/course-details.json";
+
 
 // Interfaces for data types
 interface Course {
@@ -352,7 +354,12 @@ const CourseBookingForm: React.FC = () => {
               contactEmail: "admin@efg.com.sg",
             },
       participants: participants!,
-      bookings: bookings,
+      bookings: bookings.map((b) => {
+        // Convert dd/mm/yyyy → yyyy-mm-dd for the backend
+        const [dd, mm, yyyy] = b.dob.split("/");
+        const backendDob = yyyy && mm && dd ? `${yyyy}-${mm}-${dd}` : b.dob;
+        return { ...b, dob: backendDob };
+      }),
     };
 
     axios({
@@ -587,18 +594,9 @@ const CourseBookingForm: React.FC = () => {
                   withAsterisk
                 />
 
-                <TextInput
-                  label="D.O.B"
+                <DobInput
                   value={booking.dob}
-                  description="Example if the date of birth is 16th Decemeber of 1987 then enter as 1987-12-16 in Year-Month-Date format"
-                  placeholder="yyyy-mm-dd"
-                  onChange={(event) => {
-                    handleBookingChange(
-                      index,
-                      "dob",
-                      event.currentTarget.value,
-                    );
-                  }}
+                  onChange={(val) => handleBookingChange(index, "dob", val)}
                   withAsterisk
                 />
 
@@ -691,17 +689,9 @@ const CourseBookingForm: React.FC = () => {
                       />
                     </Grid.Col>
                     <Grid.Col md={6}>
-                      <TextInput
-                        label="D.O.B"
-                        value={bookings[index]?.dob}
-                        placeholder="yyyy-mm-dd"
-                        onChange={(event) =>
-                          handleBookingChange(
-                            index,
-                            "dob",
-                            event.currentTarget.value,
-                          )
-                        }
+                      <DobInput
+                        value={bookings[index]?.dob ?? ""}
+                        onChange={(val) => handleBookingChange(index, "dob", val)}
                         withAsterisk
                       />
                     </Grid.Col>

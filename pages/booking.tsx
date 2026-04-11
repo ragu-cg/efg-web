@@ -16,8 +16,10 @@ import {
 import { IconCheck, IconX } from "@tabler/icons";
 import Head from "next/head";
 import { Banner } from "../components/Banner/Banner";
+import { FundingInfo } from "../components/FundingInfo/FundingInfo";
 import axios from "axios";
 import styles from "../styles/Booking.module.scss";
+import courseDetailsRaw from "../public/jsons/course-details.json";
 
 // Interfaces for data types
 interface Course {
@@ -104,6 +106,14 @@ const CourseBookingForm: React.FC = () => {
   ]);
 
   const [privacyChecked, setPrivacyChecked] = useState(false);
+  const [hasFunding, setHasFunding] = useState(false);
+
+  const lookupHasFunding = (courseID: string) => {
+    const entry = Object.values(courseDetailsRaw).find(
+      (c) => (c as { courseID?: string }).courseID === courseID
+    );
+    return (entry as { hasFunding?: boolean })?.hasFunding ?? false;
+  };
 
   // const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [notification, setNotification] = useState<string | null>(null);
@@ -148,6 +158,7 @@ const CourseBookingForm: React.FC = () => {
       setCourseClasses(getSelectedCourse.courseSchedule);
       setSelectedCourse(courseID as string);
       setAvailableSlotsError(false);
+      setHasFunding(lookupHasFunding(courseID as string));
     }
     if (getSelectedCourse && classID) {
       setSelectedClass(classID as string);
@@ -173,6 +184,7 @@ const CourseBookingForm: React.FC = () => {
       setSelectedCourse(courseID);
       setAvailableSlotsError(false);
       setBookingTypeVisibility(false);
+      setHasFunding(lookupHasFunding(courseID));
     }
     setSelectedClass(""); // Reset classes.
   };
@@ -539,6 +551,7 @@ const CourseBookingForm: React.FC = () => {
                 Personal details
               </Text>
               <Paper radius="md" p="md" mb={20} withBorder>
+                {hasFunding && <FundingInfo />}
                 <TextInput
                   label="Full Name"
                   value={booking.name}
@@ -628,6 +641,7 @@ const CourseBookingForm: React.FC = () => {
               <div key={index}>
                 <Text>Personal details of Person {index + 1}</Text>
                 <Paper radius="md" p="md" mb={20} withBorder>
+                  {hasFunding && <FundingInfo />}
                   <Grid>
                     <Grid.Col md={6}>
                       <TextInput

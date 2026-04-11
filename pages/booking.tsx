@@ -14,7 +14,13 @@ import {
   Checkbox,
 } from "@mantine/core";
 import { IconCheck, IconX } from "@tabler/icons";
-import { DobInput } from "../components/DobInput/DobInput";
+import { DateFieldInput } from "../components/DateFieldInput/DateFieldInput";
+
+const validatePastDate = (date: Date) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date >= today ? "Date of birth must be a past date" : null;
+};
 import Head from "next/head";
 import { Banner } from "../components/Banner/Banner";
 import { FundingInfo } from "../components/FundingInfo/FundingInfo";
@@ -594,9 +600,11 @@ const CourseBookingForm: React.FC = () => {
                   withAsterisk
                 />
 
-                <DobInput
+                <DateFieldInput
+                  label="D.O.B"
                   value={booking.dob}
-                  onChange={(val) => handleBookingChange(index, "dob", val)}
+                  onChange={(val: string) => handleBookingChange(index, "dob", val)}
+                  validate={validatePastDate}
                   withAsterisk
                 />
 
@@ -689,9 +697,11 @@ const CourseBookingForm: React.FC = () => {
                       />
                     </Grid.Col>
                     <Grid.Col md={6}>
-                      <DobInput
+                      <DateFieldInput
+                        label="D.O.B"
                         value={bookings[index]?.dob ?? ""}
-                        onChange={(val) => handleBookingChange(index, "dob", val)}
+                        onChange={(val: string) => handleBookingChange(index, "dob", val)}
+                        validate={validatePastDate}
                         withAsterisk
                       />
                     </Grid.Col>

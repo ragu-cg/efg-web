@@ -6,24 +6,35 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
-interface DobInputProps {
+interface DateFieldInputProps {
   value: string; // dd/mm/yyyy string in state
   onChange: (value: string) => void;
-  withAsterisk?: boolean;
   label?: string;
+  placeholder?: string;
+  withAsterisk?: boolean;
+  /** Return an error string to show, or null/undefined if valid. */
+  validate?: (date: Date, raw: string) => string | null | undefined;
 }
 
-export function DobInput({
+export function DateFieldInput({
   value,
   onChange,
+  label,
+  placeholder = "DD/MM/YYYY",
   withAsterisk,
-  label = "D.O.B",
-}: DobInputProps) {
+  validate,
+}: DateFieldInputProps) {
   const [opened, setOpened] = useState(false);
 
   const parsedDate = (() => {
     const d = dayjs(value, "DD/MM/YYYY", true);
     return d.isValid() ? d.toDate() : null;
+  })();
+
+  const error = (() => {
+    if (!value) return undefined;
+    if (!parsedDate) return "Enter a valid date in DD/MM/YYYY format";
+    return validate ? validate(parsedDate, value) ?? undefined : undefined;
   })();
 
   return (
@@ -37,9 +48,10 @@ export function DobInput({
         <TextInput
           label={label}
           value={value}
-          placeholder="DD/MM/YYYY"
+          placeholder={placeholder}
           onChange={(e) => onChange(e.currentTarget.value)}
           withAsterisk={withAsterisk}
+          error={error}
           rightSection={
             <ActionIcon
               onClick={() => setOpened((o) => !o)}

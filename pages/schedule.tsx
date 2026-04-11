@@ -12,6 +12,7 @@ import {
 import styles from "../styles/Schedule.module.css";
 import { Banner } from "../components/Banner/Banner";
 import ClassCard from "../components/ClassCard/ClassCard";
+import { isClassInFuture, sortScheduleItem } from "../lib/scheduleUtils";
 
 type CourseSchedule = {
   courses: {
@@ -82,13 +83,16 @@ const UsersPage: React.FC = () => {
             </Group>
 
             <div className={styles.scheduleContainer}>
-              {course.courseSchedule.map((scheduleItem, scheduleIndex) => (
-                <ClassCard
-                  key={scheduleIndex}
-                  courseID={course.courseID}
-                  schedule={scheduleItem}
-                />
-              ))}
+              {course.courseSchedule
+                .map(sortScheduleItem)
+                .filter((scheduleItem) => isClassInFuture(scheduleItem.classDate))
+                .map((scheduleItem, scheduleIndex) => (
+                  <ClassCard
+                    key={scheduleIndex}
+                    courseID={course.courseID}
+                    schedule={scheduleItem}
+                  />
+                ))}
             </div>
           </div>
         ))}

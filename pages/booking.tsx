@@ -16,6 +16,202 @@ import {
 import { IconCheck, IconX } from "@tabler/icons";
 import { DateFieldInput } from "../components/DateFieldInput/DateFieldInput";
 
+const NATIONALITIES = [
+  "Singaporean",
+  "Singapore Permanent Resident",
+  "Afghan",
+  "Albanian",
+  "Algerian",
+  "Andorran",
+  "Angolan",
+  "Antiguan",
+  "Argentine",
+  "Armenian",
+  "Australian",
+  "Austrian",
+  "Azerbaijani",
+  "Bahamian",
+  "Bahraini",
+  "Bangladeshi",
+  "Barbadian",
+  "Belarusian",
+  "Belgian",
+  "Belizean",
+  "Beninese",
+  "Bhutanese",
+  "Bolivian",
+  "Bosnian",
+  "Botswanan",
+  "Brazilian",
+  "Bruneian",
+  "Bulgarian",
+  "Burkinabe",
+  "Burundian",
+  "Cabo Verdean",
+  "Cambodian",
+  "Cameroonian",
+  "Canadian",
+  "Central African",
+  "Chadian",
+  "Chilean",
+  "Chinese",
+  "Colombian",
+  "Comoran",
+  "Congolese",
+  "Costa Rican",
+  "Croatian",
+  "Cuban",
+  "Cypriot",
+  "Czech",
+  "Danish",
+  "Djiboutian",
+  "Dominican",
+  "Dutch",
+  "Ecuadorian",
+  "Egyptian",
+  "Emirati",
+  "Equatorial Guinean",
+  "Eritrean",
+  "Estonian",
+  "Eswatini",
+  "Ethiopian",
+  "Fijian",
+  "Finnish",
+  "French",
+  "Gabonese",
+  "Gambian",
+  "Georgian",
+  "German",
+  "Ghanaian",
+  "Greek",
+  "Grenadian",
+  "Guatemalan",
+  "Guinean",
+  "Guinea-Bissauan",
+  "Guyanese",
+  "Haitian",
+  "Honduran",
+  "Hungarian",
+  "Icelandic",
+  "Indian",
+  "Indonesian",
+  "Iranian",
+  "Iraqi",
+  "Irish",
+  "Israeli",
+  "Italian",
+  "Ivorian",
+  "Jamaican",
+  "Japanese",
+  "Jordanian",
+  "Kazakhstani",
+  "Kenyan",
+  "Kiribati",
+  "Kuwaiti",
+  "Kyrgyzstani",
+  "Laotian",
+  "Latvian",
+  "Lebanese",
+  "Lesothan",
+  "Liberian",
+  "Libyan",
+  "Liechtenstein",
+  "Lithuanian",
+  "Luxembourgish",
+  "Malagasy",
+  "Malawian",
+  "Malaysian",
+  "Maldivian",
+  "Malian",
+  "Maltese",
+  "Marshallese",
+  "Mauritanian",
+  "Mauritian",
+  "Mexican",
+  "Micronesian",
+  "Moldovan",
+  "Monacan",
+  "Mongolian",
+  "Montenegrin",
+  "Moroccan",
+  "Mozambican",
+  "Myanmarese",
+  "Namibian",
+  "Nauruan",
+  "Nepalese",
+  "New Zealander",
+  "Nicaraguan",
+  "Nigerian",
+  "Nigerien",
+  "North Korean",
+  "North Macedonian",
+  "Norwegian",
+  "Omani",
+  "Pakistani",
+  "Palauan",
+  "Palestinian",
+  "Panamanian",
+  "Papua New Guinean",
+  "Paraguayan",
+  "Peruvian",
+  "Filipino",
+  "Polish",
+  "Portuguese",
+  "Qatari",
+  "Romanian",
+  "Russian",
+  "Rwandan",
+  "Saint Kitts and Nevis",
+  "Saint Lucian",
+  "Saint Vincentian",
+  "Samoan",
+  "San Marinese",
+  "Sao Tomean",
+  "Saudi Arabian",
+  "Senegalese",
+  "Serbian",
+  "Seychellois",
+  "Sierra Leonean",
+  "Slovak",
+  "Slovenian",
+  "Solomon Islander",
+  "Somali",
+  "South African",
+  "South Korean",
+  "South Sudanese",
+  "Spanish",
+  "Sri Lankan",
+  "Sudanese",
+  "Surinamese",
+  "Swedish",
+  "Swiss",
+  "Syrian",
+  "Tajikistani",
+  "Tanzanian",
+  "Thai",
+  "Timorese",
+  "Togolese",
+  "Tongan",
+  "Trinidadian",
+  "Tunisian",
+  "Turkish",
+  "Turkmenistani",
+  "Tuvaluan",
+  "Ugandan",
+  "Ukrainian",
+  "British",
+  "American",
+  "Uruguayan",
+  "Uzbekistani",
+  "Vanuatuan",
+  "Venezuelan",
+  "Vietnamese",
+  "Yemeni",
+  "Zambian",
+  "Zimbabwean",
+  "Other",
+];
+
 const validatePastDate = (date: Date) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -623,16 +819,15 @@ const CourseBookingForm: React.FC = () => {
                   withAsterisk
                 />
 
-                <TextInput
+                <Select
                   label="Nationality"
-                  value={booking.nationality}
-                  onChange={(event) =>
-                    handleBookingChange(
-                      index,
-                      "nationality",
-                      event.currentTarget.value,
-                    )
+                  value={booking.nationality || null}
+                  onChange={(val) =>
+                    handleBookingChange(index, "nationality", val ?? "")
                   }
+                  data={NATIONALITIES.map((n) => ({ value: n, label: n }))}
+                  placeholder="Select nationality"
+                  searchable
                   withAsterisk
                 />
 
@@ -733,16 +928,15 @@ const CourseBookingForm: React.FC = () => {
                       />
                     </Grid.Col>
                     <Grid.Col md={6}>
-                      <TextInput
+                      <Select
                         label="Nationality"
-                        value={bookings[index]?.nationality}
-                        onChange={(event) =>
-                          handleBookingChange(
-                            index,
-                            "nationality",
-                            event.currentTarget.value,
-                          )
+                        value={bookings[index]?.nationality || null}
+                        onChange={(val) =>
+                          handleBookingChange(index, "nationality", val ?? "")
                         }
+                        data={NATIONALITIES.map((n) => ({ value: n, label: n }))}
+                        placeholder="Select nationality"
+                        searchable
                         withAsterisk
                       />
                     </Grid.Col>

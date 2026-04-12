@@ -21,6 +21,7 @@ interface Participant {
   applyingSsg?: string;
   employmentStatus?: string;
   monthlySalary?: string;
+  highestQualification?: string;
 }
 
 interface BookingRequest {
@@ -84,6 +85,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           <td>${escapeHtml(p.applyingSsg || '-')}</td>
           <td>${escapeHtml(p.employmentStatus || '-')}</td>
           <td>${escapeHtml(p.monthlySalary || '-')}</td>
+          <td>${escapeHtml(p.highestQualification || '-')}</td>
         </tr>
       `
       )
@@ -136,6 +138,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               <th>SSG Funding</th>
               <th>Employment Status</th>
               <th>Monthly Salary</th>
+              <th>Highest Qualification</th>
             </tr>
           </thead>
           <tbody>

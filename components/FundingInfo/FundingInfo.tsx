@@ -6,7 +6,25 @@ import {
   List,
   Checkbox,
   Stack,
+  Select,
 } from "@mantine/core";
+
+const QUALIFICATIONS = [
+  "No formal qualification",
+  "Primary school",
+  "Lower secondary",
+  "GCE 'N' Level",
+  "GCE 'O' Level",
+  "GCE 'A' Level",
+  "ITE / NTC",
+  "Nitec / Higher Nitec",
+  "Diploma",
+  "Advanced Diploma",
+  "Degree (Bachelor's)",
+  "Postgraduate Diploma",
+  "Master's Degree",
+  "Doctorate (PhD)",
+];
 
 const SALARY_RANGES = [
   "Below $1000",
@@ -25,8 +43,10 @@ interface FundingInfoProps {
   onSsgChange: (val: string) => void;
   employmentStatus?: string;
   monthlySalary?: string;
+  highestQualification?: string;
   onEmploymentStatusChange?: (val: string) => void;
   onMonthlySalaryChange?: (val: string) => void;
+  onHighestQualificationChange?: (val: string) => void;
 }
 
 export function FundingInfo({
@@ -36,8 +56,10 @@ export function FundingInfo({
   onSsgChange,
   employmentStatus = "",
   monthlySalary = "",
+  highestQualification = "",
   onEmploymentStatusChange,
   onMonthlySalaryChange,
+  onHighestQualificationChange,
 }: FundingInfoProps) {
   return (
     <Paper
@@ -117,6 +139,17 @@ export function FundingInfo({
               </Group>
             </Stack>
           )}
+
+          <Select
+            label="Highest Qualification"
+            placeholder="Select qualification"
+            value={highestQualification || null}
+            onChange={(val) => onHighestQualificationChange?.(val ?? "")}
+            data={QUALIFICATIONS.map((q) => ({ value: q, label: q }))}
+            mt="md"
+            searchable
+            clearable
+          />
         </>
       )}
     </Paper>

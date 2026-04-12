@@ -54,6 +54,28 @@ jest.mock('@mantine/core', () => {
     Paper: ({ children }: any) => <div>{children}</div>,
     Text: ({ children }: any) => <span>{children}</span>,
     Group: ({ children }: any) => <div>{children}</div>,
+    Stack: ({ children }: any) => <div>{children}</div>,
+    Checkbox: ({ label, checked, onChange }: any) => (
+      <label>
+        <input type="checkbox" checked={checked} onChange={onChange} />
+        {label}
+      </label>
+    ),
+    Select: ({ label, value, onChange, data, placeholder }: any) => (
+      <div>
+        <label htmlFor={label}>{label}</label>
+        <select
+          id={label}
+          value={value ?? ''}
+          onChange={(e) => onChange(e.target.value || null)}
+        >
+          <option value="">{placeholder}</option>
+          {data?.map((item: any) => (
+            <option key={item.value} value={item.value}>{item.label}</option>
+          ))}
+        </select>
+      </div>
+    ),
     List,
     Radio,
   };
@@ -65,27 +87,36 @@ jest.mock('@mantine/core', () => {
 const ControlledFundingInfo = () => {
   const [isSgResident, setIsSgResident] = useState('');
   const [applyingSsg, setApplyingSsg] = useState('');
+  const [employmentStatus, setEmploymentStatus] = useState('');
+  const [monthlySalary, setMonthlySalary] = useState('');
+  const [highestQualification, setHighestQualification] = useState('');
   return (
     <FundingInfo
       isSgResident={isSgResident}
       applyingSsg={applyingSsg}
       onResidentChange={(val) => setIsSgResident(val)}
       onSsgChange={(val) => setApplyingSsg(val)}
+      employmentStatus={employmentStatus}
+      monthlySalary={monthlySalary}
+      highestQualification={highestQualification}
+      onEmploymentStatusChange={setEmploymentStatus}
+      onMonthlySalaryChange={setMonthlySalary}
+      onHighestQualificationChange={setHighestQualification}
     />
   );
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-const clickRadio = (groupName: RegExp, value: 'yes' | 'no') => {
+const clickRadio = (groupName: RegExp, value: string) => {
   const group = screen.getByRole('group', { name: groupName });
   fireEvent.click(within(group).getByDisplayValue(value));
 };
 
-const selectResident = (value: 'yes' | 'no') =>
+const selectResident = (value: string) =>
   clickRadio(/singaporean or permanent resident/i, value);
 
-const selectSsg = (value: 'yes' | 'no') =>
+const selectSsg = (value: string) =>
   clickRadio(/applying for ssg funding/i, value);
 
 // ─── Tests ───────────────────────────────────────────────────────────────────
@@ -134,34 +165,41 @@ describe('FundingInfo', () => {
   });
 
   describe('SSG funding radio', () => {
-    it('shows grant criteria when resident "Yes" and SSG "Yes" are both selected', () => {
+    it('shows employment status when SSG "Yes" is selected', () => {
       render(<ControlledFundingInfo />);
       selectResident('yes');
       selectSsg('yes');
-      expect(screen.getByText(/grant disbursement criteria/i)).toBeInTheDocument();
+      expect(screen.getByText(/employment status/i)).toBeInTheDocument();
     });
 
-    it('does not show grant criteria when SSG "No" is selected', () => {
+    it('does not show employment status when SSG "No" is selected', () => {
       render(<ControlledFundingInfo />);
       selectResident('yes');
       selectSsg('no');
-      expect(screen.queryByText(/grant disbursement criteria/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/employment status/i)).not.toBeInTheDocument();
     });
 
-    it('shows all three grant criteria bullet points', () => {
+    it('shows highest qualification dropdown when SSG "Yes" is selected', () => {
       render(<ControlledFundingInfo />);
       selectResident('yes');
       selectSsg('yes');
-      expect(screen.getByText(/attendance requirement/i)).toBeInTheDocument();
-      expect(screen.getByText(/^assessment:/i)).toBeInTheDocument();
-      expect(screen.getByText(/^payment:/i)).toBeInTheDocument();
+      expect(screen.getByText(/highest qualification/i)).toBeInTheDocument();
     });
 
-    it('shows the Singpass disclaimer', () => {
+    it('shows monthly salary when employment is "Employed"', () => {
       render(<ControlledFundingInfo />);
       selectResident('yes');
       selectSsg('yes');
-      expect(screen.getByText(/singpass app/i)).toBeInTheDocument();
+      clickRadio(/employment status/i, 'employed');
+      expect(screen.getByText(/monthly salary/i)).toBeInTheDocument();
+    });
+
+    it('does not show monthly salary when employment is "Unemployed"', () => {
+      render(<ControlledFundingInfo />);
+      selectResident('yes');
+      selectSsg('yes');
+      clickRadio(/employment status/i, 'unemployed');
+      expect(screen.queryByText(/monthly salary/i)).not.toBeInTheDocument();
     });
   });
 

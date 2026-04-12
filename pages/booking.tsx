@@ -73,6 +73,7 @@ interface Booking {
   applyingSsg?: string;
   employmentStatus?: string;
   monthlySalary?: string;
+  highestQualification?: string;
 }
 
 // interface FormErrors {
@@ -575,11 +576,15 @@ const CourseBookingForm: React.FC = () => {
                     }
                     employmentStatus={booking.employmentStatus ?? ""}
                     monthlySalary={booking.monthlySalary ?? ""}
+                    highestQualification={booking.highestQualification ?? ""}
                     onEmploymentStatusChange={(val) =>
                       handleBookingChange(index, "employmentStatus", val)
                     }
                     onMonthlySalaryChange={(val) =>
                       handleBookingChange(index, "monthlySalary", val)
+                    }
+                    onHighestQualificationChange={(val) =>
+                      handleBookingChange(index, "highestQualification", val)
                     }
                   />
                 )}
@@ -677,11 +682,15 @@ const CourseBookingForm: React.FC = () => {
                       }
                       employmentStatus={bookings[index]?.employmentStatus ?? ""}
                       monthlySalary={bookings[index]?.monthlySalary ?? ""}
+                      highestQualification={bookings[index]?.highestQualification ?? ""}
                       onEmploymentStatusChange={(val) =>
                         handleBookingChange(index, "employmentStatus", val)
                       }
                       onMonthlySalaryChange={(val) =>
                         handleBookingChange(index, "monthlySalary", val)
+                      }
+                      onHighestQualificationChange={(val) =>
+                        handleBookingChange(index, "highestQualification", val)
                       }
                     />
                   )}
